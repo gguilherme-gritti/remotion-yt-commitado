@@ -23,6 +23,9 @@ importers:
       remotion:
         specifier: ^4.0.518
         version: 4.0.518(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1

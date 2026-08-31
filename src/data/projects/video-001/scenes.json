@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Gachiakuta — O Abismo do Lixo",
+    "fps": 30,
+    "totalFrames": 270,
+    "audioFile": "audio/video-001.mp3"
+  },
+  "scenes": [
+    {
+      "id": "scene-01-abismo",
+      "startFrame": 0,
+      "durationFrames": 90,
+      "panelImage": "panel-01.png",
+      "effect": "hatch-reveal",
+      "characterPose": "explicando",
+      "textEmphasis": {
+        "text": "LIXO!",
+        "animation": "pop-in",
+        "position": "top"
+      }
+    },
+    {
+      "id": "scene-02-queda",
+      "startFrame": 90,
+      "durationFrames": 90,
+      "panelImage": "panel-02.png",
+      "effect": "tear-slide",
+      "characterPose": "surpreso",
+      "textEmphasis": {
+        "text": "O ABISMO",
+        "animation": "shake",
+        "position": "center"
+      }
+    },
+    {
+      "id": "scene-03-jinki",
+      "startFrame": 180,
+      "durationFrames": 90,
+      "panelImage": "panel-03.png",
+      "effect": "hard-cut",
+      "characterPose": "explicando",
+      "textEmphasis": {
+        "text": "JINKI",
+        "animation": "glitch",
+        "position": "right"
+      }
+    }
+  ]
+}
