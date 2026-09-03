@@ -6,6 +6,16 @@ export type TextEmphasisAnimation = 'pop-in' | 'shake' | 'glitch';
 
 export type TextEmphasisPosition = 'center' | 'top' | 'bottom' | 'left' | 'right';
 
+export type CameraAnimation =
+  | 'slow_zoom_in'
+  | 'punch_zoom'
+  | 'pan_down'
+  | 'screen_shake'
+  | 'scroll_down'
+  | 'scroll_up'
+  | 'scroll_right'
+  | 'scroll_left';
+
 export interface TextEmphasisSchema {
   text: string;
   animation: TextEmphasisAnimation;
@@ -20,6 +30,7 @@ export interface SceneSchema {
   effect: PanelEffect;
   characterPose: CharacterPose;
   textEmphasis: TextEmphasisSchema | null;
+  cameraAnimation?: CameraAnimation | null;
 }
 
 export interface ProjectMetaSchema {

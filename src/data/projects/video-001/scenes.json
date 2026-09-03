@@ -13,6 +13,7 @@
       "panelImage": "panel-01.png",
       "effect": "hatch-reveal",
       "characterPose": "explicando",
+      "cameraAnimation": "slow_zoom_in",
       "textEmphasis": {
         "text": "LIXO!",
         "animation": "pop-in",
@@ -26,6 +27,7 @@
       "panelImage": "panel-02.png",
       "effect": "tear-slide",
       "characterPose": "surpreso",
+      "cameraAnimation": "pan_down",
       "textEmphasis": {
         "text": "O ABISMO",
         "animation": "shake",
@@ -39,6 +41,7 @@
       "panelImage": "panel-03.png",
       "effect": "hard-cut",
       "characterPose": "explicando",
+      "cameraAnimation": "punch_zoom",
       "textEmphasis": {
         "text": "JINKI",
         "animation": "glitch",
