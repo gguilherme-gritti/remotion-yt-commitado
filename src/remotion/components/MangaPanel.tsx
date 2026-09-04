@@ -51,6 +51,15 @@ export const MangaPanel = ({ videoId, panelImage, effect }: MangaPanelProps) => 
               mixBlendMode: 'multiply',
             }}
           />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              background:
+                'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%)',
+            }}
+          />
         </HatchReveal>
       </div>
       <div

@@ -38,6 +38,7 @@ export const CharacterOverlay = ({ characterPose }: CharacterOverlayProps) => {
           height: '58%',
           width: 'auto',
           transform: `translateY(${lift}px)`,
+          filter: 'drop-shadow(4px 4px 0px #000) drop-shadow(-2px -2px 0px #fff)',
         }}
       />
     </AbsoluteFill>
