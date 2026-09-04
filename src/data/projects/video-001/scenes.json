@@ -7,45 +7,278 @@
   },
   "scenes": [
     {
-      "id": "scene-01-abismo",
+      "id": "cena_01",
       "startFrame": 0,
       "durationFrames": 90,
-      "panelImage": "panel-01.png",
-      "effect": "hatch-reveal",
+      "panelImage": "cena_01.png",
+      "cameraAnimation": "scroll_down",
       "characterPose": "explicando",
-      "cameraAnimation": "slow_zoom_in",
+      "imageIdea": "Um beco urbano decadente com paredes de tijolos aparentes cobertas de pichações em neon azul e rosa descascando, cabos elétricos caídos pelo chão e lâmpadas piscando.",
       "textEmphasis": {
-        "text": "LIXO!",
-        "animation": "pop-in",
-        "position": "top"
+        "text": "O MITO",
+        "animation": "pop_in_shake"
       }
     },
     {
-      "id": "scene-02-queda",
+      "id": "cena_02",
       "startFrame": 90,
+      "durationFrames": 75,
+      "panelImage": "cena_02.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "confuso",
+      "imageIdea": "Um monitor CRT velhíssimo e trincado descartado sobre uma pilha de lixo eletrônico, exibindo linhas de código verdes queimadas na tela escura.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_03",
+      "startFrame": 165,
       "durationFrames": 90,
-      "panelImage": "panel-02.png",
-      "effect": "tear-slide",
+      "panelImage": "cena_02.png",
+      "cameraAnimation": "punch_zoom",
       "characterPose": "surpreso",
-      "cameraAnimation": "pan_down",
+      "imageIdea": "Um monitor CRT velhíssimo e trincado descartado sobre uma pilha de lixo eletrônico, exibindo linhas de código verdes queimadas na tela escura.",
       "textEmphasis": {
-        "text": "O ABISMO",
-        "animation": "shake",
-        "position": "center"
+        "text": "GÊNIOS?",
+        "animation": "pop_in_shake"
       }
     },
     {
-      "id": "scene-03-jinki",
-      "startFrame": 180,
-      "durationFrames": 90,
-      "panelImage": "panel-03.png",
-      "effect": "hard-cut",
-      "characterPose": "explicando",
-      "cameraAnimation": "punch_zoom",
+      "id": "cena_04",
+      "startFrame": 255,
+      "durationFrames": 120,
+      "panelImage": "cena_03.png",
+      "cameraAnimation": "scroll_right",
+      "characterPose": "pensativo",
+      "imageIdea": "Uma calculadora científica dos anos 90 totalmente destruída, com teclas flutuando soltas e circuitos expostos, isolada sobre um fundo branco minimalista com rabiscos em nanquim.",
       "textEmphasis": {
-        "text": "JINKI",
-        "animation": "glitch",
-        "position": "right"
+        "text": "MATEMÁTICA",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_05",
+      "startFrame": 375,
+      "durationFrames": 90,
+      "panelImage": "cena_04.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "explicando",
+      "imageIdea": "Um galpão abandonado à noite, iluminado apenas por uma luminária industrial quebrada pendurada por fios, projetando longas sombras em caixas de papelão velhas.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_06",
+      "startFrame": 465,
+      "durationFrames": 105,
+      "panelImage": "cena_05.png",
+      "cameraAnimation": "punch_zoom",
+      "characterPose": "confuso",
+      "imageIdea": "Uma armação de óculos sem lentes e suja de graxa isolada sobre fundo branco puro, refletindo apenas borrões de cores neon.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_07",
+      "startFrame": 570,
+      "durationFrames": 90,
+      "panelImage": "cena_06.png",
+      "cameraAnimation": "screen_shake",
+      "characterPose": "surpreso",
+      "imageIdea": "Uma lata de tinta spray amassada e vazando tinta neon cintilante sobre um amontoado de jornais velhos amarelados rasgados.",
+      "textEmphasis": {
+        "text": "LETRINHAS",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_08",
+      "startFrame": 660,
+      "durationFrames": 75,
+      "panelImage": "cena_07.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "explicando",
+      "imageIdea": "Uma lâmpada incandescente queimada e com o vidro trincado, isolada em um fundo branco minimalista com respingos de nanquim preto.",
+      "textEmphasis": {
+        "text": "NOTÍCIA",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_09",
+      "startFrame": 735,
+      "durationFrames": 90,
+      "panelImage": "cena_08.png",
+      "cameraAnimation": "punch_zoom",
+      "characterPose": "surpreso",
+      "imageIdea": "Um espelho retrovisor de carro quebrado jogado na calçada esburacada, refletindo o céu urbano nublado e cabos de poste.",
+      "textEmphasis": {
+        "text": "VOCÊ JÁ É",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_10",
+      "startFrame": 825,
+      "durationFrames": 75,
+      "panelImage": "cena_08.png",
+      "cameraAnimation": "scroll_up",
+      "characterPose": "explicando",
+      "imageIdea": "Um espelho retrovisor de carro quebrado jogado na calçada esburacada, refletindo o céu urbano nublado e cabos de poste.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_11",
+      "startFrame": 900,
+      "durationFrames": 105,
+      "panelImage": "cena_09.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "pensativo",
+      "imageIdea": "Um troféu de plástico barato e rachado, coberto de poeira e teias de aranha, abandonado sobre um caixote de madeira em decomposição.",
+      "textEmphasis": {
+        "text": "MUITO BOM",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_12",
+      "startFrame": 1005,
+      "durationFrames": 90,
+      "panelImage": "cena_10.png",
+      "cameraAnimation": "scroll_left",
+      "characterPose": "explicando",
+      "imageIdea": "Dois telefones antigos de lata conectados por um barbante puído e prestes a arrebentar, esticado através de uma rua vazia.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_13",
+      "startFrame": 1095,
+      "durationFrames": 90,
+      "panelImage": "cena_11.png",
+      "cameraAnimation": "punch_zoom",
+      "characterPose": "explicando",
+      "imageIdea": "Uma carteira de trabalho rasgada e encharcada jogada ao lado de uma engrenagem enferrujada no meio de uma poça d'água.",
+      "textEmphasis": {
+        "text": "SOFTWARE",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_14",
+      "startFrame": 1185,
+      "durationFrames": 120,
+      "panelImage": "cena_12.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "pensativo",
+      "imageIdea": "Um dicionário antigo em tiras com páginas amareladas voando ao vento em um terreno baldio repleto de sucata de ferro.",
+      "textEmphasis": {
+        "text": "TRADUZIR",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_15",
+      "startFrame": 1305,
+      "durationFrames": 90,
+      "panelImage": "cena_13.png",
+      "cameraAnimation": "screen_shake",
+      "characterPose": "confuso",
+      "imageIdea": "Um venda de pano preto rasgada isolada sobre fundo branco minimalista, com pequenas gotas de nanquim escorrendo pela ponta.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_16",
+      "startFrame": 1395,
+      "durationFrames": 105,
+      "panelImage": "cena_14.png",
+      "cameraAnimation": "scroll_down",
+      "characterPose": "explicando",
+      "imageIdea": "Gabinete de um computador antigo dos anos 80 aberto, revelando poeira, fios descascados e ninho de cabos em um fundo urbano.",
+      "textEmphasis": {
+        "text": "COMPUTADOR",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_17",
+      "startFrame": 1500,
+      "durationFrames": 90,
+      "panelImage": "cena_15.png",
+      "cameraAnimation": "punch_zoom",
+      "characterPose": "pensativo",
+      "imageIdea": "Uma lâmpada de rua piscando no topo de um poste de concreto pichado e cheio de cartazes rasgados sob um céu escuro.",
+      "textEmphasis": {
+        "text": "PENSE",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_18",
+      "startFrame": 1590,
+      "durationFrames": 90,
+      "panelImage": "cena_16.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "explicando",
+      "imageIdea": "Um disquete flexível de 5,25 polegadas mofado e quebrado ao meio, destacado sobre um fundo branco puro com traços pretos expressivos.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_19",
+      "startFrame": 1680,
+      "durationFrames": 75,
+      "panelImage": "cena_17.png",
+      "cameraAnimation": "punch_zoom",
+      "characterPose": "surpreso",
+      "imageIdea": "Um poço de inspeção sem tampa em uma rua asfáltica esburacada, revelando a escuridão profunda do esgoto abaixo.",
+      "textEmphasis": {
+        "text": "NO FUNDO",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_20",
+      "startFrame": 1755,
+      "durationFrames": 105,
+      "panelImage": "cena_18.png",
+      "cameraAnimation": "scroll_right",
+      "characterPose": "explicando",
+      "imageIdea": "Um bloco de notas de papel queimado nas bordas com rabiscos indecifráveis, jogado ao lado de uma caneta esferográfica quebrada.",
+      "textEmphasis": {
+        "text": "INSTRUÇÕES",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_21",
+      "startFrame": 1860,
+      "durationFrames": 90,
+      "panelImage": "cena_19.png",
+      "cameraAnimation": "slow_zoom_in",
+      "characterPose": "explicando",
+      "imageIdea": "Um megafone enferrujado e amassado pendurado por um fio elétrico em um cenário urbano decadente.",
+      "textEmphasis": null
+    },
+    {
+      "id": "cena_22",
+      "startFrame": 1950,
+      "durationFrames": 75,
+      "panelImage": "cena_20.png",
+      "cameraAnimation": "punch_zoom",
+      "characterPose": "pensativo",
+      "imageIdea": "Um relógio de parede antigo com o vidro quebrado e ponteiros tortos, isolado sobre fundo branco minimalista.",
+      "textEmphasis": {
+        "text": "QUANDO",
+        "animation": "pop_in_shake"
+      }
+    },
+    {
+      "id": "cena_23",
+      "startFrame": 2025,
+      "durationFrames": 120,
+      "panelImage": "cena_21.png",
+      "cameraAnimation": "screen_shake",
+      "characterPose": "confuso",
+      "imageIdea": "Um sinal de trânsito quebrado piscando amarelo em uma cruzamento deserto de cidade fantasma, com carros velhos e abandonados ao fundo.",
+      "textEmphasis": {
+        "text": "DEU ERRADO!",
+        "animation": "pop_in_shake"
       }
     }
   ]
