@@ -10,7 +10,8 @@
 ## Arquitetura de Dados Escalável
 
 - **Estrutura de Projetos:**
-  - `src/data/projects/{videoId}/scenes.json`: Contrato com metadados e a lista de cenas do vídeo específico.
+  - `src/data/projects/{videoId}/scenes.json`: Metadados e a ordem das cenas.
+  - `src/data/projects/{videoId}/layouts/`: Um JSON por cena/layout, juntado por `loadProject`.
   - `src/data/projects/{videoId}/assets/`: Imagens e sketches exclusivos do vídeo.
   - `public/characters/`: Poses do personagem base compartilhadas entre todos os vídeos.
 - **Leitura Dinâmica:** Componentes e Composições DEVEM receber o `videoId` e a lista de `scenes` via `defaultProps` ou `getInputProps()` do Remotion, garantindo que o mesmo código React sirva para qualquer vídeo.
@@ -45,7 +46,7 @@
 
 ### 3. Tipografia e Textos de Ênfase (<TextEmphasis />)
 
-- **Fontes:** Fontes estilo 'Comic', 'Manga', 'Graffiti' ou 'Impact' de traço grosso e pesado.
+- **Fontes:** `Anime Ace` (`public/fonts/animeace`), de traço de quadrinhos.
 - **Borda/Contorno:** Textos DEVEM ter contorno preto grosso via `WebkitTextStroke` (de 4px a 6px).
 - **Animações de Texto:** `typewriter` revela caracteres com `useCurrentFrame()`. `pop_in` usa spring de escala.
 

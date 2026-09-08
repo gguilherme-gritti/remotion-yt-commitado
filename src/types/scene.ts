@@ -91,6 +91,12 @@ export interface ProjectSchema {
   scenes: SceneSchema[];
 }
 
+/** scenes.json aponta a ordem dos arquivos em layouts/*.json */
+export interface ProjectManifestSchema {
+  meta: ProjectMetaSchema;
+  scenes: string[];
+}
+
 export interface ActiveProjectSchema {
   videoId: string;
 }

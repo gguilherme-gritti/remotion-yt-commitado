@@ -5,6 +5,7 @@ import {
 } from 'remotion';
 import type { ElementPosition, TextAnimation } from '../../types/scene';
 import { getElementPositionStyle } from './elementPosition';
+import { ANIME_ACE_FONT_FAMILY } from '../loadAnimeAceFont';
 
 interface TextEmphasisProps {
   content: string;
@@ -32,7 +33,7 @@ export const TextEmphasis = ({ content, position, animation, inline = false }: T
         display: 'block',
         width: inline ? 'auto' : '100%',
         color: '#000000',
-        fontFamily: "'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', cursive",
+        fontFamily: `'${ANIME_ACE_FONT_FAMILY}', 'Anime Ace 2.0 BB', sans-serif`,
         fontSize: inline ? 48 : 72,
         fontWeight: 700,
         letterSpacing: '2px',

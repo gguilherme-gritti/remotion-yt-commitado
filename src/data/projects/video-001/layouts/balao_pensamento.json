@@ -1,0 +1,53 @@
+{
+  "id": "preview_balao_pensamento",
+  "durationFrames": 210,
+  "layoutType": "balao_pensamento",
+  "scenes_context": "BalloonLayout: avatar bottom_left, balão hero no topo, demais elementos dentro da área do balão.",
+  "cameraMoves": [
+    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
+    { "startAtFrame": 100, "type": "zoom_in", "target": "speech_bubble", "zoom": 1.25 }
+  ],
+  "elements": [
+    {
+      "type": "character",
+      "pose": "pensativo",
+      "startAtFrame": 0,
+      "animation": "draw_in",
+      "position": "bottom_left"
+    },
+    {
+      "type": "image",
+      "src": "balao_pensamento.jpg",
+      "imageIdea": "Balão de pensamento gigante no topo da lousa.",
+      "startAtFrame": 18,
+      "animation": "pop_in",
+      "position": "top_center",
+      "size": "hero"
+    },
+    {
+      "type": "text",
+      "content": "E SE...?",
+      "startAtFrame": 48,
+      "animation": "typewriter",
+      "position": "center"
+    },
+    {
+      "type": "image",
+      "src": "ponto_interrogacao_gigante.jpg",
+      "imageIdea": "Interrogação dentro do balão.",
+      "startAtFrame": 72,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small"
+    },
+    {
+      "type": "image",
+      "src": "codigo_binario.jpg",
+      "imageIdea": "Código binário como ideia dentro do balão.",
+      "startAtFrame": 96,
+      "animation": "slide_in",
+      "position": "center",
+      "size": "small"
+    }
+  ]
+}

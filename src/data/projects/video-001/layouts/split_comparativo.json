@@ -1,0 +1,52 @@
+{
+  "id": "preview_split_comparativo",
+  "durationFrames": 210,
+  "layoutType": "split_comparativo",
+  "scenes_context": "SplitLayout: metade esquerda vs metade direita, comparação lado a lado.",
+  "cameraMoves": [
+    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
+    { "startAtFrame": 50, "type": "pan_left", "target": "center_left", "zoom": 1.12 },
+    { "startAtFrame": 120, "type": "pan_right", "target": "center_right", "zoom": 1.12 }
+  ],
+  "elements": [
+    {
+      "type": "text",
+      "content": "COMO VOCÊ ACHA",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "center_left"
+    },
+    {
+      "type": "image",
+      "src": "monitor_hacker.jpg",
+      "imageIdea": "Lado esquerdo: o mito do hacker.",
+      "startAtFrame": 24,
+      "animation": "pop_in",
+      "position": "center_left",
+      "size": "medium"
+    },
+    {
+      "type": "text",
+      "content": "COMO REALMENTE É",
+      "startAtFrame": 48,
+      "animation": "typewriter",
+      "position": "center_right"
+    },
+    {
+      "type": "image",
+      "src": "computador_amigavel.jpg",
+      "imageIdea": "Lado direito: o computador amigável.",
+      "startAtFrame": 72,
+      "animation": "slide_in",
+      "position": "center_right",
+      "size": "medium"
+    },
+    {
+      "type": "character",
+      "pose": "surpreso",
+      "startAtFrame": 110,
+      "animation": "draw_in",
+      "position": "bottom_right"
+    }
+  ]
+}
