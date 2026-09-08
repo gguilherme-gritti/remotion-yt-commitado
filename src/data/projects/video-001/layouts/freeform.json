@@ -1,0 +1,48 @@
+{
+  "id": "preview_freeform",
+  "durationFrames": 210,
+  "scenes_context": "Fallback FreeformLayout: posições absolutas center_left, top_center, center_right e avatar no canto.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "FREEFORM",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "image",
+      "src": "monitor_hacker.jpg",
+      "imageIdea": "Monitor com código para a faixa esquerda.",
+      "startAtFrame": 18,
+      "animation": "pop_in",
+      "position": "center_left",
+      "size": "medium"
+    },
+    {
+      "type": "image",
+      "src": "brain_math.jpeg",
+      "imageIdea": "Cérebro com fórmulas no centro.",
+      "startAtFrame": 42,
+      "animation": "slide_in",
+      "position": "center",
+      "size": "small"
+    },
+    {
+      "type": "image",
+      "src": "computador_amigavel.jpg",
+      "imageIdea": "PC amigável na faixa direita.",
+      "startAtFrame": 66,
+      "animation": "pop_in",
+      "position": "center_right",
+      "size": "medium"
+    },
+    {
+      "type": "character",
+      "pose": "apontando_frente",
+      "startAtFrame": 90,
+      "animation": "draw_in",
+      "position": "bottom_right"
+    }
+  ]
+}

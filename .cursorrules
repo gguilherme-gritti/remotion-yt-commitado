@@ -5,15 +5,21 @@
 - React 18+, TypeScript, Remotion, Vite.
 - O projeto adota uma **Arquitetura Multi-Projeto Escalável**.
 - Os dados e ativos de cada vídeo são isolados em pastas por ID dentro de `src/data/projects/{videoId}/`.
-- A estética do canal é baseada em Mangá/HQ urbano com visual áspero, lineart crua e animações de alto impacto.
+- A estética do canal é um **Sketchboard / Quadro Branco Cumulativo**: nanquim preto sobre fundo branco, com elementos que entram no tempo e convivem no mesmo quadro.
 
 ## Arquitetura de Dados Escalável
 
 - **Estrutura de Projetos:**
-  - `src/data/projects/{videoId}/scenes.json`: Contrato com metadados e a lista de cenas do vídeo específico.
-  - `src/data/projects/{videoId}/assets/`: Imagens e quadros de mangá exclusivos do vídeo.
+  - `src/data/projects/{videoId}/scenes.json`: Metadados e a ordem das cenas.
+  - `src/data/projects/{videoId}/layouts/`: Um JSON por cena/layout, juntado por `loadProject`.
+  - `src/data/projects/{videoId}/assets/`: Imagens e sketches exclusivos do vídeo.
   - `public/characters/`: Poses do personagem base compartilhadas entre todos os vídeos.
 - **Leitura Dinâmica:** Componentes e Composições DEVEM receber o `videoId` e a lista de `scenes` via `defaultProps` ou `getInputProps()` do Remotion, garantindo que o mesmo código React sirva para qualquer vídeo.
+- **Cena = Quadro em Branco:** Cada `Scene` limpa a tela. O início absoluto da cena é a soma das `durationFrames` anteriores. Elementos entram via `<Sequence from={element.startAtFrame}>` e permanecem até o fim da cena.
+- **Câmera dinâmica:** `scene.cameraMoves` interpola `scale` e `translate` no container do quadro (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake. Layouts com padrão próprio (hoje `balao_pensamento`) ignoram o JSON e usam `resolveLayoutCameraMoves`.
+- **Transição de borracha:** nos últimos 22 frames do quadro, um wipe de `clip-path` apaga o nanquim e revela o próximo quadro branco.
+- **Layouts modulares:** `scene.layoutType` escolhe o arquétipo da lousa (`balao_pensamento`, `lista_condicional`, `equacao_visual`, `teia_radial`, `fluxo_vertical`, `split_comparativo`). Sem `layoutType`, usa `FreeformLayout`.
+- **Padrão do BalloonLayout:** personagem sempre `pensativo` em `bottom_left`; balão encostado no topo, esticado em X (~1.72) para um contorno mais 16:9; conteúdo interno numa safe zone inseta, imagens ~0.62× small e texto 34px; após a entrada do balão, zoom ~2.25x no interior (`speech_bubble`); depois do último item interno, volta ao plano aberto.
 
 ## Regras Obrigatórias do Remotion
 
@@ -22,33 +28,38 @@
 - NUNCA use CSS animations puras (`@keyframes`) para tempo do vídeo. Use a prop `spring()` ou a função `interpolate()` do Remotion com `useCurrentFrame()`.
 - Evite hooks do React tradicionais (`useState`, `useEffect`) para controle do tempo da animação. O tempo deve ser puramente derivado de `useCurrentFrame()`.
 
-## Diretrizes de Identidade Visual (Gachiakuta / Urban Manga Style)
+## Diretrizes de Identidade Visual (Sketchboard / Quadro Branco)
 
 ### 1. Estilo Artístico Base
 
-- **Paleta de Cores:** Estritamente Preto e Branco em Alto Contraste (Monocromático Nanquim). Fundo principal: `#000000` ou `#0A0A0A`.
-- **Estética Gráfica:** Ilustração 2D estilo mangá/anime com estética urbana, áspera e 'dirty' inspirada em _Gachiakuta_.
+- **Paleta de Cores:** Nanquim preto sobre branco. Fundo permanente: `#ffffff`.
+- **Estética Gráfica:** Ilustração 2D estilo mangá/sketch, traço cru, sem câmera tremendo e sem filtros escuros pesados.
 - **Traço e Linhas:** Traços irregulares, orgânicos, linhas grossas e expressivas (_lineart_ crua e visual de _sketch_).
-- **Sombras:** Sem sombreamento suave, gradientes ou sombreamento 3D complexo. Use apenas hachuras leves (_cross-hatching_), blocos de tinta preta sólida ou padrões de meio-tom (_halftone_ dot patterns).
+- **Sombras:** Sem sombreamento suave, gradientes ou sombreamento 3D. Use apenas hachuras leves, blocos de tinta ou meio-tom quando o próprio asset já trouxer.
 
-### 2. Tratamento de Imagens e Painéis (<MangaPanel />)
+### 2. Imagens de Sketch (<SketchImage />)
 
-- Aplique filtros CSS/SVG para simular a sensação de impressão em papel de mangá/jornal (alto contraste, limiar de preto/branco agressivo).
-- Transições de imagem DEVEM usar revelações com padrões de hachura (_hatch masks_), cortes secos de quadrinhos ou efeitos de rasgo/deslizamento rápido.
-- Evite _fades_ suaves e lentos (dissolve). Priorize animações com curvas de mola secas (`spring({ config: { mass: 0.5, damping: 8 } })`).
+- Imagens devem ter fundo transparente ou `mix-blend-mode: multiply` para o nanquim assentar no branco.
+- Posição absoluta via `element.position` (`center_left`, `center_right`, `top_center`, etc.).
+- Tamanho opcional via `size` (`small` 220px, `medium` 480px, `large` 700px, `hero` 950px) ou `scale` numérico sobre a largura base.
+- Entrada padrão: `pop_in` com `spring` de escala. Se `animation` vier vazia ou `'none'`, usar spring suave (0.85 → 1) e fade de 10 frames. Nenhuma imagem surge seca.
+- Evite _fades_ suaves e lentos (dissolve).
 
 ### 3. Tipografia e Textos de Ênfase (<TextEmphasis />)
 
-- **Fontes:** Fontes estilo 'Comic', 'Manga', 'Graffiti' ou 'Impact' de traço grosso e pesado.
-- **Borda/Contorno:** Textos DEVEM ter contorno preto grosso via `WebkitTextStroke` (de 4px a 6px) para destacar do fundo e manter o aspecto de _lineart_ crua.
-- **Animações de Texto:** As palavras devem 'estourar' na tela (Pop-in rápido com leve quique) ou apresentar micro-vibrações/tremores (_screen shake/glitch_) para reforçar a estética urbana e enérgica.
+- **Fontes:** `Anime Ace` (`public/fonts/animeace`), de traço de quadrinhos.
+- **Borda/Contorno:** Textos DEVEM ter contorno preto grosso via `WebkitTextStroke` (de 4px a 6px).
+- **Animações de Texto:** `typewriter` revela caracteres com `useCurrentFrame()`. `pop_in` usa spring de escala.
 
-### 4. Personagens e Sobreposições (<CharacterOverlay />)
+### 4. Personagens e Sobreposições (<Character />)
 
-- O personagem base fica fixado no canto inferior (`bottom: 0`).
-- Trocas de pose do personagem DEVEM ser instantâneas (no frame exato do evento do JSON) acompanhadas por pequenos efeitos visuais (ex: linhas de impacto estilo _speedlines_ ou estalos visuais de nanquim).
+- Pose vem de `element.pose` e resolve para `public/characters/{pose}.svg`. O BalloonLayout força `pensativo`.
+- Posição via `element.position`: `bottom_right` (padrão), `bottom_left`, `left_giant` (`left: 0`, `width: 25%`, centro vertical) ou `center`.
+- Altura base do avatar ~350px (`bottom_left` / `bottom_right`).
+- Animação padrão `draw_in`: máscara wipe-up (`clip-path` + `spring`) simulando o avatar sendo desenhado de baixo para cima.
+- `cameraMoves.target` pode focar sub-regiões (`top_left`, `top_right`, `speech_bubble`, `center`). O `zoom` do JSON é a escala final, sem teto. `speech_bubble` foca o interior do balão (centro, ~34% da altura).
 
 ## Padrão de Código
 
-- Tipagem estrita no TypeScript para todos os contratos JSON (`SceneSchema` e `ProjectMetaSchema`).
-- Escreva código modular e limpo. NUNCA crie arquivos gigantes; isole efeitos visuais (hachuras, shake, filtros) em componentes utilitários simples em `src/remotion/components/`.
+- Tipagem estrita no TypeScript para todos os contratos JSON (`SceneSchema`, `SceneElement` e `ProjectMetaSchema`).
+- Escreva código modular e limpo. NUNCA crie arquivos gigantes; isole efeitos visuais (máscaras, posições, springs) em componentes utilitários simples em `src/remotion/components/`.

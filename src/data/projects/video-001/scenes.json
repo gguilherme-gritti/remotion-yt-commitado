@@ -1,9 +1,17 @@
 {
   "meta": {
-    "title": "Gachiakuta — O Abismo do Lixo",
+    "title": "Preview — Layouts Modulares",
     "fps": 30,
-    "totalFrames": 2145,
+    "totalFrames": 1470,
     "audioFile": "audio/video-001.mp3"
   },
-  "scenes": []
+  "scenes": [
+    "balao_pensamento",
+    "freeform",
+    "lista_condicional",
+    "equacao_visual",
+    "teia_radial",
+    "fluxo_vertical",
+    "split_comparativo"
+  ]
 }

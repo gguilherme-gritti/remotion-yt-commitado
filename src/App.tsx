@@ -1,6 +1,7 @@
 import { Player } from '@remotion/player';
 import { DEFAULT_VIDEO_ID, loadProject } from './data/loadProject';
 import { MainComposition } from './remotion/scenes/MainComposition';
+import { getScenesDuration } from './remotion/sceneTimeline';
 
 const project = loadProject(DEFAULT_VIDEO_ID);
 
@@ -13,7 +14,7 @@ function App() {
           videoId: DEFAULT_VIDEO_ID,
           scenes: project.scenes,
         }}
-        durationInFrames={project.meta.totalFrames}
+        durationInFrames={getScenesDuration(project.scenes) || project.meta.totalFrames}
         fps={project.meta.fps}
         compositionWidth={1920}
         compositionHeight={1080}

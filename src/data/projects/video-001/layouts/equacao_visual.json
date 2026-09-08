@@ -1,0 +1,53 @@
+{
+  "id": "preview_equacao_visual",
+  "durationFrames": 210,
+  "layoutType": "equacao_visual",
+  "scenes_context": "EquationLayout: pergunta no topo e linha [A] + [seta] + [B] no centro.",
+  "cameraMoves": [
+    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
+    { "startAtFrame": 90, "type": "zoom_in", "target": "center", "zoom": 1.18 }
+  ],
+  "elements": [
+    {
+      "type": "text",
+      "content": "ISTO VIRA AQUILO?",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "image",
+      "src": "brain_math.jpeg",
+      "imageIdea": "Objeto A da equação: o cérebro.",
+      "startAtFrame": 30,
+      "animation": "pop_in",
+      "position": "center_left",
+      "size": "medium"
+    },
+    {
+      "type": "image",
+      "src": "seta_solida.jpg",
+      "imageIdea": "Símbolo da equação: seta sólida.",
+      "startAtFrame": 54,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small"
+    },
+    {
+      "type": "image",
+      "src": "computador_amigavel.jpg",
+      "imageIdea": "Objeto B da equação: o computador.",
+      "startAtFrame": 78,
+      "animation": "slide_in",
+      "position": "center_right",
+      "size": "medium"
+    },
+    {
+      "type": "character",
+      "pose": "curioso",
+      "startAtFrame": 110,
+      "animation": "draw_in",
+      "position": "bottom_right"
+    }
+  ]
+}

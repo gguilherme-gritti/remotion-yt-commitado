@@ -1,74 +1,84 @@
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import type { TextEmphasisAnimation } from '../../types/scene';
-import { INK_SPRING } from './motion';
+import {
+  AbsoluteFill,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
+import type { ElementPosition, TextAnimation } from '../../types/scene';
+import { getElementPositionStyle } from './elementPosition';
+import { ANIME_ACE_FONT_FAMILY } from '../loadAnimeAceFont';
 
 interface TextEmphasisProps {
-  text: string;
-  animation: TextEmphasisAnimation;
+  content: string;
+  position: ElementPosition;
+  animation: TextAnimation;
+  inline?: boolean;
+  fontSize?: number;
 }
 
-const TEXT_DELAY_FRAMES = 12;
+const CHARS_PER_SECOND = 22;
 
-export const TextEmphasis = ({ text }: TextEmphasisProps) => {
+export const TextEmphasis = ({
+  content,
+  position,
+  animation,
+  inline = false,
+  fontSize,
+}: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const charsPerFrame = CHARS_PER_SECOND / fps;
+  const count =
+    animation === 'typewriter'
+      ? Math.min(content.length, Math.floor(Math.max(0, frame) * charsPerFrame))
+      : content.length;
 
-  const appear = spring({
-    frame: frame - TEXT_DELAY_FRAMES,
-    fps,
-    config: INK_SPRING,
-  });
+  const isCenter = position === 'center';
 
-  const visible = interpolate(appear, [0, 0.15], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+  const text = (
+    <span
+      style={{
+        display: 'block',
+        width: inline ? 'auto' : '100%',
+        color: '#000000',
+        fontFamily: `'${ANIME_ACE_FONT_FAMILY}', 'Anime Ace 2.0 BB', sans-serif`,
+        fontSize: fontSize ?? (inline ? 48 : 72),
+        fontWeight: 700,
+        letterSpacing: '2px',
+        lineHeight: 1.25,
+        textAlign: isCenter || inline ? 'center' : 'left',
+        whiteSpace: 'pre-wrap',
+        overflowWrap: 'anywhere',
+      }}
+    >
+      {content.slice(0, count)}
+    </span>
+  );
+
+  if (inline) {
+    return text;
+  }
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 100, overflow: 'visible' }}>
+    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 30 }}>
       <div
-        style={{
-          position: 'absolute',
-          top: '10%',
-          right: '3%',
-          left: 'auto',
-          zIndex: 100,
-          width: '28%',
-          maxWidth: '28%',
-          transform: `scale(${appear})`,
-          transformOrigin: 'right top',
-          opacity: visible,
-        }}
+        style={
+          isCenter
+            ? {
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                width: '100%',
+                maxWidth: '80%',
+              }
+            : {
+                ...getElementPositionStyle(position),
+                maxWidth: '70%',
+              }
+        }
       >
-        <div
-          style={{
-            display: 'block',
-            width: '100%',
-            boxSizing: 'border-box',
-            backgroundColor: '#000000',
-            border: '4px solid #000000',
-            boxShadow: '6px 6px 0px #000000',
-            padding: '14px 28px',
-          }}
-        >
-          <span
-            style={{
-              display: 'block',
-              color: '#ffffff',
-              fontFamily: "Impact, Haettenschweiler, 'Arial Black', 'Comic Sans MS', sans-serif",
-              fontSize: 52,
-              fontWeight: 900,
-              letterSpacing: 2,
-              lineHeight: 1.05,
-              textTransform: 'uppercase',
-              whiteSpace: 'normal',
-              overflowWrap: 'anywhere',
-              wordBreak: 'break-word',
-            }}
-          >
-            {text}
-          </span>
-        </div>
+        {text}
       </div>
     </AbsoluteFill>
   );

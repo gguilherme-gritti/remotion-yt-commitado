@@ -1,0 +1,45 @@
+{
+  "id": "preview_fluxo_vertical",
+  "durationFrames": 210,
+  "layoutType": "fluxo_vertical",
+  "scenes_context": "VerticalFlowLayout: pilha top_center, center e bottom_center para a câmera descer o fluxo.",
+  "cameraMoves": [
+    { "startAtFrame": 0, "type": "none", "target": "top_center", "zoom": 1.1 },
+    { "startAtFrame": 60, "type": "zoom_in", "target": "center", "zoom": 1.15 },
+    { "startAtFrame": 120, "type": "zoom_in", "target": "bottom_center", "zoom": 1.2 }
+  ],
+  "elements": [
+    {
+      "type": "text",
+      "content": "FLUXO VERTICAL",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "image",
+      "src": "seta_zigue_zague.jpg",
+      "imageIdea": "Seta em zigue-zague no meio do fluxo.",
+      "startAtFrame": 30,
+      "animation": "slide_in",
+      "position": "center",
+      "size": "medium"
+    },
+    {
+      "type": "image",
+      "src": "x_vermelho.jpeg",
+      "imageIdea": "X vermelho na base do fluxo.",
+      "startAtFrame": 60,
+      "animation": "pop_in",
+      "position": "bottom_center",
+      "size": "medium"
+    },
+    {
+      "type": "character",
+      "pose": "desconfiado",
+      "startAtFrame": 90,
+      "animation": "draw_in",
+      "position": "bottom_right"
+    }
+  ]
+}
