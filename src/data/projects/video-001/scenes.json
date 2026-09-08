@@ -2,8 +2,65 @@
   "meta": {
     "title": "Gachiakuta — O Abismo do Lixo",
     "fps": 30,
-    "totalFrames": 2145,
+    "totalFrames": 450,
     "audioFile": "audio/video-001.mp3"
   },
-  "scenes": []
+  "scenes": [
+    {
+      "id": "quadro_01",
+      "durationFrames": 240,
+      "scenes_context": "Abertura no quadro branco: o narrador desenha o gancho e o primeiro símbolo do abismo.",
+      "elements": [
+        {
+          "type": "character",
+          "pose": "explicando",
+          "startAtFrame": 0,
+          "animation": "draw_in"
+        },
+        {
+          "type": "image",
+          "src": "panel-01.png",
+          "imageIdea": "Símbolo do abismo em nanquim, como um recorte colado no quadro.",
+          "startAtFrame": 55,
+          "animation": "pop_in",
+          "position": "center_left"
+        },
+        {
+          "type": "text",
+          "content": "E SE O LIXO TIVESSE PODER?",
+          "startAtFrame": 18,
+          "animation": "typewriter",
+          "position": "center"
+        }
+      ]
+    },
+    {
+      "id": "quadro_02",
+      "durationFrames": 210,
+      "scenes_context": "O quadro é limpo. Entra o impacto visual do abismo e o personagem surpreso.",
+      "elements": [
+        {
+          "type": "character",
+          "pose": "surpreso",
+          "startAtFrame": 0,
+          "animation": "draw_in"
+        },
+        {
+          "type": "image",
+          "src": "panel-02.png",
+          "imageIdea": "Rajada de linhas de impacto no centro do quadro.",
+          "startAtFrame": 10,
+          "animation": "pop_in",
+          "position": "center"
+        },
+        {
+          "type": "text",
+          "content": "O ABISMO ESPERA.",
+          "startAtFrame": 42,
+          "animation": "typewriter",
+          "position": "top_right"
+        }
+      ]
+    }
+  ]
 }

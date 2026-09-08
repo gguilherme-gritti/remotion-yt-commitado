@@ -1,11 +1,11 @@
-export const INK_SPRING = {
-  mass: 0.5,
-  damping: 8,
+export const POP_SPRING = {
+  mass: 0.7,
+  damping: 14,
+  stiffness: 140,
 } as const;
 
-export function getShakeOffset(frame: number, intensity: number): { x: number; y: number } {
-  return {
-    x: Math.sin(frame * 2.17) * intensity,
-    y: Math.cos(frame * 1.73) * intensity * 0.7,
-  };
-}
+export const DRAW_SPRING = {
+  mass: 0.8,
+  damping: 18,
+  stiffness: 80,
+} as const;

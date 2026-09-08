@@ -1,36 +1,54 @@
-export type PanelEffect = 'hatch-reveal' | 'hard-cut' | 'tear-slide';
+export type ElementPosition =
+  | 'center'
+  | 'center_left'
+  | 'center_right'
+  | 'top_center'
+  | 'top_left'
+  | 'top_right'
+  | 'bottom_center'
+  | 'bottom_left'
+  | 'bottom_right';
 
-export type CharacterPose = 'explicando' | 'surpreso';
+export type CharacterAnimation = 'draw_in';
 
-export type TextEmphasisAnimation = 'pop-in' | 'shake' | 'glitch';
+export type ImageAnimation = 'pop_in';
 
-export type TextEmphasisPosition = 'center' | 'top' | 'bottom' | 'left' | 'right';
+export type TextAnimation = 'typewriter';
 
-export type CameraAnimation =
-  | 'slow_zoom_in'
-  | 'punch_zoom'
-  | 'pan_down'
-  | 'screen_shake'
-  | 'scroll_down'
-  | 'scroll_up'
-  | 'scroll_right'
-  | 'scroll_left';
-
-export interface TextEmphasisSchema {
-  text: string;
-  animation: TextEmphasisAnimation;
-  position: TextEmphasisPosition;
+interface SceneElementBase {
+  /** Frame relativo ao início da scene. O elemento permanece até o quadro ser limpo. */
+  startAtFrame: number;
 }
 
+export interface CharacterElement extends SceneElementBase {
+  type: 'character';
+  pose: string;
+  animation: CharacterAnimation;
+}
+
+export interface ImageElement extends SceneElementBase {
+  type: 'image';
+  src: string;
+  imageIdea: string;
+  animation: ImageAnimation;
+  position: ElementPosition;
+}
+
+export interface TextElement extends SceneElementBase {
+  type: 'text';
+  content: string;
+  animation: TextAnimation;
+  position: ElementPosition;
+}
+
+export type SceneElement = CharacterElement | ImageElement | TextElement;
+
+/** Cada scene é um quadro em branco. Ao trocar de scene, a tela é limpa. */
 export interface SceneSchema {
   id: string;
-  startFrame: number;
   durationFrames: number;
-  panelImage: string;
-  effect?: PanelEffect;
-  characterPose: CharacterPose;
-  textEmphasis: TextEmphasisSchema | null;
-  cameraAnimation?: CameraAnimation | null;
+  scenes_context: string;
+  elements: SceneElement[];
 }
 
 export interface ProjectMetaSchema {

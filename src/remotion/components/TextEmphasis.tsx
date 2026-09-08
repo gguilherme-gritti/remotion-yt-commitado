@@ -1,74 +1,54 @@
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import type { TextEmphasisAnimation } from '../../types/scene';
-import { INK_SPRING } from './motion';
+import {
+  AbsoluteFill,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
+import type { ElementPosition, TextAnimation } from '../../types/scene';
+import { getElementPositionStyle } from './elementPosition';
 
 interface TextEmphasisProps {
-  text: string;
-  animation: TextEmphasisAnimation;
+  content: string;
+  position: ElementPosition;
+  animation: TextAnimation;
 }
 
-const TEXT_DELAY_FRAMES = 12;
+const CHARS_PER_SECOND = 22;
 
-export const TextEmphasis = ({ text }: TextEmphasisProps) => {
+export const TextEmphasis = ({ content, position, animation }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
-  const appear = spring({
-    frame: frame - TEXT_DELAY_FRAMES,
-    fps,
-    config: INK_SPRING,
-  });
-
-  const visible = interpolate(appear, [0, 0.15], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+  const charsPerFrame = CHARS_PER_SECOND / fps;
+  const count =
+    animation === 'typewriter'
+      ? Math.min(content.length, Math.floor(Math.max(0, frame) * charsPerFrame))
+      : content.length;
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 100, overflow: 'visible' }}>
+    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 30 }}>
       <div
         style={{
-          position: 'absolute',
-          top: '10%',
-          right: '3%',
-          left: 'auto',
-          zIndex: 100,
-          width: '28%',
-          maxWidth: '28%',
-          transform: `scale(${appear})`,
-          transformOrigin: 'right top',
-          opacity: visible,
+          ...getElementPositionStyle(position),
+          maxWidth: '70%',
         }}
       >
-        <div
+        <span
           style={{
-            display: 'block',
-            width: '100%',
-            boxSizing: 'border-box',
-            backgroundColor: '#000000',
-            border: '4px solid #000000',
-            boxShadow: '6px 6px 0px #000000',
-            padding: '14px 28px',
+            display: 'inline-block',
+            color: '#000000',
+            fontFamily: "Impact, Haettenschweiler, 'Arial Black', 'Comic Sans MS', sans-serif",
+            fontSize: 64,
+            fontWeight: 900,
+            letterSpacing: 1.5,
+            lineHeight: 1.08,
+            textTransform: 'uppercase',
+            whiteSpace: 'pre-wrap',
+            overflowWrap: 'anywhere',
+            WebkitTextStroke: '4px #000000',
+            paintOrder: 'stroke fill',
           }}
         >
-          <span
-            style={{
-              display: 'block',
-              color: '#ffffff',
-              fontFamily: "Impact, Haettenschweiler, 'Arial Black', 'Comic Sans MS', sans-serif",
-              fontSize: 52,
-              fontWeight: 900,
-              letterSpacing: 2,
-              lineHeight: 1.05,
-              textTransform: 'uppercase',
-              whiteSpace: 'normal',
-              overflowWrap: 'anywhere',
-              wordBreak: 'break-word',
-            }}
-          >
-            {text}
-          </span>
-        </div>
+          {content.slice(0, count)}
+        </span>
       </div>
     </AbsoluteFill>
   );
