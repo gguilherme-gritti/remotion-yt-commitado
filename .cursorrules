@@ -16,10 +16,11 @@
   - `public/characters/`: Poses do personagem base compartilhadas entre todos os vídeos.
 - **Leitura Dinâmica:** Componentes e Composições DEVEM receber o `videoId` e a lista de `scenes` via `defaultProps` ou `getInputProps()` do Remotion, garantindo que o mesmo código React sirva para qualquer vídeo.
 - **Cena = Quadro em Branco:** Cada `Scene` limpa a tela. O início absoluto da cena é a soma das `durationFrames` anteriores. Elementos entram via `<Sequence from={element.startAtFrame}>` e permanecem até o fim da cena.
-- **Câmera dinâmica:** `scene.cameraMoves` interpola `scale` e `translate` no container do quadro (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake. Layouts com padrão próprio (hoje `balao_pensamento`) ignoram o JSON e usam `resolveLayoutCameraMoves`.
+- **Câmera dinâmica:** `scene.cameraMoves` interpola `scale` e `translate` no container do quadro (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake. Layouts com padrão próprio (`balao_pensamento`, `lista_condicional`) ignoram o JSON e usam `resolveLayoutCameraMoves`.
 - **Transição de borracha:** nos últimos 22 frames do quadro, um wipe de `clip-path` apaga o nanquim e revela o próximo quadro branco.
 - **Layouts modulares:** `scene.layoutType` escolhe o arquétipo da lousa (`balao_pensamento`, `lista_condicional`, `equacao_visual`, `teia_radial`, `fluxo_vertical`, `split_comparativo`). Sem `layoutType`, usa `FreeformLayout`.
 - **Padrão do BalloonLayout:** personagem sempre `pensativo` em `bottom_left`; balão encostado no topo, esticado em X (~1.72) para um contorno mais 16:9; conteúdo interno numa safe zone inseta, imagens ~0.62× small e texto 34px; após a entrada do balão, zoom ~2.25x no interior (`speech_bubble`); depois do último item interno, volta ao plano aberto.
+- **Padrão do ConditionalListLayout:** personagem sempre `joia.jpg` no centro (x e y); abre em close leve e abre o plano antes dos itens; cada item é um par texto (esquerda) + imagem (direita). O JSON lista os pares em ordem; o layout zipa textos e imagens pelo índice.
 
 ## Regras Obrigatórias do Remotion
 

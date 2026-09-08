@@ -2,30 +2,19 @@
   "id": "preview_lista_condicional",
   "durationFrames": 210,
   "layoutType": "lista_condicional",
-  "scenes_context": "ConditionalListLayout: coluna esquerda com condições em texto, coluna direita com resultados em imagem.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
-    { "startAtFrame": 80, "type": "pan_left", "target": "center_left", "zoom": 1.12 }
-  ],
+  "scenes_context": "ConditionalListLayout aplica pose joia no centro; cada item é um texto à esquerda e uma imagem à direita, em pares.",
   "elements": [
+    {
+      "type": "character",
+      "pose": "joia.jpg",
+      "startAtFrame": 0,
+      "animation": "draw_in",
+      "position": "center"
+    },
     {
       "type": "text",
       "content": "SE CHUVA",
-      "startAtFrame": 0,
-      "animation": "typewriter",
-      "position": "center_left"
-    },
-    {
-      "type": "text",
-      "content": "SE SOL",
-      "startAtFrame": 24,
-      "animation": "typewriter",
-      "position": "center_left"
-    },
-    {
-      "type": "text",
-      "content": "SE ERRO",
-      "startAtFrame": 48,
+      "startAtFrame": 36,
       "animation": "typewriter",
       "position": "center_left"
     },
@@ -33,35 +22,42 @@
       "type": "image",
       "src": "prancheta_checklist.jpg",
       "imageIdea": "Checklist como resultado da condição chuva.",
-      "startAtFrame": 18,
+      "startAtFrame": 48,
       "animation": "pop_in",
       "position": "center_right",
-      "size": "medium"
+      "size": "small"
+    },
+    {
+      "type": "text",
+      "content": "SE SOL",
+      "startAtFrame": 78,
+      "animation": "typewriter",
+      "position": "center_left"
     },
     {
       "type": "image",
       "src": "computador_amigavel.jpg",
       "imageIdea": "PC feliz como resultado da condição sol.",
-      "startAtFrame": 42,
+      "startAtFrame": 90,
       "animation": "slide_in",
       "position": "center_right",
-      "size": "medium"
+      "size": "small"
+    },
+    {
+      "type": "text",
+      "content": "SE ERRO",
+      "startAtFrame": 120,
+      "animation": "typewriter",
+      "position": "center_left"
     },
     {
       "type": "image",
       "src": "placa_alerta.jpeg",
       "imageIdea": "Alerta como resultado da condição erro.",
-      "startAtFrame": 66,
+      "startAtFrame": 132,
       "animation": "pop_in",
       "position": "center_right",
-      "size": "medium"
-    },
-    {
-      "type": "character",
-      "pose": "confuso",
-      "startAtFrame": 96,
-      "animation": "draw_in",
-      "position": "bottom_right"
+      "size": "small"
     }
   ]
 }

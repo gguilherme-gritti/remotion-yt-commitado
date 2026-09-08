@@ -13,6 +13,7 @@ interface TextEmphasisProps {
   animation: TextAnimation;
   inline?: boolean;
   fontSize?: number;
+  textAlign?: 'left' | 'center' | 'right';
 }
 
 const CHARS_PER_SECOND = 22;
@@ -23,6 +24,7 @@ export const TextEmphasis = ({
   animation,
   inline = false,
   fontSize,
+  textAlign,
 }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -45,7 +47,7 @@ export const TextEmphasis = ({
         fontWeight: 700,
         letterSpacing: '2px',
         lineHeight: 1.25,
-        textAlign: isCenter || inline ? 'center' : 'left',
+        textAlign: textAlign ?? (isCenter || inline ? 'center' : 'left'),
         whiteSpace: 'pre-wrap',
         overflowWrap: 'anywhere',
       }}

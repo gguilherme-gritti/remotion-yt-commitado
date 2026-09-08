@@ -25,6 +25,7 @@ export interface SceneElementViewProps {
   size?: ImageSize;
   scale?: number;
   fontSize?: number;
+  textAlign?: 'left' | 'center' | 'right';
 }
 
 export const SceneElementView: FC<SceneElementViewProps> = ({
@@ -36,6 +37,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
   size,
   scale,
   fontSize,
+  textAlign,
 }) => {
   switch (element.type) {
     case 'character':
@@ -66,6 +68,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           animation={element.animation}
           inline={inline}
           fontSize={fontSize}
+          textAlign={textAlign}
         />
       );
   }
