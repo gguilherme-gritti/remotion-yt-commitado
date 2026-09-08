@@ -1,0 +1,54 @@
+# Regras do Projeto: Canal de Mangá Automatizado (Remotion + React)
+
+## Stack e Arquitetura
+
+- React 18+, TypeScript, Remotion, Vite.
+- O projeto adota uma **Arquitetura Multi-Projeto Escalável**.
+- Os dados e ativos de cada vídeo são isolados em pastas por ID dentro de `src/data/projects/{videoId}/`.
+- A estética do canal é baseada em Mangá/HQ urbano com visual áspero, lineart crua e animações de alto impacto.
+
+## Arquitetura de Dados Escalável
+
+- **Estrutura de Projetos:**
+  - `src/data/projects/{videoId}/scenes.json`: Contrato com metadados e a lista de cenas do vídeo específico.
+  - `src/data/projects/{videoId}/assets/`: Imagens e quadros de mangá exclusivos do vídeo.
+  - `public/characters/`: Poses do personagem base compartilhadas entre todos os vídeos.
+- **Leitura Dinâmica:** Componentes e Composições DEVEM receber o `videoId` e a lista de `scenes` via `defaultProps` ou `getInputProps()` do Remotion, garantindo que o mesmo código React sirva para qualquer vídeo.
+
+## Regras Obrigatórias do Remotion
+
+- Importe mídias estáticas compartilhadas de `public/` SEMPRE usando `staticFile()` e a tag `<Img />` do Remotion.
+- Mídias específicas de um projeto devem ser resolvidas a partir do caminho `src/data/projects/{videoId}/assets/`.
+- NUNCA use CSS animations puras (`@keyframes`) para tempo do vídeo. Use a prop `spring()` ou a função `interpolate()` do Remotion com `useCurrentFrame()`.
+- Evite hooks do React tradicionais (`useState`, `useEffect`) para controle do tempo da animação. O tempo deve ser puramente derivado de `useCurrentFrame()`.
+
+## Diretrizes de Identidade Visual (Gachiakuta / Urban Manga Style)
+
+### 1. Estilo Artístico Base
+
+- **Paleta de Cores:** Estritamente Preto e Branco em Alto Contraste (Monocromático Nanquim). Fundo principal: `#000000` ou `#0A0A0A`.
+- **Estética Gráfica:** Ilustração 2D estilo mangá/anime com estética urbana, áspera e 'dirty' inspirada em _Gachiakuta_.
+- **Traço e Linhas:** Traços irregulares, orgânicos, linhas grossas e expressivas (_lineart_ crua e visual de _sketch_).
+- **Sombras:** Sem sombreamento suave, gradientes ou sombreamento 3D complexo. Use apenas hachuras leves (_cross-hatching_), blocos de tinta preta sólida ou padrões de meio-tom (_halftone_ dot patterns).
+
+### 2. Tratamento de Imagens e Painéis (<MangaPanel />)
+
+- Aplique filtros CSS/SVG para simular a sensação de impressão em papel de mangá/jornal (alto contraste, limiar de preto/branco agressivo).
+- Transições de imagem DEVEM usar revelações com padrões de hachura (_hatch masks_), cortes secos de quadrinhos ou efeitos de rasgo/deslizamento rápido.
+- Evite _fades_ suaves e lentos (dissolve). Priorize animações com curvas de mola secas (`spring({ config: { mass: 0.5, damping: 8 } })`).
+
+### 3. Tipografia e Textos de Ênfase (<TextEmphasis />)
+
+- **Fontes:** Fontes estilo 'Comic', 'Manga', 'Graffiti' ou 'Impact' de traço grosso e pesado.
+- **Borda/Contorno:** Textos DEVEM ter contorno preto grosso via `WebkitTextStroke` (de 4px a 6px) para destacar do fundo e manter o aspecto de _lineart_ crua.
+- **Animações de Texto:** As palavras devem 'estourar' na tela (Pop-in rápido com leve quique) ou apresentar micro-vibrações/tremores (_screen shake/glitch_) para reforçar a estética urbana e enérgica.
+
+### 4. Personagens e Sobreposições (<CharacterOverlay />)
+
+- O personagem base fica fixado no canto inferior (`bottom: 0`).
+- Trocas de pose do personagem DEVEM ser instantâneas (no frame exato do evento do JSON) acompanhadas por pequenos efeitos visuais (ex: linhas de impacto estilo _speedlines_ ou estalos visuais de nanquim).
+
+## Padrão de Código
+
+- Tipagem estrita no TypeScript para todos os contratos JSON (`SceneSchema` e `ProjectMetaSchema`).
+- Escreva código modular e limpo. NUNCA crie arquivos gigantes; isole efeitos visuais (hachuras, shake, filtros) em componentes utilitários simples em `src/remotion/components/`.

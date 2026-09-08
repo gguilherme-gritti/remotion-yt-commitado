@@ -5,16 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "remotion:studio": "remotion studio src/remotion/index.ts",
+    "remotion:render": "remotion render src/remotion/index.ts MainComposition out/video.mp4"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.518",
     "@remotion/player": "^4.0.518",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "remotion": "^4.0.518"
+    "remotion": "^4.0.518",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
