@@ -6,11 +6,11 @@
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
+    "teia_radial",
     "equacao_visual",
     "lista_condicional",
     "balao_pensamento",
     "freeform",
-    "teia_radial",
     "fluxo_vertical",
     "split_comparativo"
   ]

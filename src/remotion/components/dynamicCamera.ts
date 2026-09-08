@@ -111,5 +111,7 @@ function getCameraFocusPoint(target: CameraTarget): { x: number; y: number } {
       return { x: CENTER_X, y: CANVAS_HEIGHT * 0.48 };
     case 'equation_b':
       return { x: CANVAS_WIDTH * 0.84, y: CANVAS_HEIGHT * 0.48 };
+    case 'radial_web':
+      return { x: CENTER_X, y: CANVAS_HEIGHT * 0.32 };
   }
 }

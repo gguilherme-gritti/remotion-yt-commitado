@@ -2,6 +2,7 @@ import type { CameraMove, SceneSchema } from '../../../types/scene';
 import { getBalloonLayoutCameraMoves } from './balloonDefaults';
 import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
+import { getRadialLayoutCameraMoves } from './radialDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
   switch (scene.layoutType) {
@@ -11,6 +12,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getListLayoutCameraMoves(scene);
     case 'equacao_visual':
       return getEquationLayoutCameraMoves(scene);
+    case 'teia_radial':
+      return getRadialLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }

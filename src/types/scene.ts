@@ -22,7 +22,8 @@ export type CameraTarget =
   | 'speech_bubble'
   | 'equation_a'
   | 'equation_op'
-  | 'equation_b';
+  | 'equation_b'
+  | 'radial_web';
 
 export type CameraAnimation = 'none' | 'zoom_in' | 'zoom_out' | 'pan_right' | 'pan_left';
 
