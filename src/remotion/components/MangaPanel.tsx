@@ -27,9 +27,21 @@ export const MangaPanel = ({ videoId, panelImage, effect }: MangaPanelProps) => 
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#000000', overflow: 'hidden' }}>
+    <AbsoluteFill style={{ backgroundColor: 'transparent', overflow: 'visible' }}>
       <MangaInkFilter />
-      <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: '12%',
+          left: '5%',
+          width: '63%',
+          height: '63%',
+          overflow: 'hidden',
+          backgroundColor: '#000000',
+          border: '6px solid #000000',
+          boxShadow: '12px 12px 0px #000000',
+        }}
+      >
         <HatchReveal effect={effect}>
           <Img
             src={src}
@@ -47,30 +59,12 @@ export const MangaPanel = ({ videoId, panelImage, effect }: MangaPanelProps) => 
               inset: 0,
               pointerEvents: 'none',
               backgroundImage:
-                'repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 7px), repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 5px)',
+                'repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 2px, transparent 2px 7px)',
               mixBlendMode: 'multiply',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-              background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%)',
             }}
           />
         </HatchReveal>
       </div>
-      <div
-        style={{
-          position: 'absolute',
-          inset: 18,
-          border: '6px solid #ffffff',
-          boxShadow: 'inset 0 0 0 3px #000000',
-          pointerEvents: 'none',
-        }}
-      />
     </AbsoluteFill>
   );
 };

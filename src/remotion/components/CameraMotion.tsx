@@ -15,7 +15,7 @@ export const CameraMotion = ({ type, durationFrames, children }: CameraMotionPro
   const { scale, x, y } = getCameraTransform(type, frame, fps, durationFrames);
 
   return (
-    <AbsoluteFill style={{ overflow: 'hidden' }}>
+    <AbsoluteFill style={{ overflow: 'visible' }}>
       <AbsoluteFill
         style={{
           transform: `scale(${scale}) translate(${x}px, ${y}px)`,

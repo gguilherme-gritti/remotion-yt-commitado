@@ -1,4 +1,12 @@
-import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import {
+  AbsoluteFill,
+  Img,
+  interpolate,
+  spring,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
 import type { CharacterPose } from '../../types/scene';
 import { INK_SPRING } from './motion';
 import { SpeedLines } from './SpeedLines';
@@ -27,18 +35,19 @@ export const CharacterOverlay = ({ characterPose }: CharacterOverlayProps) => {
   });
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none' }}>
+    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 50, overflow: 'visible' }}>
       <SpeedLines intensity={impact} />
       <Img
-        src={staticFile(`characters/${characterPose}.png`)}
+        src={staticFile(`characters/${characterPose}.svg`)}
         style={{
           position: 'absolute',
+          right: '2%',
           bottom: 0,
-          right: 40,
-          height: '58%',
+          height: 370,
           width: 'auto',
+          zIndex: 50,
           transform: `translateY(${lift}px)`,
-          filter: 'drop-shadow(4px 4px 0px #000) drop-shadow(-2px -2px 0px #fff)',
+          filter: 'drop-shadow(6px 6px 0px #000000)',
         }}
       />
     </AbsoluteFill>
