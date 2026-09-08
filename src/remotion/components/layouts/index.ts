@@ -27,3 +27,5 @@ export {
   SplitLayout,
   VerticalFlowLayout,
 };
+
+export { resolveLayoutCameraMoves } from './layoutCamera';

@@ -76,7 +76,7 @@ export interface SceneSchema {
   scenes_context: string;
   layoutType?: LayoutType;
   elements: SceneElement[];
-  cameraMoves: CameraMove[];
+  cameraMoves?: CameraMove[];
 }
 
 export interface ProjectMetaSchema {

@@ -2,10 +2,6 @@
   "id": "preview_freeform",
   "durationFrames": 210,
   "scenes_context": "Fallback FreeformLayout: posições absolutas center_left, top_center, center_right e avatar no canto.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
-    { "startAtFrame": 90, "type": "zoom_in", "target": "center_left", "zoom": 1.2 }
-  ],
   "elements": [
     {
       "type": "text",

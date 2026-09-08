@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from 'remotion';
 
-const ERASER_FRAMES = 22;
+export const ERASER_FRAMES = 22;
 
 interface EraserWipeProps {
   durationFrames: number;

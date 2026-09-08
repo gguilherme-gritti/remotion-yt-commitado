@@ -2,11 +2,7 @@
   "id": "preview_balao_pensamento",
   "durationFrames": 210,
   "layoutType": "balao_pensamento",
-  "scenes_context": "BalloonLayout: avatar bottom_left, balão hero no topo, demais elementos dentro da área do balão.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
-    { "startAtFrame": 100, "type": "zoom_in", "target": "speech_bubble", "zoom": 1.25 }
-  ],
+  "scenes_context": "BalloonLayout aplica pose pensativo, balão no topo e câmera padrão (plano aberto → close no balão → volta ao quadro inteiro).",
   "elements": [
     {
       "type": "character",

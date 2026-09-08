@@ -23,6 +23,8 @@ export interface SceneElementViewProps {
   position?: ElementPosition;
   characterPosition?: CharacterPosition;
   size?: ImageSize;
+  scale?: number;
+  fontSize?: number;
 }
 
 export const SceneElementView: FC<SceneElementViewProps> = ({
@@ -32,6 +34,8 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
   position,
   characterPosition,
   size,
+  scale,
+  fontSize,
 }) => {
   switch (element.type) {
     case 'character':
@@ -50,7 +54,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           position={position ?? element.position}
           animation={element.animation}
           size={size ?? element.size}
-          scale={element.scale}
+          scale={scale ?? element.scale}
           inline={inline}
         />
       );
@@ -61,6 +65,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           position={position ?? element.position}
           animation={element.animation}
           inline={inline}
+          fontSize={fontSize}
         />
       );
   }

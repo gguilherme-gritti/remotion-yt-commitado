@@ -6,8 +6,8 @@
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
-    "freeform",
     "balao_pensamento",
+    "freeform",
     "lista_condicional",
     "equacao_visual",
     "teia_radial",

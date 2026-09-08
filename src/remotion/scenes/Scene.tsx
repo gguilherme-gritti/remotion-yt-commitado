@@ -3,7 +3,7 @@ import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import type { SceneSchema } from '../../types/scene';
 import { getDynamicCamera } from '../components/dynamicCamera';
 import { EraserWipe } from '../components/EraserWipe';
-import { FreeformLayout, LAYOUT_MAP } from '../components/layouts';
+import { FreeformLayout, LAYOUT_MAP, resolveLayoutCameraMoves } from '../components/layouts';
 
 interface SceneProps {
   videoId: string;
@@ -12,7 +12,7 @@ interface SceneProps {
 
 export const Scene: FC<SceneProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();
-  const { scale, x, y } = getDynamicCamera(scene.cameraMoves ?? [], frame);
+  const { scale, x, y } = getDynamicCamera(resolveLayoutCameraMoves(scene), frame);
   const LayoutComponent =
     (scene.layoutType && LAYOUT_MAP[scene.layoutType]) || FreeformLayout;
 

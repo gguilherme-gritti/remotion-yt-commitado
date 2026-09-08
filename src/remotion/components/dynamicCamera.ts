@@ -1,12 +1,11 @@
 import { interpolate } from 'remotion';
 import type { CameraMove, CameraTarget } from '../../types/scene';
 
-const CAMERA_BLEND_FRAMES = 42;
+export const CAMERA_BLEND_FRAMES = 42;
 const CANVAS_WIDTH = 1920;
 const CANVAS_HEIGHT = 1080;
 const CENTER_X = CANVAS_WIDTH / 2;
 const CENTER_Y = CANVAS_HEIGHT / 2;
-const MAX_ZOOM = 1.6;
 
 export type CameraPose = {
   scale: number;
@@ -68,8 +67,6 @@ function poseFromMove(move: CameraMove): CameraPose {
       break;
   }
 
-  scale = Math.min(Math.max(scale, 0.85), MAX_ZOOM);
-
   let x = CENTER_X - focus.x;
   let y = CENTER_Y - focus.y;
 
@@ -93,7 +90,7 @@ function getCameraFocusPoint(target: CameraTarget): { x: number; y: number } {
     case 'top_right':
       return { x: CANVAS_WIDTH * 0.78, y: CANVAS_HEIGHT * 0.22 };
     case 'speech_bubble':
-      return { x: CANVAS_WIDTH * 0.74, y: CANVAS_HEIGHT * 0.28 };
+      return { x: CENTER_X, y: CANVAS_HEIGHT * 0.34 };
     case 'top_center':
       return { x: CENTER_X, y: CANVAS_HEIGHT * 0.2 };
     case 'center_left':

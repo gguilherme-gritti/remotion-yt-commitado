@@ -1,17 +1,20 @@
-import type { FC } from 'react';
-import { AbsoluteFill, Sequence } from 'remotion';
-import type { SceneSchema } from '../../types/scene';
-import { getSceneStartFrame } from '../sceneTimeline';
-import { Scene } from './Scene';
+import type { FC } from "react";
+import { AbsoluteFill, Sequence } from "remotion";
+import type { SceneSchema } from "../../types/scene";
+import { getSceneStartFrame } from "../sceneTimeline";
+import { Scene } from "./Scene";
 
 export type MainCompositionProps = {
   videoId: string;
   scenes: SceneSchema[];
 };
 
-export const MainComposition: FC<MainCompositionProps> = ({ videoId, scenes }) => {
+export const MainComposition: FC<MainCompositionProps> = ({
+  videoId,
+  scenes,
+}) => {
   return (
-    <AbsoluteFill style={{ backgroundColor: '#ffffff' }}>
+    <AbsoluteFill style={{ backgroundColor: "#ffffff" }}>
       {scenes.map((scene, index) => (
         <Sequence
           key={scene.id}

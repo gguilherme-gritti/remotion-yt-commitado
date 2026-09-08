@@ -1,24 +1,18 @@
 import type { FC } from 'react';
 import { AbsoluteFill } from 'remotion';
-import type { ImageElement } from '../../../types/scene';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
-
-function isBalloonImage(element: ImageElement): boolean {
-  const haystack = `${element.src} ${element.imageIdea}`.toLowerCase();
-  return /bala[oõ]|speech|fala|bubble/.test(haystack);
-}
+import {
+  BALLOON_INNER_FONT_SIZE,
+  BALLOON_INNER_IMAGE_SCALE,
+  BALLOON_INNER_STYLE,
+  BALLOON_LIFT_PX,
+  BALLOON_STRETCH_X,
+  getBalloonLayoutParts,
+} from './balloonDefaults';
 
 export const BalloonLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
-  const characters = scene.elements.filter((element) => element.type === 'character');
-  const images = scene.elements.filter((element): element is ImageElement => element.type === 'image');
-  const balloon = images.find(isBalloonImage) ?? images.find((element) => element.size === 'hero' || element.size === 'large');
-  const inner = scene.elements.filter((element) => {
-    if (element.type === 'character') {
-      return false;
-    }
-    return element !== balloon;
-  });
+  const { characters, balloon, inner } = getBalloonLayoutParts(scene);
 
   return (
     <AbsoluteFill>
@@ -34,31 +28,26 @@ export const BalloonLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
       ))}
 
       {balloon ? (
-        <TimedElement
-          sceneId={scene.id}
-          index={0}
-          videoId={videoId}
-          element={balloon}
-          position="top_center"
-          size={balloon.size ?? 'hero'}
-        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            transform: `translateY(${BALLOON_LIFT_PX}px) scaleX(${BALLOON_STRETCH_X})`,
+            transformOrigin: 'center top',
+          }}
+        >
+          <TimedElement
+            sceneId={scene.id}
+            index={0}
+            videoId={videoId}
+            element={balloon}
+            position="top_center"
+            size={balloon.size ?? 'hero'}
+          />
+        </div>
       ) : null}
 
-      <div
-        style={{
-          position: 'absolute',
-          top: '10%',
-          left: '22%',
-          width: '56%',
-          height: '48%',
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 20,
-          zIndex: 20,
-        }}
-      >
+      <div style={BALLOON_INNER_STYLE}>
         {inner.map((element, index) => (
           <TimedElement
             key={`${scene.id}-inner-${index}`}
@@ -67,7 +56,9 @@ export const BalloonLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
             videoId={videoId}
             element={element}
             inline
-            size={element.type === 'image' ? element.size ?? 'small' : undefined}
+            size={element.type === 'image' ? 'small' : undefined}
+            scale={element.type === 'image' ? BALLOON_INNER_IMAGE_SCALE : undefined}
+            fontSize={element.type === 'text' ? BALLOON_INNER_FONT_SIZE : undefined}
           />
         ))}
       </div>

@@ -12,11 +12,18 @@ interface TextEmphasisProps {
   position: ElementPosition;
   animation: TextAnimation;
   inline?: boolean;
+  fontSize?: number;
 }
 
 const CHARS_PER_SECOND = 22;
 
-export const TextEmphasis = ({ content, position, animation, inline = false }: TextEmphasisProps) => {
+export const TextEmphasis = ({
+  content,
+  position,
+  animation,
+  inline = false,
+  fontSize,
+}: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const charsPerFrame = CHARS_PER_SECOND / fps;
@@ -34,7 +41,7 @@ export const TextEmphasis = ({ content, position, animation, inline = false }: T
         width: inline ? 'auto' : '100%',
         color: '#000000',
         fontFamily: `'${ANIME_ACE_FONT_FAMILY}', 'Anime Ace 2.0 BB', sans-serif`,
-        fontSize: inline ? 48 : 72,
+        fontSize: fontSize ?? (inline ? 48 : 72),
         fontWeight: 700,
         letterSpacing: '2px',
         lineHeight: 1.25,
