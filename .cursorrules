@@ -15,6 +15,8 @@
   - `public/characters/`: Poses do personagem base compartilhadas entre todos os vídeos.
 - **Leitura Dinâmica:** Componentes e Composições DEVEM receber o `videoId` e a lista de `scenes` via `defaultProps` ou `getInputProps()` do Remotion, garantindo que o mesmo código React sirva para qualquer vídeo.
 - **Cena = Quadro em Branco:** Cada `Scene` limpa a tela. O início absoluto da cena é a soma das `durationFrames` anteriores. Elementos entram via `<Sequence from={element.startAtFrame}>` e permanecem até o fim da cena.
+- **Câmera dinâmica:** `scene.cameraMoves` interpola `scale` e `translate` no container do quadro (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake.
+- **Transição de borracha:** nos últimos 22 frames do quadro, um wipe de `clip-path` apaga o nanquim e revela o próximo quadro branco.
 - **Contrato do roteirista:** `character.pose`, `image.src` + `image.imageIdea`, `text.content`, `scenes_context`. Sem `id` nos elements e sem `startFrame` na scene.
 
 ## Regras Obrigatórias do Remotion
@@ -37,7 +39,7 @@
 
 - Imagens devem ter fundo transparente ou `mix-blend-mode: multiply` para o nanquim assentar no branco.
 - Posição absoluta via `element.position` (`center_left`, `center_right`, `top_center`, etc.).
-- Entrada padrão: `pop_in` com `spring` de escala suave.
+- Entrada padrão: `pop_in` com `spring` de escala. Se `animation` vier vazia ou `'none'`, usar spring suave (0.85 → 1) e fade de 10 frames. Nenhuma imagem surge seca.
 - Evite _fades_ suaves e lentos (dissolve).
 
 ### 3. Tipografia e Textos de Ênfase (<TextEmphasis />)

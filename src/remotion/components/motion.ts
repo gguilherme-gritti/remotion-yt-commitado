@@ -4,6 +4,12 @@ export const POP_SPRING = {
   stiffness: 140,
 } as const;
 
+export const SOFT_SPRING = {
+  mass: 0.9,
+  damping: 18,
+  stiffness: 90,
+} as const;
+
 export const DRAW_SPRING = {
   mass: 0.8,
   damping: 18,

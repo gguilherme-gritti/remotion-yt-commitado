@@ -7,45 +7,77 @@
   },
   "scenes": [
     {
-      "id": "quadro_01",
-      "durationFrames": 280,
+      "id": "quadro_01_o_mito",
+      "durationFrames": 340,
       "scenes_context": "Se você acha que programar é algo exclusivo para gênios da matemática, pessoas que passam doze horas seguidas olhando para uma tela preta repleta de letrinhas coloridas, eu tenho uma notícia para te dar.",
+      "cameraMoves": [
+        { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1.0 },
+        {
+          "startAtFrame": 90,
+          "type": "zoom_in",
+          "target": "center_left",
+          "zoom": 1.3
+        },
+        {
+          "startAtFrame": 240,
+          "type": "pan_right",
+          "target": "bottom_right",
+          "zoom": 1.2
+        }
+      ],
       "elements": [
         {
           "type": "image",
-          "src": "genio_matematica.jpeg",
-          "imageIdea": "Uma fórmula matemática flutuando com um cérebro brilhando ao fundo.",
-          "startAtFrame": 0,
+          "src": "monitor_hacker.jpg",
+          "imageIdea": "Um monitor antigo com tela preta e linhas de código brilhantes",
+          "startAtFrame": 15,
           "animation": "pop_in",
           "position": "center_left"
         },
         {
           "type": "image",
-          "src": "monitor_letrinhas.jpg",
-          "imageIdea": "Um monitor antigo exibindo linhas de código organizadas e brilhantes.",
+          "src": "brain_math.jpeg",
+          "imageIdea": "Cérebro com símbolos de equações matemáticas flutuando ao redor",
           "startAtFrame": 45,
           "animation": "slide_in",
-          "position": "center_right"
+          "position": "top_center"
+        },
+        {
+          "type": "image",
+          "src": "seta_dupla.jpg",
+          "imageIdea": "Seta curvada conectando o cérebro ao monitor",
+          "startAtFrame": 75,
+          "animation": "pop_in",
+          "position": "center"
         },
         {
           "type": "character",
           "pose": "explicando",
-          "startAtFrame": 140,
+          "startAtFrame": 180,
           "animation": "draw_in"
         },
         {
-          "type": "text",
-          "content": "UMA NOTÍCIA...",
-          "startAtFrame": 210,
-          "animation": "typewriter",
-          "position": "top_center"
+          "type": "image",
+          "src": "balao_fala_exclamacao.jpg",
+          "imageIdea": "Balão de fala com um ponto de exclamação sobressaindo",
+          "startAtFrame": 260,
+          "animation": "pop_in",
+          "position": "center_right"
         }
       ]
     },
     {
-      "id": "quadro_02",
+      "id": "quadro_02_revelacao",
       "durationFrames": 120,
       "scenes_context": "Você já é um programador. E provavelmente é um muito bom.",
+      "cameraMoves": [
+        {
+          "startAtFrame": 0,
+          "type": "zoom_in",
+          "target": "center",
+          "zoom": 1.4
+        }
+      ],
       "elements": [
         {
           "type": "text",
@@ -56,53 +88,84 @@
         },
         {
           "type": "character",
-          "pose": "sorrindo",
+          "pose": "surpreso",
           "startAtFrame": 50,
           "animation": "draw_in"
         }
       ]
     },
     {
-      "id": "quadro_03",
-      "durationFrames": 360,
+      "id": "quadro_03_a_traducao",
+      "durationFrames": 390,
       "scenes_context": "A única diferença entre você e alguém que ganha a vida escrevendo software é que a outra pessoa aprendeu a traduzir o que já faz de olhos fechados para um idioma que o computador consegue entender.",
-      "elements": [
+      "cameraMoves": [
+        { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1.0 },
         {
-          "type": "character",
-          "pose": "explicando",
-          "startAtFrame": 0,
-          "animation": "draw_in"
+          "startAtFrame": 120,
+          "type": "pan_left",
+          "target": "center_left",
+          "zoom": 1.2
         },
+        {
+          "startAtFrame": 270,
+          "type": "zoom_in",
+          "target": "center_right",
+          "zoom": 1.3
+        }
+      ],
+      "elements": [
         {
           "type": "image",
           "src": "dolar_trabalho.jpg",
-          "imageIdea": "Mão segurando um maço de notas de dinheiro.",
-          "startAtFrame": 40,
+          "imageIdea": "Pessoa vendendo e segurando moedas no ar",
+          "startAtFrame": 20,
           "animation": "pop_in",
           "position": "center_left"
         },
         {
           "type": "image",
-          "src": "tradutor_dicionario.jpg",
-          "imageIdea": "Um livro aberto com uma seta conectando uma palavra comum a um símbolo binário.",
-          "startAtFrame": 180,
+          "src": "dicionario_traducao.jpg",
+          "imageIdea": "Livro aberto de dicionário de tradução com engrenagens saindo dele",
+          "startAtFrame": 130,
           "animation": "slide_in",
-          "position": "top_center"
+          "position": "center"
         },
         {
           "type": "image",
-          "src": "computador_simples.jpg",
-          "imageIdea": "Um computador de gabinete vintage emitindo luz da tela.",
-          "startAtFrame": 280,
+          "src": "seta_solida.jpg",
+          "imageIdea": "Seta horizontal indicando fluxo da esquerda para a direita",
+          "startAtFrame": 160,
           "animation": "pop_in",
+          "position": "center"
+        },
+        {
+          "type": "image",
+          "src": "computador_amigavel.jpg",
+          "imageIdea": "Gabinete de computador antigo com carinha feliz no monitor",
+          "startAtFrame": 250,
+          "animation": "slide_in",
           "position": "center_right"
+        },
+        {
+          "type": "character",
+          "pose": "explicando",
+          "startAtFrame": 310,
+          "animation": "draw_in"
         }
       ]
     },
     {
-      "id": "quadro_04",
+      "id": "quadro_04_pergunta_impacto",
       "durationFrames": 90,
       "scenes_context": "Pense comigo por um instante. O que é um programa de computador?",
+      "cameraMoves": [
+        {
+          "startAtFrame": 0,
+          "type": "zoom_in",
+          "target": "center",
+          "zoom": 1.2
+        }
+      ],
       "elements": [
         {
           "type": "character",
@@ -111,47 +174,67 @@
           "animation": "draw_in"
         },
         {
-          "type": "text",
-          "content": "O QUE É UM PROGRAMA?",
-          "startAtFrame": 25,
-          "animation": "typewriter",
+          "type": "image",
+          "src": "ponto_interrogacao_gigante.jpg",
+          "imageIdea": "Ponto de interrogação gigante e rabiscado",
+          "startAtFrame": 30,
+          "animation": "pop_in",
           "position": "top_center"
         }
       ]
     },
     {
-      "id": "quadro_05",
-      "durationFrames": 300,
+      "id": "quadro_05_conceito_instrucoes",
+      "durationFrames": 270,
       "scenes_context": "No fundo, bem no fundo, não passa de uma lista de instruções organizadas que dizem a alguém o que fazer, quando fazer e o que fazer se algo der errado.",
+      "cameraMoves": [
+        { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1.0 },
+        {
+          "startAtFrame": 150,
+          "type": "zoom_in",
+          "target": "center",
+          "zoom": 1.25
+        }
+      ],
       "elements": [
         {
           "type": "image",
-          "src": "lista_instrucoes.jpg",
-          "imageIdea": "Uma prancheta com uma folha contendo itens checados com marca de correto.",
-          "startAtFrame": 20,
+          "src": "prancheta_checklist.jpg",
+          "imageIdea": "Prancheta de papel com lista de itens marcados com checklist",
+          "startAtFrame": 10,
           "animation": "slide_in",
           "position": "center_left"
         },
         {
           "type": "text",
-          "content": "1. O QUE FAZER\n2. QUANDO FAZER",
-          "startAtFrame": 110,
+          "content": "LISTA DE INSTRUÇÕES",
+          "startAtFrame": 60,
           "animation": "typewriter",
-          "position": "top_right"
+          "position": "top_center"
         },
         {
           "type": "image",
-          "src": "alerta_erro.jpeg",
-          "imageIdea": "Placa amarela em formato de triângulo com ponto de exclamação dentro.",
-          "startAtFrame": 210,
+          "src": "relogio_mecanico.jpg",
+          "imageIdea": "Relógio de bolso apontando para o tempo exato",
+          "startAtFrame": 110,
           "animation": "pop_in",
           "position": "center_right"
         },
         {
-          "type": "character",
-          "pose": "surpreso",
-          "startAtFrame": 230,
-          "animation": "draw_in"
+          "type": "image",
+          "src": "placa_alerta.jpeg",
+          "imageIdea": "Placa triangular de aviso de perigo e erro",
+          "startAtFrame": 180,
+          "animation": "pop_in",
+          "position": "bottom_left"
+        },
+        {
+          "type": "image",
+          "src": "seta_zigue_zague.jpg",
+          "imageIdea": "Seta em zigue-zague apontando da lista de instruções para o sinal de alerta",
+          "startAtFrame": 210,
+          "animation": "pop_in",
+          "position": "center"
         }
       ]
     }

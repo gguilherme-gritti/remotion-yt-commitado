@@ -9,9 +9,18 @@ export type ElementPosition =
   | 'bottom_left'
   | 'bottom_right';
 
+export type CameraAnimation = 'none' | 'zoom_in' | 'zoom_out' | 'pan_right' | 'pan_left';
+
+export interface CameraMove {
+  startAtFrame: number;
+  type: CameraAnimation;
+  target: ElementPosition;
+  zoom: number;
+}
+
 export type CharacterAnimation = 'draw_in';
 
-export type ImageAnimation = 'pop_in';
+export type ImageAnimation = 'pop_in' | 'slide_in' | 'none';
 
 export type TextAnimation = 'typewriter';
 
@@ -30,7 +39,7 @@ export interface ImageElement extends SceneElementBase {
   type: 'image';
   src: string;
   imageIdea: string;
-  animation: ImageAnimation;
+  animation?: ImageAnimation;
   position: ElementPosition;
 }
 
@@ -49,6 +58,7 @@ export interface SceneSchema {
   durationFrames: number;
   scenes_context: string;
   elements: SceneElement[];
+  cameraMoves: CameraMove[];
 }
 
 export interface ProjectMetaSchema {

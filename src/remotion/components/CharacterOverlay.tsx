@@ -13,20 +13,29 @@ export const CharacterOverlay = ({ pose, animation }: CharacterOverlayProps) => 
     <Img
       src={resolveCharacterSrc(pose)}
       style={{
-        height: 480,
+        display: 'block',
+        height: 540,
+        maxHeight: '100%',
         width: 'auto',
+        maxWidth: 480,
+        objectFit: 'contain',
+        objectPosition: 'bottom right',
         mixBlendMode: 'multiply',
       }}
     />
   );
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 40 }}>
+    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 40, overflow: 'visible' }}>
       <div
         style={{
           position: 'absolute',
-          right: '2%',
+          right: 40,
           bottom: 0,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'flex-end',
+          overflow: 'visible',
         }}
       >
         {animation === 'draw_in' ? <DrawInMask>{portrait}</DrawInMask> : portrait}
