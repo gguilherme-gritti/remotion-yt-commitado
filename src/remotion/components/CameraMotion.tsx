@@ -6,12 +6,14 @@ import { getShakeOffset, INK_SPRING } from './motion';
 interface CameraMotionProps {
   type?: CameraAnimation | null;
   durationFrames: number;
+  from?: number;
   children: ReactNode;
 }
 
-export const CameraMotion = ({ type, durationFrames, children }: CameraMotionProps) => {
-  const frame = useCurrentFrame();
+export const CameraMotion = ({ type, durationFrames, from = 0, children }: CameraMotionProps) => {
+  const timelineFrame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const frame = timelineFrame - from;
   const { scale, x, y } = getCameraTransform(type, frame, fps, durationFrames);
 
   return (

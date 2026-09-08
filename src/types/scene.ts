@@ -27,7 +27,7 @@ export interface SceneSchema {
   startFrame: number;
   durationFrames: number;
   panelImage: string;
-  effect: PanelEffect;
+  effect?: PanelEffect;
   characterPose: CharacterPose;
   textEmphasis: TextEmphasisSchema | null;
   cameraAnimation?: CameraAnimation | null;
