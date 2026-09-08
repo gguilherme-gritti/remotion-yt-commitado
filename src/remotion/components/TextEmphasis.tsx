@@ -35,16 +35,13 @@ export const TextEmphasis = ({ content, position, animation }: TextEmphasisProps
           style={{
             display: 'inline-block',
             color: '#000000',
-            fontFamily: "Impact, Haettenschweiler, 'Arial Black', 'Comic Sans MS', sans-serif",
-            fontSize: 64,
-            fontWeight: 900,
-            letterSpacing: 1.5,
-            lineHeight: 1.08,
-            textTransform: 'uppercase',
+            fontFamily: "'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', cursive",
+            fontSize: 72,
+            fontWeight: 700,
+            letterSpacing: '2px',
+            lineHeight: 1.25,
             whiteSpace: 'pre-wrap',
             overflowWrap: 'anywhere',
-            WebkitTextStroke: '4px #000000',
-            paintOrder: 'stroke fill',
           }}
         >
           {content.slice(0, count)}

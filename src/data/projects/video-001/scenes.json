@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Gachiakuta — O Abismo do Lixo",
+    "title": "Você já é um programador.",
     "fps": 30,
     "totalFrames": 450,
     "audioFile": "audio/video-001.mp3"
@@ -8,8 +8,64 @@
   "scenes": [
     {
       "id": "quadro_01",
-      "durationFrames": 240,
-      "scenes_context": "Abertura no quadro branco: o narrador desenha o gancho e o primeiro símbolo do abismo.",
+      "durationFrames": 280,
+      "scenes_context": "Se você acha que programar é algo exclusivo para gênios da matemática, pessoas que passam doze horas seguidas olhando para uma tela preta repleta de letrinhas coloridas, eu tenho uma notícia para te dar.",
+      "elements": [
+        {
+          "type": "image",
+          "src": "genio_matematica.jpeg",
+          "imageIdea": "Uma fórmula matemática flutuando com um cérebro brilhando ao fundo.",
+          "startAtFrame": 0,
+          "animation": "pop_in",
+          "position": "center_left"
+        },
+        {
+          "type": "image",
+          "src": "monitor_letrinhas.jpg",
+          "imageIdea": "Um monitor antigo exibindo linhas de código organizadas e brilhantes.",
+          "startAtFrame": 45,
+          "animation": "slide_in",
+          "position": "center_right"
+        },
+        {
+          "type": "character",
+          "pose": "explicando",
+          "startAtFrame": 140,
+          "animation": "draw_in"
+        },
+        {
+          "type": "text",
+          "content": "UMA NOTÍCIA...",
+          "startAtFrame": 210,
+          "animation": "typewriter",
+          "position": "top_center"
+        }
+      ]
+    },
+    {
+      "id": "quadro_02",
+      "durationFrames": 120,
+      "scenes_context": "Você já é um programador. E provavelmente é um muito bom.",
+      "elements": [
+        {
+          "type": "text",
+          "content": "VOCÊ JÁ É UM PROGRAMADOR.",
+          "startAtFrame": 0,
+          "animation": "typewriter",
+          "position": "center"
+        },
+        {
+          "type": "character",
+          "pose": "sorrindo",
+          "startAtFrame": 50,
+          "animation": "draw_in"
+        }
+      ]
+    },
+    {
+      "id": "quadro_03",
+      "durationFrames": 360,
+      "scenes_context": "A única diferença entre você e alguém que ganha a vida escrevendo software é que a outra pessoa aprendeu a traduzir o que já faz de olhos fechados para um idioma que o computador consegue entender.",
       "elements": [
         {
           "type": "character",
@@ -19,46 +75,83 @@
         },
         {
           "type": "image",
-          "src": "panel-01.png",
-          "imageIdea": "Símbolo do abismo em nanquim, como um recorte colado no quadro.",
-          "startAtFrame": 55,
+          "src": "dolar_trabalho.jpg",
+          "imageIdea": "Mão segurando um maço de notas de dinheiro.",
+          "startAtFrame": 40,
           "animation": "pop_in",
           "position": "center_left"
         },
         {
-          "type": "text",
-          "content": "E SE O LIXO TIVESSE PODER?",
-          "startAtFrame": 18,
-          "animation": "typewriter",
-          "position": "center"
+          "type": "image",
+          "src": "tradutor_dicionario.jpg",
+          "imageIdea": "Um livro aberto com uma seta conectando uma palavra comum a um símbolo binário.",
+          "startAtFrame": 180,
+          "animation": "slide_in",
+          "position": "top_center"
+        },
+        {
+          "type": "image",
+          "src": "computador_simples.jpg",
+          "imageIdea": "Um computador de gabinete vintage emitindo luz da tela.",
+          "startAtFrame": 280,
+          "animation": "pop_in",
+          "position": "center_right"
         }
       ]
     },
     {
-      "id": "quadro_02",
-      "durationFrames": 210,
-      "scenes_context": "O quadro é limpo. Entra o impacto visual do abismo e o personagem surpreso.",
+      "id": "quadro_04",
+      "durationFrames": 90,
+      "scenes_context": "Pense comigo por um instante. O que é um programa de computador?",
       "elements": [
         {
           "type": "character",
-          "pose": "surpreso",
+          "pose": "confuso",
           "startAtFrame": 0,
           "animation": "draw_in"
         },
         {
+          "type": "text",
+          "content": "O QUE É UM PROGRAMA?",
+          "startAtFrame": 25,
+          "animation": "typewriter",
+          "position": "top_center"
+        }
+      ]
+    },
+    {
+      "id": "quadro_05",
+      "durationFrames": 300,
+      "scenes_context": "No fundo, bem no fundo, não passa de uma lista de instruções organizadas que dizem a alguém o que fazer, quando fazer e o que fazer se algo der errado.",
+      "elements": [
+        {
           "type": "image",
-          "src": "panel-02.png",
-          "imageIdea": "Rajada de linhas de impacto no centro do quadro.",
-          "startAtFrame": 10,
-          "animation": "pop_in",
-          "position": "center"
+          "src": "lista_instrucoes.jpg",
+          "imageIdea": "Uma prancheta com uma folha contendo itens checados com marca de correto.",
+          "startAtFrame": 20,
+          "animation": "slide_in",
+          "position": "center_left"
         },
         {
           "type": "text",
-          "content": "O ABISMO ESPERA.",
-          "startAtFrame": 42,
+          "content": "1. O QUE FAZER\n2. QUANDO FAZER",
+          "startAtFrame": 110,
           "animation": "typewriter",
           "position": "top_right"
+        },
+        {
+          "type": "image",
+          "src": "alerta_erro.jpeg",
+          "imageIdea": "Placa amarela em formato de triângulo com ponto de exclamação dentro.",
+          "startAtFrame": 210,
+          "animation": "pop_in",
+          "position": "center_right"
+        },
+        {
+          "type": "character",
+          "pose": "surpreso",
+          "startAtFrame": 230,
+          "animation": "draw_in"
         }
       ]
     }

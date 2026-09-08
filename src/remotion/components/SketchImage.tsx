@@ -8,7 +8,7 @@ import {
 } from 'remotion';
 import { resolveProjectImage } from '../../data/resolveAsset';
 import type { ElementPosition, ImageAnimation } from '../../types/scene';
-import { getElementPositionStyle } from './elementPosition';
+import { getSketchImagePositionStyle } from './elementPosition';
 import { POP_SPRING } from './motion';
 
 interface SketchImageProps {
@@ -35,14 +35,14 @@ export const SketchImage = ({ videoId, src, position, animation }: SketchImagePr
 
   return (
     <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 10 }}>
-      <div style={getElementPositionStyle(position)}>
+      <div style={getSketchImagePositionStyle(position)}>
         <Img
           src={resolveProjectImage(videoId, src)}
           style={{
             display: 'block',
-            width: 820,
-            maxWidth: 880,
-            maxHeight: 760,
+            width: 420,
+            maxWidth: 450,
+            maxHeight: 450,
             height: 'auto',
             objectFit: 'contain',
             backgroundColor: 'transparent',
