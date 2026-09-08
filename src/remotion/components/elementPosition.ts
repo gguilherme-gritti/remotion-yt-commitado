@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { ElementPosition } from '../../types/scene';
+import type { CharacterPosition, ElementPosition } from '../../types/scene';
 
 const SAFE_MARGIN_PX = 80;
 
@@ -56,5 +56,102 @@ export function getSketchImagePositionStyle(position: ElementPosition): CSSPrope
       return { ...base, bottom: SAFE_MARGIN_PX, left: SAFE_MARGIN_PX };
     case 'bottom_right':
       return { ...base, bottom: SAFE_MARGIN_PX, right: 220 };
+  }
+}
+
+export function getCharacterLayoutStyle(position: CharacterPosition): {
+  wrapper: CSSProperties;
+  image: CSSProperties;
+} {
+  const imageBase: CSSProperties = {
+    display: 'block',
+    objectFit: 'contain',
+    mixBlendMode: 'multiply',
+  };
+
+  switch (position) {
+    case 'bottom_left':
+      return {
+        wrapper: {
+          ...base,
+          left: 40,
+          bottom: 0,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'flex-start',
+          overflow: 'visible',
+        },
+        image: {
+          ...imageBase,
+          height: 540,
+          maxHeight: '100%',
+          width: 'auto',
+          maxWidth: 480,
+          objectPosition: 'bottom left',
+        },
+      };
+    case 'left_giant':
+      return {
+        wrapper: {
+          ...base,
+          left: 0,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '38%',
+          height: '92%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          overflow: 'visible',
+        },
+        image: {
+          ...imageBase,
+          width: '100%',
+          height: '100%',
+          objectPosition: 'left center',
+        },
+      };
+    case 'center':
+      return {
+        wrapper: {
+          ...base,
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '42%',
+          height: '78%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'visible',
+        },
+        image: {
+          ...imageBase,
+          width: '100%',
+          height: '100%',
+          objectPosition: 'center center',
+        },
+      };
+    case 'bottom_right':
+    default:
+      return {
+        wrapper: {
+          ...base,
+          right: 40,
+          bottom: 0,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'flex-end',
+          overflow: 'visible',
+        },
+        image: {
+          ...imageBase,
+          height: 540,
+          maxHeight: '100%',
+          width: 'auto',
+          maxWidth: 480,
+          objectPosition: 'bottom right',
+        },
+      };
   }
 }

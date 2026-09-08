@@ -20,9 +20,9 @@
         },
         {
           "startAtFrame": 240,
-          "type": "pan_right",
-          "target": "bottom_right",
-          "zoom": 1.2
+          "type": "zoom_in",
+          "target": "speech_bubble",
+          "zoom": 1.45
         }
       ],
       "elements": [
@@ -54,7 +54,8 @@
           "type": "character",
           "pose": "explicando",
           "startAtFrame": 180,
-          "animation": "draw_in"
+          "animation": "draw_in",
+          "position": "bottom_right"
         },
         {
           "type": "image",

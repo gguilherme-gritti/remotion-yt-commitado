@@ -9,18 +9,32 @@ export type ElementPosition =
   | 'bottom_left'
   | 'bottom_right';
 
+export type CharacterPosition = 'bottom_right' | 'bottom_left' | 'left_giant' | 'center';
+
+export type CameraTarget = ElementPosition | CharacterPosition | 'speech_bubble';
+
 export type CameraAnimation = 'none' | 'zoom_in' | 'zoom_out' | 'pan_right' | 'pan_left';
 
 export interface CameraMove {
   startAtFrame: number;
   type: CameraAnimation;
-  target: ElementPosition;
+  target: CameraTarget;
   zoom: number;
 }
 
 export type CharacterAnimation = 'draw_in';
 
 export type ImageAnimation = 'pop_in' | 'slide_in' | 'none';
+
+export type ImageSize = 'small' | 'medium' | 'large' | 'hero';
+
+export type LayoutType =
+  | 'balao_pensamento'
+  | 'lista_condicional'
+  | 'equacao_visual'
+  | 'teia_radial'
+  | 'fluxo_vertical'
+  | 'split_comparativo';
 
 export type TextAnimation = 'typewriter';
 
@@ -33,6 +47,7 @@ export interface CharacterElement extends SceneElementBase {
   type: 'character';
   pose: string;
   animation: CharacterAnimation;
+  position?: CharacterPosition;
 }
 
 export interface ImageElement extends SceneElementBase {
@@ -41,6 +56,8 @@ export interface ImageElement extends SceneElementBase {
   imageIdea: string;
   animation?: ImageAnimation;
   position: ElementPosition;
+  size?: ImageSize;
+  scale?: number;
 }
 
 export interface TextElement extends SceneElementBase {
@@ -57,6 +74,7 @@ export interface SceneSchema {
   id: string;
   durationFrames: number;
   scenes_context: string;
+  layoutType?: LayoutType;
   elements: SceneElement[];
   cameraMoves: CameraMove[];
 }

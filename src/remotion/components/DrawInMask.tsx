@@ -4,9 +4,10 @@ import { DRAW_SPRING } from './motion';
 
 interface DrawInMaskProps {
   children: ReactNode;
+  fill?: boolean;
 }
 
-export const DrawInMask = ({ children }: DrawInMaskProps) => {
+export const DrawInMask = ({ children, fill = false }: DrawInMaskProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -24,7 +25,9 @@ export const DrawInMask = ({ children }: DrawInMaskProps) => {
   return (
     <div
       style={{
-        display: 'inline-flex',
+        display: fill ? 'flex' : 'inline-flex',
+        width: fill ? '100%' : undefined,
+        height: fill ? '100%' : undefined,
         clipPath: `inset(${clipTop}% 0% 0% 0%)`,
       }}
     >

@@ -10,11 +10,12 @@ interface TextEmphasisProps {
   content: string;
   position: ElementPosition;
   animation: TextAnimation;
+  inline?: boolean;
 }
 
 const CHARS_PER_SECOND = 22;
 
-export const TextEmphasis = ({ content, position, animation }: TextEmphasisProps) => {
+export const TextEmphasis = ({ content, position, animation, inline = false }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const charsPerFrame = CHARS_PER_SECOND / fps;
@@ -24,6 +25,30 @@ export const TextEmphasis = ({ content, position, animation }: TextEmphasisProps
       : content.length;
 
   const isCenter = position === 'center';
+
+  const text = (
+    <span
+      style={{
+        display: 'block',
+        width: inline ? 'auto' : '100%',
+        color: '#000000',
+        fontFamily: "'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', cursive",
+        fontSize: inline ? 48 : 72,
+        fontWeight: 700,
+        letterSpacing: '2px',
+        lineHeight: 1.25,
+        textAlign: isCenter || inline ? 'center' : 'left',
+        whiteSpace: 'pre-wrap',
+        overflowWrap: 'anywhere',
+      }}
+    >
+      {content.slice(0, count)}
+    </span>
+  );
+
+  if (inline) {
+    return text;
+  }
 
   return (
     <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 30 }}>
@@ -45,23 +70,7 @@ export const TextEmphasis = ({ content, position, animation }: TextEmphasisProps
               }
         }
       >
-        <span
-          style={{
-            display: 'block',
-            width: '100%',
-            color: '#000000',
-            fontFamily: "'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', cursive",
-            fontSize: 72,
-            fontWeight: 700,
-            letterSpacing: '2px',
-            lineHeight: 1.25,
-            textAlign: isCenter ? 'center' : 'left',
-            whiteSpace: 'pre-wrap',
-            overflowWrap: 'anywhere',
-          }}
-        >
-          {content.slice(0, count)}
-        </span>
+        {text}
       </div>
     </AbsoluteFill>
   );

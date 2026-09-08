@@ -17,7 +17,7 @@
 - **Cena = Quadro em Branco:** Cada `Scene` limpa a tela. O início absoluto da cena é a soma das `durationFrames` anteriores. Elementos entram via `<Sequence from={element.startAtFrame}>` e permanecem até o fim da cena.
 - **Câmera dinâmica:** `scene.cameraMoves` interpola `scale` e `translate` no container do quadro (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake.
 - **Transição de borracha:** nos últimos 22 frames do quadro, um wipe de `clip-path` apaga o nanquim e revela o próximo quadro branco.
-- **Contrato do roteirista:** `character.pose`, `image.src` + `image.imageIdea`, `text.content`, `scenes_context`. Sem `id` nos elements e sem `startFrame` na scene.
+- **Layouts modulares:** `scene.layoutType` escolhe o arquétipo da lousa (`balao_pensamento`, `lista_condicional`, `equacao_visual`, `teia_radial`, `fluxo_vertical`, `split_comparativo`). Sem `layoutType`, usa `FreeformLayout`.
 
 ## Regras Obrigatórias do Remotion
 
@@ -39,6 +39,7 @@
 
 - Imagens devem ter fundo transparente ou `mix-blend-mode: multiply` para o nanquim assentar no branco.
 - Posição absoluta via `element.position` (`center_left`, `center_right`, `top_center`, etc.).
+- Tamanho opcional via `size` (`small` 220px, `medium` 480px, `large` 700px, `hero` 950px) ou `scale` numérico sobre a largura base.
 - Entrada padrão: `pop_in` com `spring` de escala. Se `animation` vier vazia ou `'none'`, usar spring suave (0.85 → 1) e fade de 10 frames. Nenhuma imagem surge seca.
 - Evite _fades_ suaves e lentos (dissolve).
 
@@ -48,12 +49,12 @@
 - **Borda/Contorno:** Textos DEVEM ter contorno preto grosso via `WebkitTextStroke` (de 4px a 6px).
 - **Animações de Texto:** `typewriter` revela caracteres com `useCurrentFrame()`. `pop_in` usa spring de escala.
 
-### 4. Personagens e Sobreposições (<CharacterOverlay />)
+### 4. Personagens e Sobreposições (<Character />)
 
-- O personagem base fica fixado no canto inferior direito (`bottom: 0`, `right`).
 - Pose vem de `element.pose` e resolve para `public/characters/{pose}.svg`.
+- Posição via `element.position`: `bottom_right` (padrão), `bottom_left`, `left_giant` (`left: 0`, `width: 38%`, centro vertical) ou `center`.
 - Animação padrão `draw_in`: máscara wipe-up (`clip-path` + `spring`) simulando o avatar sendo desenhado de baixo para cima.
-- Sem speedlines, screen shake ou impacto de câmera.
+- `cameraMoves.target` pode focar sub-regiões (`top_left`, `top_right`, `speech_bubble`, `center`) com zoom até 1.6x.
 
 ## Padrão de Código
 
