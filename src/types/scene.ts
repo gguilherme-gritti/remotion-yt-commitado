@@ -9,9 +9,20 @@ export type ElementPosition =
   | 'bottom_left'
   | 'bottom_right';
 
-export type CharacterPosition = 'bottom_right' | 'bottom_left' | 'left_giant' | 'center';
+export type CharacterPosition =
+  | 'bottom_right'
+  | 'bottom_left'
+  | 'bottom_center'
+  | 'left_giant'
+  | 'center';
 
-export type CameraTarget = ElementPosition | CharacterPosition | 'speech_bubble';
+export type CameraTarget =
+  | ElementPosition
+  | CharacterPosition
+  | 'speech_bubble'
+  | 'equation_a'
+  | 'equation_op'
+  | 'equation_b';
 
 export type CameraAnimation = 'none' | 'zoom_in' | 'zoom_out' | 'pan_right' | 'pan_left';
 

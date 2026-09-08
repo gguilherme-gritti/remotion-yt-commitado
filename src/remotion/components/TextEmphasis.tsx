@@ -16,7 +16,7 @@ interface TextEmphasisProps {
   textAlign?: 'left' | 'center' | 'right';
 }
 
-const CHARS_PER_SECOND = 22;
+export const TYPEWRITER_CHARS_PER_SECOND = 22;
 
 export const TextEmphasis = ({
   content,
@@ -28,7 +28,7 @@ export const TextEmphasis = ({
 }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const charsPerFrame = CHARS_PER_SECOND / fps;
+  const charsPerFrame = TYPEWRITER_CHARS_PER_SECOND / fps;
   const count =
     animation === 'typewriter'
       ? Math.min(content.length, Math.floor(Math.max(0, frame) * charsPerFrame))

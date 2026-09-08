@@ -1,5 +1,6 @@
 import type { CameraMove, SceneSchema } from '../../../types/scene';
 import { getBalloonLayoutCameraMoves } from './balloonDefaults';
+import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
@@ -8,6 +9,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getBalloonLayoutCameraMoves(scene);
     case 'lista_condicional':
       return getListLayoutCameraMoves(scene);
+    case 'equacao_visual':
+      return getEquationLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }

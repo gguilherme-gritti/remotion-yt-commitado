@@ -105,5 +105,11 @@ function getCameraFocusPoint(target: CameraTarget): { x: number; y: number } {
       return { x: CANVAS_WIDTH * 0.82, y: CANVAS_HEIGHT * 0.82 };
     case 'left_giant':
       return { x: CANVAS_WIDTH * 0.18, y: CENTER_Y };
+    case 'equation_a':
+      return { x: CANVAS_WIDTH * 0.16, y: CANVAS_HEIGHT * 0.48 };
+    case 'equation_op':
+      return { x: CENTER_X, y: CANVAS_HEIGHT * 0.48 };
+    case 'equation_b':
+      return { x: CANVAS_WIDTH * 0.84, y: CANVAS_HEIGHT * 0.48 };
   }
 }

@@ -1,12 +1,8 @@
 {
   "id": "preview_equacao_visual",
-  "durationFrames": 210,
+  "durationFrames": 360,
   "layoutType": "equacao_visual",
-  "scenes_context": "EquationLayout: pergunta no topo e linha [A] + [seta] + [B] no centro.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
-    { "startAtFrame": 90, "type": "zoom_in", "target": "center", "zoom": 1.18 }
-  ],
+  "scenes_context": "EquationLayout: typewriter e respiro no título, close estático no objeto A, pan para a seta, pan para B, zoom out com o personagem curioso.",
   "elements": [
     {
       "type": "text",
@@ -19,7 +15,7 @@
       "type": "image",
       "src": "brain_math.jpeg",
       "imageIdea": "Objeto A da equação: o cérebro.",
-      "startAtFrame": 30,
+      "startAtFrame": 92,
       "animation": "pop_in",
       "position": "center_left",
       "size": "medium"
@@ -28,7 +24,7 @@
       "type": "image",
       "src": "seta_solida.jpg",
       "imageIdea": "Símbolo da equação: seta sólida.",
-      "startAtFrame": 54,
+      "startAtFrame": 182,
       "animation": "pop_in",
       "position": "center",
       "size": "small"
@@ -37,7 +33,7 @@
       "type": "image",
       "src": "computador_amigavel.jpg",
       "imageIdea": "Objeto B da equação: o computador.",
-      "startAtFrame": 78,
+      "startAtFrame": 242,
       "animation": "slide_in",
       "position": "center_right",
       "size": "medium"
@@ -45,9 +41,9 @@
     {
       "type": "character",
       "pose": "curioso",
-      "startAtFrame": 110,
+      "startAtFrame": 264,
       "animation": "draw_in",
-      "position": "bottom_right"
+      "position": "bottom_center"
     }
   ]
 }
