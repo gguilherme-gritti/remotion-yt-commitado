@@ -89,7 +89,9 @@ export function getSplitLayoutParts(scene: SceneSchema): {
     (element): element is CharacterElement => element.type === 'character',
   );
 
-  const board = scene.elements.filter((element) => element.type !== 'character');
+  const board = scene.elements.filter(
+    (element) => element.type !== 'character' && element.type !== 'annotation',
+  );
   const leftByPosition = sortByStart(
     board.filter((element) => isLeftPosition(element.position)),
   );

@@ -18,7 +18,9 @@
       "startAtFrame": 24,
       "animation": "pop_in",
       "position": "center_left",
-      "size": "medium"
+      "size": "medium",
+      "annotation": "red_x",
+      "annotationStartFrame": 40
     },
     {
       "type": "text",
@@ -34,7 +36,9 @@
       "startAtFrame": 72,
       "animation": "slide_in",
       "position": "center_right",
-      "size": "medium"
+      "size": "medium",
+      "annotation": "green_check",
+      "annotationStartFrame": 88
     },
     {
       "type": "character",

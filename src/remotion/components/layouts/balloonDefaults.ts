@@ -75,7 +75,7 @@ export function getBalloonLayoutParts(scene: SceneSchema): {
     images.find(isBalloonImage) ??
     images.find((element) => element.size === 'hero' || element.size === 'large');
   const inner = scene.elements.filter((element) => {
-    if (element.type === 'character') {
+    if (element.type === 'character' || element.type === 'annotation') {
       return false;
     }
 

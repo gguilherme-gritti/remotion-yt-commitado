@@ -30,6 +30,7 @@ const SLOT_BASE: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  overflow: 'visible',
 };
 
 export const RADIAL_SAFEZONE_STYLE: CSSProperties = {
@@ -104,7 +105,10 @@ export function getRadialLayoutParts(scene: SceneSchema): {
   );
   const master = pickRadialMaster(images);
   const satellites = scene.elements.filter(
-    (element) => element !== master && element.type !== 'character',
+    (element) =>
+      element !== master &&
+      element.type !== 'character' &&
+      element.type !== 'annotation',
   );
 
   return { character, master, satellites };

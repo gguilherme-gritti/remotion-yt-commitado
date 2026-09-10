@@ -18,7 +18,10 @@
       "startAtFrame": 100,
       "animation": "pop_in",
       "position": "center",
-      "size": "medium"
+      "size": "medium",
+      "lineBoil": true,
+      "annotation": "cross_hatch",
+      "annotationStartFrame": 118
     },
     {
       "type": "image",
@@ -36,7 +39,9 @@
       "startAtFrame": 136,
       "animation": "slide_in",
       "position": "top_right",
-      "size": "small"
+      "size": "small",
+      "annotation": "encircle",
+      "annotationStartFrame": 148
     },
     {
       "type": "image",
@@ -54,7 +59,9 @@
       "startAtFrame": 172,
       "animation": "pop_in",
       "position": "bottom_right",
-      "size": "small"
+      "size": "small",
+      "annotation": "ink_splatter",
+      "annotationStartFrame": 184
     }
   ]
 }

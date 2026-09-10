@@ -8,7 +8,10 @@
       "content": "FREEFORM",
       "startAtFrame": 0,
       "animation": "typewriter",
-      "position": "top_center"
+      "position": "top_center",
+      "annotation": "highlight",
+      "annotationStartFrame": 16,
+      "highlightColor": "#FFD000"
     },
     {
       "type": "image",
@@ -26,7 +29,17 @@
       "startAtFrame": 42,
       "animation": "slide_in",
       "position": "center",
-      "size": "small"
+      "size": "small",
+      "annotation": "drawn_arrow",
+      "annotationDirection": "right",
+      "annotationColor": "#D62828",
+      "annotationStartFrame": 58
+    },
+    {
+      "type": "annotation",
+      "effect": "red_x",
+      "position": "center_right",
+      "startAtFrame": 84
     },
     {
       "type": "image",

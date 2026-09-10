@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import type { SceneSchema } from '../../types/scene';
+import type { AnnotationElement, SceneSchema } from '../../types/scene';
 import { getDynamicCamera } from '../components/dynamicCamera';
 import { EraserWipe } from '../components/EraserWipe';
 import { FreeformLayout, LAYOUT_MAP, resolveLayoutCameraMoves } from '../components/layouts';
+import { TimedElement } from '../components/SceneElementView';
 
 interface SceneProps {
   videoId: string;
@@ -15,6 +16,9 @@ export const Scene: FC<SceneProps> = ({ videoId, scene }) => {
   const { scale, x, y } = getDynamicCamera(resolveLayoutCameraMoves(scene), frame);
   const LayoutComponent =
     (scene.layoutType && LAYOUT_MAP[scene.layoutType]) || FreeformLayout;
+  const annotations = scene.elements.filter(
+    (element): element is AnnotationElement => element.type === 'annotation',
+  );
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#ffffff', overflow: 'hidden' }}>
@@ -26,6 +30,15 @@ export const Scene: FC<SceneProps> = ({ videoId, scene }) => {
           }}
         >
           <LayoutComponent videoId={videoId} scene={scene} />
+          {annotations.map((element, index) => (
+            <TimedElement
+              key={`${scene.id}-annotation-${index}`}
+              sceneId={scene.id}
+              index={900 + index}
+              videoId={videoId}
+              element={element}
+            />
+          ))}
         </AbsoluteFill>
       </EraserWipe>
     </AbsoluteFill>

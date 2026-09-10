@@ -15,3 +15,9 @@ export const DRAW_SPRING = {
   damping: 18,
   stiffness: 80,
 } as const;
+
+export const MARKER_SPRING = {
+  mass: 0.35,
+  damping: 16,
+  stiffness: 190,
+} as const;

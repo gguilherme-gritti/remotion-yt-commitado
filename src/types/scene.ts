@@ -56,9 +56,45 @@ export type LayoutType =
 
 export type TextAnimation = 'typewriter';
 
+export type AnnotationKind =
+  | 'red_x'
+  | 'green_check'
+  | 'drawn_arrow'
+  | 'highlight'
+  | 'cross_hatch'
+  | 'ink_splatter'
+  | 'encircle'
+  | 'none';
+
+export type AnnotationEffect =
+  | 'red_x'
+  | 'green_check'
+  | 'drawn_arrow'
+  | 'highlight'
+  | 'cross_hatch'
+  | 'ink_splatter'
+  | 'encircle';
+
+export type AnnotationDirection = 'right' | 'left' | 'up' | 'down' | 'curve_right';
+
 interface SceneElementBase {
   /** Frame relativo ao início da scene. O elemento permanece até o quadro ser limpo. */
   startAtFrame: number;
+  /** Rabisco sobreposto à caixa do elemento (ex.: X vermelho de canetinha). */
+  annotation?: AnnotationKind;
+  /** Frame da scene em que a anotação começa a ser desenhada. Default: startAtFrame. */
+  annotationStartFrame?: number;
+  /** Cor da canetinha. Usado por `drawn_arrow` e `encircle` (default nanquim `#111111`). */
+  annotationColor?: string;
+  /** Cor do marca-texto. Usado por `highlight`. Default: `#FFD000`. */
+  highlightColor?: string;
+  /** Direção da seta. Usado por `drawn_arrow`. Default: `right`. */
+  annotationDirection?: AnnotationDirection;
+  /**
+   * Traço vivo (line boil). Default: `true` em imagens e personagens,
+   * `false` em textos.
+   */
+  lineBoil?: boolean;
 }
 
 export interface CharacterElement extends SceneElementBase {
@@ -85,7 +121,18 @@ export interface TextElement extends SceneElementBase {
   position: ElementPosition;
 }
 
-export type SceneElement = CharacterElement | ImageElement | TextElement;
+export interface AnnotationElement extends SceneElementBase {
+  type: 'annotation';
+  effect: AnnotationEffect;
+  position: ElementPosition;
+  scale?: number;
+}
+
+export type SceneElement =
+  | CharacterElement
+  | ImageElement
+  | TextElement
+  | AnnotationElement;
 
 /** Cada scene é um quadro em branco. Ao trocar de scene, a tela é limpa. */
 export interface SceneSchema {
