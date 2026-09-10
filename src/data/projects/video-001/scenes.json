@@ -2,16 +2,16 @@
   "meta": {
     "title": "Preview — Layouts Modulares",
     "fps": 30,
-    "totalFrames": 1470,
+    "totalFrames": 1920,
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
-    "balao_pensamento",
-    "freeform",
-    "lista_condicional",
-    "equacao_visual",
-    "teia_radial",
+    "split_comparativo",
     "fluxo_vertical",
-    "split_comparativo"
+    "teia_radial",
+    "equacao_visual",
+    "lista_condicional",
+    "balao_pensamento",
+    "freeform"
   ]
 }

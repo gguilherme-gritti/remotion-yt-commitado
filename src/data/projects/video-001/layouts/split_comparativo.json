@@ -2,12 +2,7 @@
   "id": "preview_split_comparativo",
   "durationFrames": 210,
   "layoutType": "split_comparativo",
-  "scenes_context": "SplitLayout: metade esquerda vs metade direita, comparação lado a lado.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
-    { "startAtFrame": 50, "type": "pan_left", "target": "center_left", "zoom": 1.12 },
-    { "startAtFrame": 120, "type": "pan_right", "target": "center_right", "zoom": 1.12 }
-  ],
+  "scenes_context": "SplitLayout: coluna esquerda vs direita (texto + imagem), câmera parada. Personagem default surpreso em bottom_right.",
   "elements": [
     {
       "type": "text",

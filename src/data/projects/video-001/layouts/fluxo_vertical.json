@@ -1,13 +1,8 @@
 {
   "id": "preview_fluxo_vertical",
-  "durationFrames": 210,
+  "durationFrames": 480,
   "layoutType": "fluxo_vertical",
-  "scenes_context": "VerticalFlowLayout: pilha top_center, center e bottom_center para a câmera descer o fluxo.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "top_center", "zoom": 1.1 },
-    { "startAtFrame": 60, "type": "zoom_in", "target": "center", "zoom": 1.15 },
-    { "startAtFrame": 120, "type": "zoom_in", "target": "bottom_center", "zoom": 1.2 }
-  ],
+  "scenes_context": "VerticalFlowLayout: título, close em cada item da pilha, pan para baixo, zoom out com o personagem à direita. Legendas opcionais (center_left) typewriter na faixa esquerda após o draw_in.",
   "elements": [
     {
       "type": "text",
@@ -18,28 +13,51 @@
     },
     {
       "type": "image",
+      "src": "prancheta_checklist.jpg",
+      "imageIdea": "Primeiro passo do fluxo, no topo.",
+      "startAtFrame": 32,
+      "animation": "pop_in",
+      "position": "top_center",
+      "size": "small"
+    },
+    {
+      "type": "image",
       "src": "seta_zigue_zague.jpg",
-      "imageIdea": "Seta em zigue-zague no meio do fluxo.",
-      "startAtFrame": 30,
+      "imageIdea": "Segundo passo do fluxo, no meio.",
+      "startAtFrame": 82,
       "animation": "slide_in",
       "position": "center",
-      "size": "medium"
+      "size": "small"
     },
     {
       "type": "image",
       "src": "x_vermelho.jpeg",
-      "imageIdea": "X vermelho na base do fluxo.",
-      "startAtFrame": 60,
+      "imageIdea": "Terceiro passo do fluxo, na base.",
+      "startAtFrame": 132,
       "animation": "pop_in",
       "position": "bottom_center",
-      "size": "medium"
+      "size": "small"
     },
     {
       "type": "character",
       "pose": "desconfiado",
-      "startAtFrame": 90,
+      "startAtFrame": 146,
       "animation": "draw_in",
       "position": "bottom_right"
+    },
+    {
+      "type": "text",
+      "content": "PASSO A PASSO",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "center_left"
+    },
+    {
+      "type": "text",
+      "content": "NÃO SOBREPOR",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "center_left"
     }
   ]
 }

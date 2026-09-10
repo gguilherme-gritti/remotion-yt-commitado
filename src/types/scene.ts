@@ -9,9 +9,21 @@ export type ElementPosition =
   | 'bottom_left'
   | 'bottom_right';
 
-export type CharacterPosition = 'bottom_right' | 'bottom_left' | 'left_giant' | 'center';
+export type CharacterPosition =
+  | 'bottom_right'
+  | 'bottom_left'
+  | 'bottom_center'
+  | 'left_giant'
+  | 'center';
 
-export type CameraTarget = ElementPosition | CharacterPosition | 'speech_bubble';
+export type CameraTarget =
+  | ElementPosition
+  | CharacterPosition
+  | 'speech_bubble'
+  | 'equation_a'
+  | 'equation_op'
+  | 'equation_b'
+  | 'radial_web';
 
 export type CameraAnimation = 'none' | 'zoom_in' | 'zoom_out' | 'pan_right' | 'pan_left';
 
@@ -20,6 +32,12 @@ export interface CameraMove {
   type: CameraAnimation;
   target: CameraTarget;
   zoom: number;
+  /** 0–1. Se existir, substitui o X do target. */
+  focusX?: number;
+  /** 0–1. Se existir, substitui o Y do target. */
+  focusY?: number;
+  /** Duração da interpolação. Default: 42. */
+  blendFrames?: number;
 }
 
 export type CharacterAnimation = 'draw_in';

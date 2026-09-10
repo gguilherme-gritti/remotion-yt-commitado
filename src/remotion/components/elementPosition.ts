@@ -132,6 +132,27 @@ export function getCharacterLayoutStyle(position: CharacterPosition): {
           objectPosition: 'center center',
         },
       };
+    case 'bottom_center':
+      return {
+        wrapper: {
+          ...base,
+          left: '50%',
+          bottom: 0,
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          overflow: 'visible',
+        },
+        image: {
+          ...imageBase,
+          height: 350,
+          maxHeight: '100%',
+          width: 'auto',
+          maxWidth: 310,
+          objectPosition: 'bottom center',
+        },
+      };
     case 'bottom_right':
     default:
       return {

@@ -10,6 +10,7 @@ import { CAMERA_BLEND_FRAMES } from '../dynamicCamera';
 import { ERASER_FRAMES } from '../EraserWipe';
 
 export const BALLOON_CHARACTER_POSE = 'pensativo';
+export const BALLOON_CHARACTER_SHIFT_PX = 280;
 export const BALLOON_ZOOM = 2.25;
 export const BALLOON_LIFT_PX = -148;
 export const BALLOON_STRETCH_X = 1.72;

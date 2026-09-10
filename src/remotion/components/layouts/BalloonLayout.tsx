@@ -3,6 +3,7 @@ import { AbsoluteFill } from 'remotion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
+  BALLOON_CHARACTER_SHIFT_PX,
   BALLOON_INNER_FONT_SIZE,
   BALLOON_INNER_IMAGE_SCALE,
   BALLOON_INNER_STYLE,
@@ -17,14 +18,23 @@ export const BalloonLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   return (
     <AbsoluteFill>
       {characters.map((element, index) => (
-        <TimedElement
+        <div
           key={`${scene.id}-char-${index}`}
-          sceneId={scene.id}
-          index={index}
-          videoId={videoId}
-          element={element}
-          characterPosition="bottom_left"
-        />
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 50,
+            transform: `translateX(${BALLOON_CHARACTER_SHIFT_PX}px)`,
+          }}
+        >
+          <TimedElement
+            sceneId={scene.id}
+            index={index}
+            videoId={videoId}
+            element={element}
+            characterPosition="bottom_left"
+          />
+        </div>
       ))}
 
       {balloon ? (
@@ -32,6 +42,7 @@ export const BalloonLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
           style={{
             position: 'absolute',
             inset: 0,
+            zIndex: 10,
             transform: `translateY(${BALLOON_LIFT_PX}px) scaleX(${BALLOON_STRETCH_X})`,
             transformOrigin: 'center top',
           }}

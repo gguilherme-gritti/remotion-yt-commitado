@@ -1,28 +1,30 @@
 {
   "id": "preview_teia_radial",
-  "durationFrames": 210,
+  "durationFrames": 240,
   "layoutType": "teia_radial",
-  "scenes_context": "RadialWebLayout: objeto large no centro e satélites small nos quatro cantos.",
-  "cameraMoves": [
-    { "startAtFrame": 0, "type": "none", "target": "center", "zoom": 1 },
-    { "startAtFrame": 70, "type": "zoom_in", "target": "center", "zoom": 1.15 },
-    { "startAtFrame": 130, "type": "zoom_in", "target": "top_right", "zoom": 1.35 }
-  ],
+  "scenes_context": "RadialWebLayout: zanka parado embaixo; a câmera sobe e tira o personagem; a teia nasce na safezone superior.",
   "elements": [
+    {
+      "type": "character",
+      "pose": "zanka.png",
+      "startAtFrame": 0,
+      "animation": "draw_in",
+      "position": "bottom_center"
+    },
     {
       "type": "image",
       "src": "prancheta_checklist.jpg",
       "imageIdea": "Objeto mestre no centro da teia.",
-      "startAtFrame": 0,
+      "startAtFrame": 100,
       "animation": "pop_in",
       "position": "center",
-      "size": "large"
+      "size": "medium"
     },
     {
       "type": "image",
       "src": "seta_dupla.jpg",
       "imageIdea": "Seta satélite no canto superior esquerdo.",
-      "startAtFrame": 24,
+      "startAtFrame": 118,
       "animation": "pop_in",
       "position": "top_left",
       "size": "small"
@@ -31,7 +33,7 @@
       "type": "image",
       "src": "relogio_mecanico.jpg",
       "imageIdea": "Relógio satélite no canto superior direito.",
-      "startAtFrame": 42,
+      "startAtFrame": 136,
       "animation": "slide_in",
       "position": "top_right",
       "size": "small"
@@ -40,7 +42,7 @@
       "type": "image",
       "src": "dolar_trabalho.jpg",
       "imageIdea": "Dinheiro satélite no canto inferior esquerdo.",
-      "startAtFrame": 60,
+      "startAtFrame": 154,
       "animation": "pop_in",
       "position": "bottom_left",
       "size": "small"
@@ -49,17 +51,10 @@
       "type": "image",
       "src": "placa_alerta.jpeg",
       "imageIdea": "Alerta satélite no canto inferior direito.",
-      "startAtFrame": 78,
+      "startAtFrame": 172,
       "animation": "pop_in",
       "position": "bottom_right",
       "size": "small"
-    },
-    {
-      "type": "character",
-      "pose": "sorrindo",
-      "startAtFrame": 110,
-      "animation": "draw_in",
-      "position": "bottom_right"
     }
   ]
 }

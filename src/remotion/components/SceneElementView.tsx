@@ -25,6 +25,12 @@ export interface SceneElementViewProps {
   size?: ImageSize;
   scale?: number;
   fontSize?: number;
+  textAlign?: 'left' | 'center' | 'right';
+  color?: string;
+  strokeColor?: string;
+  strokeWidth?: number;
+  nowrap?: boolean;
+  letterSpacing?: number;
 }
 
 export const SceneElementView: FC<SceneElementViewProps> = ({
@@ -36,6 +42,12 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
   size,
   scale,
   fontSize,
+  textAlign,
+  color,
+  strokeColor,
+  strokeWidth,
+  nowrap,
+  letterSpacing,
 }) => {
   switch (element.type) {
     case 'character':
@@ -66,6 +78,12 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           animation={element.animation}
           inline={inline}
           fontSize={fontSize}
+          textAlign={textAlign}
+          color={color}
+          strokeColor={strokeColor}
+          strokeWidth={strokeWidth}
+          nowrap={nowrap}
+          letterSpacing={letterSpacing}
         />
       );
   }

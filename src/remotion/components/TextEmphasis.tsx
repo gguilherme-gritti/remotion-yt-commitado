@@ -13,9 +13,15 @@ interface TextEmphasisProps {
   animation: TextAnimation;
   inline?: boolean;
   fontSize?: number;
+  textAlign?: 'left' | 'center' | 'right';
+  color?: string;
+  strokeColor?: string;
+  strokeWidth?: number;
+  nowrap?: boolean;
+  letterSpacing?: number;
 }
 
-const CHARS_PER_SECOND = 22;
+export const TYPEWRITER_CHARS_PER_SECOND = 22;
 
 export const TextEmphasis = ({
   content,
@@ -23,10 +29,16 @@ export const TextEmphasis = ({
   animation,
   inline = false,
   fontSize,
+  textAlign,
+  color = '#000000',
+  strokeColor,
+  strokeWidth,
+  nowrap = false,
+  letterSpacing,
 }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const charsPerFrame = CHARS_PER_SECOND / fps;
+  const charsPerFrame = TYPEWRITER_CHARS_PER_SECOND / fps;
   const count =
     animation === 'typewriter'
       ? Math.min(content.length, Math.floor(Math.max(0, frame) * charsPerFrame))
@@ -37,17 +49,22 @@ export const TextEmphasis = ({
   const text = (
     <span
       style={{
-        display: 'block',
-        width: inline ? 'auto' : '100%',
-        color: '#000000',
+        display: nowrap ? 'inline-block' : 'block',
+        width: inline || nowrap ? 'auto' : '100%',
+        color,
+        WebkitTextStroke:
+          strokeColor && strokeWidth
+            ? `${strokeWidth}px ${strokeColor}`
+            : undefined,
+        paintOrder: strokeColor ? 'stroke fill' : undefined,
         fontFamily: `'${ANIME_ACE_FONT_FAMILY}', 'Anime Ace 2.0 BB', sans-serif`,
         fontSize: fontSize ?? (inline ? 48 : 72),
         fontWeight: 700,
-        letterSpacing: '2px',
+        letterSpacing: letterSpacing != null ? `${letterSpacing}px` : '2px',
         lineHeight: 1.25,
-        textAlign: isCenter || inline ? 'center' : 'left',
-        whiteSpace: 'pre-wrap',
-        overflowWrap: 'anywhere',
+        textAlign: textAlign ?? (isCenter || inline ? 'center' : 'left'),
+        whiteSpace: nowrap ? 'nowrap' : 'pre-wrap',
+        overflowWrap: nowrap ? 'normal' : 'anywhere',
       }}
     >
       {content.slice(0, count)}

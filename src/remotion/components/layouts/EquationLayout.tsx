@@ -1,77 +1,92 @@
 import type { FC } from 'react';
-import { AbsoluteFill } from 'remotion';
-import type { SceneElement } from '../../../types/scene';
+import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { getDynamicCamera } from '../dynamicCamera';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
-
-function isQuestionText(element: SceneElement): boolean {
-  return (
-    element.type === 'text' &&
-    (element.position === 'top_center' || element.content.includes('?') || element.content.length > 18)
-  );
-}
-
-function isEquationPiece(element: SceneElement): boolean {
-  if (element.type === 'character') {
-    return false;
-  }
-  return !isQuestionText(element);
-}
+import { resolveLayoutCameraMoves } from './layoutCamera';
+import {
+  EQUATION_CHARACTER_SCALE,
+  EQUATION_SLOT_OP_STYLE,
+  EQUATION_SLOT_STYLE,
+  EQUATION_TITLE_FONT_SIZE,
+  getEquationLayoutParts,
+  getEquationSlotLeft,
+} from './equationDefaults';
 
 export const EquationLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
-  const characters = scene.elements.filter((element) => element.type === 'character');
-  const questions = scene.elements.filter(isQuestionText);
-  const pieces = scene.elements.filter(isEquationPiece);
+  const frame = useCurrentFrame();
+  const { scale } = getDynamicCamera(resolveLayoutCameraMoves(scene), frame);
+  const { character, title, objectA, operator, objectB } = getEquationLayoutParts(scene);
 
   return (
     <AbsoluteFill>
-      {characters.map((element, index) => (
-        <TimedElement
-          key={`${scene.id}-char-${index}`}
-          sceneId={scene.id}
-          index={index}
-          videoId={videoId}
-          element={element}
-        />
-      ))}
-
-      {questions.map((element, index) => (
-        <TimedElement
-          key={`${scene.id}-q-${index}`}
-          sceneId={scene.id}
-          index={index}
-          videoId={videoId}
-          element={element}
-          position="top_center"
-        />
-      ))}
-
       <div
         style={{
           position: 'absolute',
-          left: '8%',
-          right: '8%',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 28,
+          inset: 0,
+          transform: `scale(${EQUATION_CHARACTER_SCALE})`,
+          transformOrigin: 'center bottom',
         }}
       >
-        {pieces.map((element, index) => (
-          <TimedElement
-            key={`${scene.id}-eq-${index}`}
-            sceneId={scene.id}
-            index={index + 10}
-            videoId={videoId}
-            element={element}
-            inline
-            size={element.type === 'image' ? element.size ?? 'medium' : undefined}
-          />
-        ))}
+        <TimedElement
+          sceneId={scene.id}
+          index={0}
+          videoId={videoId}
+          element={character}
+          characterPosition="bottom_center"
+        />
       </div>
+
+      {title ? (
+        <TimedElement
+          sceneId={scene.id}
+          index={1}
+          videoId={videoId}
+          element={title}
+          position="top_center"
+          textAlign="center"
+          fontSize={EQUATION_TITLE_FONT_SIZE}
+        />
+      ) : null}
+
+      {objectA ? (
+        <div style={{ ...EQUATION_SLOT_STYLE, left: getEquationSlotLeft(scale, 'a') }}>
+          <TimedElement
+            sceneId={scene.id}
+            index={10}
+            videoId={videoId}
+            element={objectA}
+            inline
+            size={objectA.size ?? 'medium'}
+          />
+        </div>
+      ) : null}
+
+      {operator ? (
+        <div style={EQUATION_SLOT_OP_STYLE}>
+          <TimedElement
+            sceneId={scene.id}
+            index={11}
+            videoId={videoId}
+            element={operator}
+            inline
+            size={operator.size ?? 'small'}
+          />
+        </div>
+      ) : null}
+
+      {objectB ? (
+        <div style={{ ...EQUATION_SLOT_STYLE, left: getEquationSlotLeft(scale, 'b') }}>
+          <TimedElement
+            sceneId={scene.id}
+            index={12}
+            videoId={videoId}
+            element={objectB}
+            inline
+            size={objectB.size ?? 'medium'}
+          />
+        </div>
+      ) : null}
     </AbsoluteFill>
   );
 };
