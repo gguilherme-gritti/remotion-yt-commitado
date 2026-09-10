@@ -56,9 +56,9 @@ export type LayoutType =
 
 export type TextAnimation = 'typewriter';
 
-export type AnnotationKind = 'red_x' | 'none';
+export type AnnotationKind = 'red_x' | 'green_check' | 'none';
 
-export type AnnotationEffect = 'red_x';
+export type AnnotationEffect = 'red_x' | 'green_check';
 
 interface SceneElementBase {
   /** Frame relativo ao início da scene. O elemento permanece até o quadro ser limpo. */

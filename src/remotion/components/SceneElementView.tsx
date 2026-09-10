@@ -9,13 +9,14 @@ import type {
   SceneSchema,
 } from '../../types/scene';
 import { getAnnotationSequenceFrom } from './annotations/AnnotationOverlay';
+import { GreenCheck } from './annotations/GreenCheck';
 import { RedX } from './annotations/RedX';
 import { Character } from './Character';
 import { getElementPositionStyle } from './elementPosition';
 import { SketchImage } from './SketchImage';
 import { TextEmphasis } from './TextEmphasis';
 
-const STANDALONE_RED_X_SIZE = 360;
+const STANDALONE_MARK_SIZE = 360;
 
 export interface BoardLayoutProps {
   videoId: string;
@@ -49,14 +50,14 @@ function annotationProps(element: SceneElement) {
   };
 }
 
-const StandaloneRedX: FC<{
+const StandaloneAnnotation: FC<{
   element: AnnotationElement;
   position?: ElementPosition;
   scale?: number;
   inline?: boolean;
 }> = ({ element, position, scale, inline = false }) => {
   const boxScale = scale ?? element.scale ?? 1;
-  const size = STANDALONE_RED_X_SIZE * boxScale;
+  const size = STANDALONE_MARK_SIZE * boxScale;
   const mark = (
     <div
       style={{
@@ -66,7 +67,7 @@ const StandaloneRedX: FC<{
         ...(inline ? undefined : getElementPositionStyle(position ?? element.position)),
       }}
     >
-      <RedX />
+      {element.effect === 'green_check' ? <GreenCheck /> : <RedX />}
     </div>
   );
 
@@ -141,7 +142,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
       );
     case 'annotation':
       return (
-        <StandaloneRedX
+        <StandaloneAnnotation
           element={element}
           position={position}
           scale={scale}

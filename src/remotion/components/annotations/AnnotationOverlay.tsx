@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Sequence } from 'remotion';
 import type { AnnotationKind } from '../../../types/scene';
+import { GreenCheck } from './GreenCheck';
 import { RedX } from './RedX';
 
 export function getAnnotationSequenceFrom(
@@ -14,6 +15,24 @@ export function getAnnotationSequenceFrom(
   return Math.max(0, annotationStartFrame - elementStartAtFrame);
 }
 
+const OVERLAY_BOX: Record<'red_x' | 'green_check', CSSProperties> = {
+  red_x: {
+    position: 'absolute',
+    inset: '-12%',
+    zIndex: 8,
+    pointerEvents: 'none',
+  },
+  green_check: {
+    position: 'absolute',
+    left: '10%',
+    top: '-8%',
+    width: '82%',
+    height: '82%',
+    zIndex: 8,
+    pointerEvents: 'none',
+  },
+};
+
 interface AnnotationOverlayProps {
   annotation?: AnnotationKind;
   from?: number;
@@ -23,21 +42,14 @@ export const AnnotationOverlay = ({
   annotation,
   from = 0,
 }: AnnotationOverlayProps) => {
-  if (annotation !== 'red_x') {
+  if (annotation !== 'red_x' && annotation !== 'green_check') {
     return null;
   }
 
   return (
-    <Sequence from={from} layout="none" name="annotation-red-x">
-      <div
-        style={{
-          position: 'absolute',
-          inset: '-12%',
-          zIndex: 8,
-          pointerEvents: 'none',
-        }}
-      >
-        <RedX />
+    <Sequence from={from} layout="none" name={`annotation-${annotation}`}>
+      <div style={OVERLAY_BOX[annotation]}>
+        {annotation === 'red_x' ? <RedX /> : <GreenCheck />}
       </div>
     </Sequence>
   );
