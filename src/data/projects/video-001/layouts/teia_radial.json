@@ -39,7 +39,10 @@
       "startAtFrame": 136,
       "animation": "slide_in",
       "position": "top_right",
-      "size": "small"
+      "size": "small",
+      "annotation": "encircle",
+      "annotationColor": "#E63946",
+      "annotationStartFrame": 148
     },
     {
       "type": "image",

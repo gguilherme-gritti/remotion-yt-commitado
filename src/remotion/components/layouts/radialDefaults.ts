@@ -30,6 +30,7 @@ const SLOT_BASE: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  overflow: 'visible',
 };
 
 export const RADIAL_SAFEZONE_STYLE: CSSProperties = {

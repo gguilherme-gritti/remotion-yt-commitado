@@ -63,6 +63,7 @@ export type AnnotationKind =
   | 'highlight'
   | 'cross_hatch'
   | 'ink_splatter'
+  | 'encircle'
   | 'none';
 
 export type AnnotationEffect =
@@ -71,7 +72,8 @@ export type AnnotationEffect =
   | 'drawn_arrow'
   | 'highlight'
   | 'cross_hatch'
-  | 'ink_splatter';
+  | 'ink_splatter'
+  | 'encircle';
 
 export type AnnotationDirection = 'right' | 'left' | 'up' | 'down' | 'curve_right';
 
@@ -82,7 +84,7 @@ interface SceneElementBase {
   annotation?: AnnotationKind;
   /** Frame da scene em que a anotação começa a ser desenhada. Default: startAtFrame. */
   annotationStartFrame?: number;
-  /** Cor da canetinha. Usado por `drawn_arrow`. */
+  /** Cor da canetinha. Usado por `drawn_arrow` e `encircle`. */
   annotationColor?: string;
   /** Cor do marca-texto. Usado por `highlight`. Default: `#FFD000`. */
   highlightColor?: string;
