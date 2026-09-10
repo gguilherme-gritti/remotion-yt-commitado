@@ -4,6 +4,7 @@ import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 import { getFlowLayoutCameraMoves } from './flowDefaults';
 import { getRadialLayoutCameraMoves } from './radialDefaults';
+import { getSplitLayoutCameraMoves } from './splitDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
   switch (scene.layoutType) {
@@ -17,6 +18,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getRadialLayoutCameraMoves(scene);
     case 'fluxo_vertical':
       return getFlowLayoutCameraMoves(scene);
+    case 'split_comparativo':
+      return getSplitLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }
