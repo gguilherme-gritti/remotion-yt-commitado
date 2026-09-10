@@ -8,6 +8,7 @@ import type {
 } from '../../types/scene';
 import { AnnotatedBox } from './annotations/AnnotationOverlay';
 import { DrawInMask } from './DrawInMask';
+import { LineBoil } from './effects/LineBoilFilter';
 import { getCharacterLayoutStyle } from './elementPosition';
 
 interface CharacterProps {
@@ -18,6 +19,7 @@ interface CharacterProps {
   annotationFrom?: number;
   annotationColor?: string;
   annotationDirection?: AnnotationDirection;
+  lineBoil?: boolean;
 }
 
 export const Character = ({
@@ -28,12 +30,15 @@ export const Character = ({
   annotationFrom,
   annotationColor,
   annotationDirection,
+  lineBoil = true,
 }: CharacterProps) => {
   const layout = getCharacterLayoutStyle(position);
 
   const fillsParent = position === 'left_giant' || position === 'center';
   const portrait = (
-    <Img src={resolveCharacterSrc(pose)} style={layout.image} />
+    <LineBoil enabled={lineBoil} fill={fillsParent}>
+      <Img src={resolveCharacterSrc(pose)} style={layout.image} />
+    </LineBoil>
   );
 
   return (

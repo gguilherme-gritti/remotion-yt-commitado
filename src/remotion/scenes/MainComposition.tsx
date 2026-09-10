@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 import type { SceneSchema } from "../../types/scene";
+import { LineBoilFilter } from "../components/effects/LineBoilFilter";
 import { getSceneStartFrame } from "../sceneTimeline";
 import { Scene } from "./Scene";
 
@@ -15,6 +16,7 @@ export const MainComposition: FC<MainCompositionProps> = ({
 }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#ffffff" }}>
+      <LineBoilFilter />
       {scenes.map((scene, index) => (
         <Sequence
           key={scene.id}

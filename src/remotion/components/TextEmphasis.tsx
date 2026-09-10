@@ -10,6 +10,7 @@ import type {
   TextAnimation,
 } from '../../types/scene';
 import { AnnotatedBox } from './annotations/AnnotationOverlay';
+import { LineBoil } from './effects/LineBoilFilter';
 import { getElementPositionStyle } from './elementPosition';
 import { ANIME_ACE_FONT_FAMILY } from '../loadAnimeAceFont';
 
@@ -29,6 +30,7 @@ interface TextEmphasisProps {
   annotationFrom?: number;
   annotationColor?: string;
   annotationDirection?: AnnotationDirection;
+  lineBoil?: boolean;
 }
 
 export const TYPEWRITER_CHARS_PER_SECOND = 22;
@@ -49,6 +51,7 @@ export const TextEmphasis = ({
   annotationFrom,
   annotationColor,
   annotationDirection,
+  lineBoil = false,
 }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -67,28 +70,30 @@ export const TextEmphasis = ({
       annotationColor={annotationColor}
       annotationDirection={annotationDirection}
     >
-      <span
-        style={{
-          display: nowrap ? 'inline-block' : 'block',
-          width: inline || nowrap ? 'auto' : '100%',
-          color,
-          WebkitTextStroke:
-            strokeColor && strokeWidth
-              ? `${strokeWidth}px ${strokeColor}`
-              : undefined,
-          paintOrder: strokeColor ? 'stroke fill' : undefined,
-          fontFamily: `'${ANIME_ACE_FONT_FAMILY}', 'Anime Ace 2.0 BB', sans-serif`,
-          fontSize: fontSize ?? (inline ? 48 : 72),
-          fontWeight: 700,
-          letterSpacing: letterSpacing != null ? `${letterSpacing}px` : '2px',
-          lineHeight: 1.25,
-          textAlign: textAlign ?? (isCenter || inline ? 'center' : 'left'),
-          whiteSpace: nowrap ? 'nowrap' : 'pre-wrap',
-          overflowWrap: nowrap ? 'normal' : 'anywhere',
-        }}
-      >
-        {content.slice(0, count)}
-      </span>
+      <LineBoil enabled={lineBoil}>
+        <span
+          style={{
+            display: nowrap ? 'inline-block' : 'block',
+            width: inline || nowrap ? 'auto' : '100%',
+            color,
+            WebkitTextStroke:
+              strokeColor && strokeWidth
+                ? `${strokeWidth}px ${strokeColor}`
+                : undefined,
+            paintOrder: strokeColor ? 'stroke fill' : undefined,
+            fontFamily: `'${ANIME_ACE_FONT_FAMILY}', 'Anime Ace 2.0 BB', sans-serif`,
+            fontSize: fontSize ?? (inline ? 48 : 72),
+            fontWeight: 700,
+            letterSpacing: letterSpacing != null ? `${letterSpacing}px` : '2px',
+            lineHeight: 1.25,
+            textAlign: textAlign ?? (isCenter || inline ? 'center' : 'left'),
+            whiteSpace: nowrap ? 'nowrap' : 'pre-wrap',
+            overflowWrap: nowrap ? 'normal' : 'anywhere',
+          }}
+        >
+          {content.slice(0, count)}
+        </span>
+      </LineBoil>
     </AnnotatedBox>
   );
 

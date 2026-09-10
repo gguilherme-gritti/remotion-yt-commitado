@@ -15,6 +15,7 @@ import type {
   ImageSize,
 } from "../../types/scene";
 import { AnnotatedBox } from "./annotations/AnnotationOverlay";
+import { LineBoil } from "./effects/LineBoilFilter";
 import { getSketchImagePositionStyle } from "./elementPosition";
 import { POP_SPRING, SOFT_SPRING } from "./motion";
 
@@ -30,6 +31,7 @@ interface SketchImageProps {
   annotationFrom?: number;
   annotationColor?: string;
   annotationDirection?: AnnotationDirection;
+  lineBoil?: boolean;
 }
 
 const IMAGE_SIZE_WIDTH: Record<ImageSize, number> = {
@@ -63,6 +65,7 @@ export const SketchImage = ({
   annotationFrom,
   annotationColor,
   annotationDirection,
+  lineBoil = true,
 }: SketchImageProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -94,22 +97,24 @@ export const SketchImage = ({
       annotationColor={annotationColor}
       annotationDirection={annotationDirection}
     >
-      <Img
-        src={resolveProjectImage(videoId, src)}
-        style={{
-          display: "block",
-          width,
-          maxWidth: width,
-          maxHeight: width,
-          height: "auto",
-          objectFit: "contain",
-          backgroundColor: "transparent",
-          mixBlendMode: "multiply",
-          opacity,
-          transform: `scale(${enterScale})`,
-          transformOrigin: "center center",
-        }}
-      />
+      <LineBoil enabled={lineBoil}>
+        <Img
+          src={resolveProjectImage(videoId, src)}
+          style={{
+            display: "block",
+            width,
+            maxWidth: width,
+            maxHeight: width,
+            height: "auto",
+            objectFit: "contain",
+            backgroundColor: "transparent",
+            mixBlendMode: "multiply",
+            opacity,
+            transform: `scale(${enterScale})`,
+            transformOrigin: "center center",
+          }}
+        />
+      </LineBoil>
     </AnnotatedBox>
   );
 

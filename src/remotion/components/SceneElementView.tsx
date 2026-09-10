@@ -127,6 +127,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           animation={element.animation}
           position={characterPosition ?? element.position ?? 'bottom_right'}
           {...overlay}
+          lineBoil={element.lineBoil}
         />
       );
     case 'image':
@@ -140,6 +141,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           scale={scale ?? element.scale}
           inline={inline}
           {...overlay}
+          lineBoil={element.lineBoil}
         />
       );
     case 'text':
@@ -157,6 +159,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           nowrap={nowrap}
           letterSpacing={letterSpacing}
           {...overlay}
+          lineBoil={element.lineBoil}
         />
       );
     case 'annotation':

@@ -18,7 +18,10 @@
       "startAtFrame": 100,
       "animation": "pop_in",
       "position": "center",
-      "size": "medium"
+      "size": "medium",
+      "lineBoil": true,
+      "annotation": "cross_hatch",
+      "annotationStartFrame": 118
     },
     {
       "type": "image",

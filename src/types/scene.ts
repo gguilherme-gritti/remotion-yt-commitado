@@ -61,13 +61,15 @@ export type AnnotationKind =
   | 'green_check'
   | 'drawn_arrow'
   | 'highlight'
+  | 'cross_hatch'
   | 'none';
 
 export type AnnotationEffect =
   | 'red_x'
   | 'green_check'
   | 'drawn_arrow'
-  | 'highlight';
+  | 'highlight'
+  | 'cross_hatch';
 
 export type AnnotationDirection = 'right' | 'left' | 'up' | 'down' | 'curve_right';
 
@@ -84,6 +86,11 @@ interface SceneElementBase {
   highlightColor?: string;
   /** Direção da seta. Usado por `drawn_arrow`. Default: `right`. */
   annotationDirection?: AnnotationDirection;
+  /**
+   * Traço vivo (line boil). Default: `true` em imagens e personagens,
+   * `false` em textos.
+   */
+  lineBoil?: boolean;
 }
 
 export interface CharacterElement extends SceneElementBase {
