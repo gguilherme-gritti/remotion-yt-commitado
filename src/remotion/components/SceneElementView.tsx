@@ -1,15 +1,21 @@
 import type { FC } from 'react';
-import { Sequence } from 'remotion';
+import { AbsoluteFill, Sequence } from 'remotion';
 import type {
+  AnnotationElement,
   CharacterPosition,
   ElementPosition,
   ImageSize,
   SceneElement,
   SceneSchema,
 } from '../../types/scene';
+import { getAnnotationSequenceFrom } from './annotations/AnnotationOverlay';
+import { RedX } from './annotations/RedX';
 import { Character } from './Character';
+import { getElementPositionStyle } from './elementPosition';
 import { SketchImage } from './SketchImage';
 import { TextEmphasis } from './TextEmphasis';
+
+const STANDALONE_RED_X_SIZE = 360;
 
 export interface BoardLayoutProps {
   videoId: string;
@@ -33,6 +39,48 @@ export interface SceneElementViewProps {
   letterSpacing?: number;
 }
 
+function annotationProps(element: SceneElement) {
+  return {
+    annotation: element.annotation,
+    annotationFrom: getAnnotationSequenceFrom(
+      element.startAtFrame,
+      element.annotationStartFrame,
+    ),
+  };
+}
+
+const StandaloneRedX: FC<{
+  element: AnnotationElement;
+  position?: ElementPosition;
+  scale?: number;
+  inline?: boolean;
+}> = ({ element, position, scale, inline = false }) => {
+  const boxScale = scale ?? element.scale ?? 1;
+  const size = STANDALONE_RED_X_SIZE * boxScale;
+  const mark = (
+    <div
+      style={{
+        position: inline ? 'relative' : 'absolute',
+        width: size,
+        height: size,
+        ...(inline ? undefined : getElementPositionStyle(position ?? element.position)),
+      }}
+    >
+      <RedX />
+    </div>
+  );
+
+  if (inline) {
+    return mark;
+  }
+
+  return (
+    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 60 }}>
+      {mark}
+    </AbsoluteFill>
+  );
+};
+
 export const SceneElementView: FC<SceneElementViewProps> = ({
   videoId,
   element,
@@ -49,6 +97,8 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
   nowrap,
   letterSpacing,
 }) => {
+  const overlay = annotationProps(element);
+
   switch (element.type) {
     case 'character':
       return (
@@ -56,6 +106,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           pose={element.pose}
           animation={element.animation}
           position={characterPosition ?? element.position ?? 'bottom_right'}
+          {...overlay}
         />
       );
     case 'image':
@@ -68,6 +119,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           size={size ?? element.size}
           scale={scale ?? element.scale}
           inline={inline}
+          {...overlay}
         />
       );
     case 'text':
@@ -84,6 +136,16 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           strokeWidth={strokeWidth}
           nowrap={nowrap}
           letterSpacing={letterSpacing}
+          {...overlay}
+        />
+      );
+    case 'annotation':
+      return (
+        <StandaloneRedX
+          element={element}
+          position={position}
+          scale={scale}
+          inline={inline}
         />
       );
   }

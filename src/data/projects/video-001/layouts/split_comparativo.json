@@ -18,7 +18,9 @@
       "startAtFrame": 24,
       "animation": "pop_in",
       "position": "center_left",
-      "size": "medium"
+      "size": "medium",
+      "annotation": "red_x",
+      "annotationStartFrame": 40
     },
     {
       "type": "text",

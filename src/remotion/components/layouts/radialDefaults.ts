@@ -104,7 +104,10 @@ export function getRadialLayoutParts(scene: SceneSchema): {
   );
   const master = pickRadialMaster(images);
   const satellites = scene.elements.filter(
-    (element) => element !== master && element.type !== 'character',
+    (element) =>
+      element !== master &&
+      element.type !== 'character' &&
+      element.type !== 'annotation',
   );
 
   return { character, master, satellites };

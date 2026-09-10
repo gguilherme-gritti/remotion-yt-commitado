@@ -7,7 +7,13 @@ import {
   useVideoConfig,
 } from "remotion";
 import { resolveProjectImage } from "../../data/resolveAsset";
-import type { ElementPosition, ImageAnimation, ImageSize } from "../../types/scene";
+import type {
+  AnnotationKind,
+  ElementPosition,
+  ImageAnimation,
+  ImageSize,
+} from "../../types/scene";
+import { AnnotatedBox } from "./annotations/AnnotationOverlay";
 import { getSketchImagePositionStyle } from "./elementPosition";
 import { POP_SPRING, SOFT_SPRING } from "./motion";
 
@@ -19,6 +25,8 @@ interface SketchImageProps {
   size?: ImageSize;
   scale?: number;
   inline?: boolean;
+  annotation?: AnnotationKind;
+  annotationFrom?: number;
 }
 
 const IMAGE_SIZE_WIDTH: Record<ImageSize, number> = {
@@ -48,6 +56,8 @@ export const SketchImage = ({
   size,
   scale: sizeScale,
   inline = false,
+  annotation,
+  annotationFrom,
 }: SketchImageProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -73,22 +83,24 @@ export const SketchImage = ({
   });
 
   const image = (
-    <Img
-      src={resolveProjectImage(videoId, src)}
-      style={{
-        display: "block",
-        width,
-        maxWidth: width,
-        maxHeight: width,
-        height: "auto",
-        objectFit: "contain",
-        backgroundColor: "transparent",
-        mixBlendMode: "multiply",
-        opacity,
-        transform: `scale(${enterScale})`,
-        transformOrigin: "center center",
-      }}
-    />
+    <AnnotatedBox annotation={annotation} annotationFrom={annotationFrom}>
+      <Img
+        src={resolveProjectImage(videoId, src)}
+        style={{
+          display: "block",
+          width,
+          maxWidth: width,
+          maxHeight: width,
+          height: "auto",
+          objectFit: "contain",
+          backgroundColor: "transparent",
+          mixBlendMode: "multiply",
+          opacity,
+          transform: `scale(${enterScale})`,
+          transformOrigin: "center center",
+        }}
+      />
+    </AnnotatedBox>
   );
 
   if (inline) {

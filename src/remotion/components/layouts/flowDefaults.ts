@@ -104,7 +104,11 @@ export function getFlowLayoutParts(scene: SceneSchema): {
 
   const orderedItems = scene.elements
     .filter((element) => {
-      if (element.type === 'character' || element === title) {
+      if (
+        element.type === 'character' ||
+        element.type === 'annotation' ||
+        element === title
+      ) {
         return false;
       }
 

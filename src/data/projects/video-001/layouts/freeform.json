@@ -29,6 +29,12 @@
       "size": "small"
     },
     {
+      "type": "annotation",
+      "effect": "red_x",
+      "position": "center_right",
+      "startAtFrame": 84
+    },
+    {
       "type": "image",
       "src": "computador_amigavel.jpg",
       "imageIdea": "PC amigável na faixa direita.",
