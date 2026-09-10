@@ -56,9 +56,18 @@ export type LayoutType =
 
 export type TextAnimation = 'typewriter';
 
-export type AnnotationKind = 'red_x' | 'green_check' | 'drawn_arrow' | 'none';
+export type AnnotationKind =
+  | 'red_x'
+  | 'green_check'
+  | 'drawn_arrow'
+  | 'highlight'
+  | 'none';
 
-export type AnnotationEffect = 'red_x' | 'green_check' | 'drawn_arrow';
+export type AnnotationEffect =
+  | 'red_x'
+  | 'green_check'
+  | 'drawn_arrow'
+  | 'highlight';
 
 export type AnnotationDirection = 'right' | 'left' | 'up' | 'down' | 'curve_right';
 
@@ -71,6 +80,8 @@ interface SceneElementBase {
   annotationStartFrame?: number;
   /** Cor da canetinha. Usado por `drawn_arrow`. */
   annotationColor?: string;
+  /** Cor do marca-texto. Usado por `highlight`. Default: `#FFD000`. */
+  highlightColor?: string;
   /** Direção da seta. Usado por `drawn_arrow`. Default: `right`. */
   annotationDirection?: AnnotationDirection;
 }

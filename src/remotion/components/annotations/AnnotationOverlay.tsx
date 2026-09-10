@@ -14,6 +14,7 @@ import {
   DrawnArrow,
 } from './DrawnArrow';
 import { GreenCheck } from './GreenCheck';
+import { HIGHLIGHT_DEFAULT_COLOR, Highlight } from './Highlight';
 import { RedX } from './RedX';
 
 export function getAnnotationSequenceFrom(
@@ -29,7 +30,7 @@ export function getAnnotationSequenceFrom(
 
 type DrawableAnnotation = Exclude<AnnotationKind, 'none'>;
 
-const MARK_OVERLAY: Record<'red_x' | 'green_check', CSSProperties> = {
+const MARK_OVERLAY: Record<'red_x' | 'green_check' | 'highlight', CSSProperties> = {
   red_x: {
     position: 'absolute',
     inset: '-12%',
@@ -43,6 +44,15 @@ const MARK_OVERLAY: Record<'red_x' | 'green_check', CSSProperties> = {
     width: '82%',
     height: '82%',
     zIndex: 8,
+    pointerEvents: 'none',
+  },
+  highlight: {
+    position: 'absolute',
+    left: '-4%',
+    right: '-4%',
+    top: '14%',
+    height: '72%',
+    zIndex: 0,
     pointerEvents: 'none',
   },
 };
@@ -131,6 +141,8 @@ export const AnnotationMark = ({
       return <GreenCheck />;
     case 'drawn_arrow':
       return <DrawnArrow color={color} direction={direction} />;
+    case 'highlight':
+      return <Highlight color={color ?? HIGHLIGHT_DEFAULT_COLOR} />;
   }
 };
 
@@ -150,7 +162,8 @@ export const AnnotationOverlay = ({
   if (
     annotation !== 'red_x' &&
     annotation !== 'green_check' &&
-    annotation !== 'drawn_arrow'
+    annotation !== 'drawn_arrow' &&
+    annotation !== 'highlight'
   ) {
     return null;
   }
@@ -185,6 +198,15 @@ export const AnnotatedBox = ({
   fill = false,
   children,
 }: AnnotatedBoxProps) => {
+  const overlay = (
+    <AnnotationOverlay
+      annotation={annotation}
+      from={annotationFrom}
+      color={annotationColor}
+      direction={annotationDirection}
+    />
+  );
+
   return (
     <div
       style={{
@@ -195,13 +217,19 @@ export const AnnotatedBox = ({
         overflow: 'visible',
       }}
     >
-      {children}
-      <AnnotationOverlay
-        annotation={annotation}
-        from={annotationFrom}
-        color={annotationColor}
-        direction={annotationDirection}
-      />
+      {annotation === 'highlight' ? overlay : null}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          display: fill ? 'flex' : undefined,
+          width: fill ? '100%' : undefined,
+          height: fill ? '100%' : undefined,
+        }}
+      >
+        {children}
+      </div>
+      {annotation !== 'highlight' ? overlay : null}
     </div>
   );
 };

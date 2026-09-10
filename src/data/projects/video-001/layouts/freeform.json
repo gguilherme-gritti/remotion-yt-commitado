@@ -8,7 +8,10 @@
       "content": "FREEFORM",
       "startAtFrame": 0,
       "animation": "typewriter",
-      "position": "top_center"
+      "position": "top_center",
+      "annotation": "highlight",
+      "annotationStartFrame": 16,
+      "highlightColor": "#FFD000"
     },
     {
       "type": "image",

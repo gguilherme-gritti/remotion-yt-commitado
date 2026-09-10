@@ -51,7 +51,7 @@ function annotationProps(element: SceneElement) {
       element.startAtFrame,
       element.annotationStartFrame,
     ),
-    annotationColor: element.annotationColor,
+    annotationColor: element.highlightColor ?? element.annotationColor,
     annotationDirection: element.annotationDirection,
   };
 }
@@ -64,8 +64,13 @@ const StandaloneAnnotation: FC<{
 }> = ({ element, position, scale, inline = false }) => {
   const boxScale = scale ?? element.scale ?? 1;
   const isArrow = element.effect === 'drawn_arrow';
-  const width = (isArrow ? DRAWN_ARROW_WIDTH : STANDALONE_MARK_SIZE) * boxScale;
-  const height = (isArrow ? DRAWN_ARROW_HEIGHT : STANDALONE_MARK_SIZE) * boxScale;
+  const isHighlight = element.effect === 'highlight';
+  const width =
+    (isArrow ? DRAWN_ARROW_WIDTH : isHighlight ? 520 : STANDALONE_MARK_SIZE) *
+    boxScale;
+  const height =
+    (isArrow ? DRAWN_ARROW_HEIGHT : isHighlight ? 72 : STANDALONE_MARK_SIZE) *
+    boxScale;
   const mark = (
     <div
       style={{
@@ -79,7 +84,7 @@ const StandaloneAnnotation: FC<{
     >
       <AnnotationMark
         annotation={element.effect}
-        color={element.annotationColor}
+        color={element.highlightColor ?? element.annotationColor}
         direction={element.annotationDirection}
       />
     </div>
