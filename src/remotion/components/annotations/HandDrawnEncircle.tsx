@@ -1,11 +1,16 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { MARKER_SPRING } from '../motion';
 
-export const ENCIRCLE_DEFAULT_COLOR = '#E63946';
+export const ENCIRCLE_DEFAULT_COLOR = '#111111';
+const INK_OPACITY = 0.9;
 const PATH_LENGTH = 1;
 const FIRST_LOOP_FRAMES = 10;
 const SECOND_LOOP_DELAY = 6;
 const SECOND_LOOP_FRAMES = 10;
+const ROUGHNESS_FILTER_ID = 'encircle-ink-roughness';
+/** ~6–8px no overlay da lousa (viewBox 100, caixa ~ imagem + 40px). */
+const OUTER_STROKE_WIDTH = 2.5;
+const INNER_STROKE_WIDTH = 2.3;
 
 /**
  * Volta externa: quase fecha, com um vão pequeno no canto superior direito.
@@ -59,11 +64,11 @@ export const HandDrawnEncircle = ({
   const strokeStyle = {
     fill: 'none' as const,
     stroke: color,
-    strokeWidth: 1.15,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
     pathLength: PATH_LENGTH,
     strokeDasharray: PATH_LENGTH,
+    filter: `url(#${ROUGHNESS_FILTER_ID})`,
   };
 
   return (
@@ -80,17 +85,44 @@ export const HandDrawnEncircle = ({
         pointerEvents: 'none',
       }}
     >
+      <defs>
+        <filter
+          id={ROUGHNESS_FILTER_ID}
+          colorInterpolationFilters="sRGB"
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.07"
+            numOctaves="2"
+            result="noise"
+            seed="5"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="2"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </defs>
       <path
         d={OUTER_LOOP}
         {...strokeStyle}
+        strokeWidth={OUTER_STROKE_WIDTH}
         strokeDashoffset={PATH_LENGTH * (1 - firstProgress)}
-        opacity={firstProgress > 0.04 ? 1 : 0}
+        opacity={firstProgress > 0.04 ? INK_OPACITY : 0}
       />
       <path
         d={INNER_LOOP}
         {...strokeStyle}
+        strokeWidth={INNER_STROKE_WIDTH}
         strokeDashoffset={PATH_LENGTH * (1 - secondProgress)}
-        opacity={secondProgress > 0.04 ? 1 : 0}
+        opacity={secondProgress > 0.04 ? INK_OPACITY : 0}
       />
     </svg>
   );

@@ -84,7 +84,7 @@ interface SceneElementBase {
   annotation?: AnnotationKind;
   /** Frame da scene em que a anotação começa a ser desenhada. Default: startAtFrame. */
   annotationStartFrame?: number;
-  /** Cor da canetinha. Usado por `drawn_arrow` e `encircle`. */
+  /** Cor da canetinha. Usado por `drawn_arrow` e `encircle` (default nanquim `#111111`). */
   annotationColor?: string;
   /** Cor do marca-texto. Usado por `highlight`. Default: `#FFD000`. */
   highlightColor?: string;
