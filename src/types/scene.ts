@@ -32,6 +32,12 @@ export interface CameraMove {
   type: CameraAnimation;
   target: CameraTarget;
   zoom: number;
+  /** 0–1. Se existir, substitui o X do target. */
+  focusX?: number;
+  /** 0–1. Se existir, substitui o Y do target. */
+  focusY?: number;
+  /** Duração da interpolação. Default: 42. */
+  blendFrames?: number;
 }
 
 export type CharacterAnimation = 'draw_in';

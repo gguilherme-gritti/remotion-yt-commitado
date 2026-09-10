@@ -26,6 +26,11 @@ export interface SceneElementViewProps {
   scale?: number;
   fontSize?: number;
   textAlign?: 'left' | 'center' | 'right';
+  color?: string;
+  strokeColor?: string;
+  strokeWidth?: number;
+  nowrap?: boolean;
+  letterSpacing?: number;
 }
 
 export const SceneElementView: FC<SceneElementViewProps> = ({
@@ -38,6 +43,11 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
   scale,
   fontSize,
   textAlign,
+  color,
+  strokeColor,
+  strokeWidth,
+  nowrap,
+  letterSpacing,
 }) => {
   switch (element.type) {
     case 'character':
@@ -69,6 +79,11 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           inline={inline}
           fontSize={fontSize}
           textAlign={textAlign}
+          color={color}
+          strokeColor={strokeColor}
+          strokeWidth={strokeWidth}
+          nowrap={nowrap}
+          letterSpacing={letterSpacing}
         />
       );
   }

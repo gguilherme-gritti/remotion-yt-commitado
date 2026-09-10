@@ -26,7 +26,11 @@ export function getDynamicCamera(moves: CameraMove[], frame: number): CameraPose
 
     const target = poseFromMove(move);
     const start = move.startAtFrame;
-    const end = start + CAMERA_BLEND_FRAMES;
+    const blend =
+      move.blendFrames != null && move.blendFrames > 0
+        ? move.blendFrames
+        : CAMERA_BLEND_FRAMES;
+    const end = start + blend;
 
     if (frame >= end) {
       pose = target;
@@ -54,6 +58,14 @@ export function getDynamicCamera(moves: CameraMove[], frame: number): CameraPose
 
 function poseFromMove(move: CameraMove): CameraPose {
   const focus = getCameraFocusPoint(move.target);
+  const focusX =
+    move.focusX != null && Number.isFinite(move.focusX)
+      ? CANVAS_WIDTH * move.focusX
+      : focus.x;
+  const focusY =
+    move.focusY != null && Number.isFinite(move.focusY)
+      ? CANVAS_HEIGHT * move.focusY
+      : focus.y;
   let scale = move.zoom > 0 ? move.zoom : 1;
 
   switch (move.type) {
@@ -67,8 +79,8 @@ function poseFromMove(move: CameraMove): CameraPose {
       break;
   }
 
-  let x = CENTER_X - focus.x;
-  let y = CENTER_Y - focus.y;
+  let x = CENTER_X - focusX;
+  let y = CENTER_Y - focusY;
 
   if (move.type === 'pan_right') {
     x -= 90;
