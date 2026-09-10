@@ -3,7 +3,12 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
-import type { AnnotationKind, ElementPosition, TextAnimation } from '../../types/scene';
+import type {
+  AnnotationDirection,
+  AnnotationKind,
+  ElementPosition,
+  TextAnimation,
+} from '../../types/scene';
 import { AnnotatedBox } from './annotations/AnnotationOverlay';
 import { getElementPositionStyle } from './elementPosition';
 import { ANIME_ACE_FONT_FAMILY } from '../loadAnimeAceFont';
@@ -22,6 +27,8 @@ interface TextEmphasisProps {
   letterSpacing?: number;
   annotation?: AnnotationKind;
   annotationFrom?: number;
+  annotationColor?: string;
+  annotationDirection?: AnnotationDirection;
 }
 
 export const TYPEWRITER_CHARS_PER_SECOND = 22;
@@ -40,6 +47,8 @@ export const TextEmphasis = ({
   letterSpacing,
   annotation,
   annotationFrom,
+  annotationColor,
+  annotationDirection,
 }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -52,7 +61,12 @@ export const TextEmphasis = ({
   const isCenter = position === 'center';
 
   const text = (
-    <AnnotatedBox annotation={annotation} annotationFrom={annotationFrom}>
+    <AnnotatedBox
+      annotation={annotation}
+      annotationFrom={annotationFrom}
+      annotationColor={annotationColor}
+      annotationDirection={annotationDirection}
+    >
       <span
         style={{
           display: nowrap ? 'inline-block' : 'block',
@@ -83,7 +97,12 @@ export const TextEmphasis = ({
   }
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 30 }}>
+    <AbsoluteFill
+      style={{
+        pointerEvents: 'none',
+        zIndex: annotation && annotation !== 'none' ? 55 : 30,
+      }}
+    >
       <div
         style={
           isCenter

@@ -8,9 +8,13 @@ import type {
   SceneElement,
   SceneSchema,
 } from '../../types/scene';
-import { getAnnotationSequenceFrom } from './annotations/AnnotationOverlay';
-import { GreenCheck } from './annotations/GreenCheck';
-import { RedX } from './annotations/RedX';
+import { AnnotationMark, getAnnotationSequenceFrom } from './annotations/AnnotationOverlay';
+import {
+  DRAWN_ARROW_HEIGHT,
+  DRAWN_ARROW_MAX_HEIGHT,
+  DRAWN_ARROW_MAX_WIDTH,
+  DRAWN_ARROW_WIDTH,
+} from './annotations/DrawnArrow';
 import { Character } from './Character';
 import { getElementPositionStyle } from './elementPosition';
 import { SketchImage } from './SketchImage';
@@ -47,6 +51,8 @@ function annotationProps(element: SceneElement) {
       element.startAtFrame,
       element.annotationStartFrame,
     ),
+    annotationColor: element.annotationColor,
+    annotationDirection: element.annotationDirection,
   };
 }
 
@@ -57,17 +63,25 @@ const StandaloneAnnotation: FC<{
   inline?: boolean;
 }> = ({ element, position, scale, inline = false }) => {
   const boxScale = scale ?? element.scale ?? 1;
-  const size = STANDALONE_MARK_SIZE * boxScale;
+  const isArrow = element.effect === 'drawn_arrow';
+  const width = (isArrow ? DRAWN_ARROW_WIDTH : STANDALONE_MARK_SIZE) * boxScale;
+  const height = (isArrow ? DRAWN_ARROW_HEIGHT : STANDALONE_MARK_SIZE) * boxScale;
   const mark = (
     <div
       style={{
         position: inline ? 'relative' : 'absolute',
-        width: size,
-        height: size,
+        width,
+        height,
+        maxWidth: isArrow ? DRAWN_ARROW_MAX_WIDTH : undefined,
+        maxHeight: isArrow ? DRAWN_ARROW_MAX_HEIGHT : undefined,
         ...(inline ? undefined : getElementPositionStyle(position ?? element.position)),
       }}
     >
-      {element.effect === 'green_check' ? <GreenCheck /> : <RedX />}
+      <AnnotationMark
+        annotation={element.effect}
+        color={element.annotationColor}
+        direction={element.annotationDirection}
+      />
     </div>
   );
 

@@ -8,6 +8,7 @@ import {
 } from "remotion";
 import { resolveProjectImage } from "../../data/resolveAsset";
 import type {
+  AnnotationDirection,
   AnnotationKind,
   ElementPosition,
   ImageAnimation,
@@ -27,6 +28,8 @@ interface SketchImageProps {
   inline?: boolean;
   annotation?: AnnotationKind;
   annotationFrom?: number;
+  annotationColor?: string;
+  annotationDirection?: AnnotationDirection;
 }
 
 const IMAGE_SIZE_WIDTH: Record<ImageSize, number> = {
@@ -58,6 +61,8 @@ export const SketchImage = ({
   inline = false,
   annotation,
   annotationFrom,
+  annotationColor,
+  annotationDirection,
 }: SketchImageProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -83,7 +88,12 @@ export const SketchImage = ({
   });
 
   const image = (
-    <AnnotatedBox annotation={annotation} annotationFrom={annotationFrom}>
+    <AnnotatedBox
+      annotation={annotation}
+      annotationFrom={annotationFrom}
+      annotationColor={annotationColor}
+      annotationDirection={annotationDirection}
+    >
       <Img
         src={resolveProjectImage(videoId, src)}
         style={{
@@ -108,7 +118,13 @@ export const SketchImage = ({
   }
 
   return (
-    <AbsoluteFill style={{ pointerEvents: "none", zIndex: 10 }}>
+    <AbsoluteFill
+      style={{
+        pointerEvents: "none",
+        zIndex: annotation && annotation !== "none" ? 55 : 10,
+        overflow: "visible",
+      }}
+    >
       <div style={getSketchImagePositionStyle(position)}>{image}</div>
     </AbsoluteFill>
   );

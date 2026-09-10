@@ -56,9 +56,11 @@ export type LayoutType =
 
 export type TextAnimation = 'typewriter';
 
-export type AnnotationKind = 'red_x' | 'green_check' | 'none';
+export type AnnotationKind = 'red_x' | 'green_check' | 'drawn_arrow' | 'none';
 
-export type AnnotationEffect = 'red_x' | 'green_check';
+export type AnnotationEffect = 'red_x' | 'green_check' | 'drawn_arrow';
+
+export type AnnotationDirection = 'right' | 'left' | 'up' | 'down' | 'curve_right';
 
 interface SceneElementBase {
   /** Frame relativo ao início da scene. O elemento permanece até o quadro ser limpo. */
@@ -67,6 +69,10 @@ interface SceneElementBase {
   annotation?: AnnotationKind;
   /** Frame da scene em que a anotação começa a ser desenhada. Default: startAtFrame. */
   annotationStartFrame?: number;
+  /** Cor da canetinha. Usado por `drawn_arrow`. */
+  annotationColor?: string;
+  /** Direção da seta. Usado por `drawn_arrow`. Default: `right`. */
+  annotationDirection?: AnnotationDirection;
 }
 
 export interface CharacterElement extends SceneElementBase {

@@ -1,6 +1,7 @@
 import { AbsoluteFill, Img } from 'remotion';
 import { resolveCharacterSrc } from '../../data/resolveAsset';
 import type {
+  AnnotationDirection,
   AnnotationKind,
   CharacterAnimation,
   CharacterPosition,
@@ -15,6 +16,8 @@ interface CharacterProps {
   position?: CharacterPosition;
   annotation?: AnnotationKind;
   annotationFrom?: number;
+  annotationColor?: string;
+  annotationDirection?: AnnotationDirection;
 }
 
 export const Character = ({
@@ -23,6 +26,8 @@ export const Character = ({
   position = 'bottom_right',
   annotation,
   annotationFrom,
+  annotationColor,
+  annotationDirection,
 }: CharacterProps) => {
   const layout = getCharacterLayoutStyle(position);
 
@@ -32,11 +37,19 @@ export const Character = ({
   );
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none', zIndex: 40, overflow: 'visible' }}>
+    <AbsoluteFill
+      style={{
+        pointerEvents: 'none',
+        zIndex: annotation && annotation !== 'none' ? 55 : 40,
+        overflow: 'visible',
+      }}
+    >
       <div style={layout.wrapper}>
         <AnnotatedBox
           annotation={annotation}
           annotationFrom={annotationFrom}
+          annotationColor={annotationColor}
+          annotationDirection={annotationDirection}
           fill={fillsParent}
         >
           {animation === 'draw_in' ? (
