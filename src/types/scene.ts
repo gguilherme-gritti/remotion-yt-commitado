@@ -62,6 +62,7 @@ export type AnnotationKind =
   | 'drawn_arrow'
   | 'highlight'
   | 'cross_hatch'
+  | 'ink_splatter'
   | 'none';
 
 export type AnnotationEffect =
@@ -69,7 +70,8 @@ export type AnnotationEffect =
   | 'green_check'
   | 'drawn_arrow'
   | 'highlight'
-  | 'cross_hatch';
+  | 'cross_hatch'
+  | 'ink_splatter';
 
 export type AnnotationDirection = 'right' | 'left' | 'up' | 'down' | 'curve_right';
 

@@ -16,6 +16,7 @@ import {
 import { CrossHatch } from './CrossHatch';
 import { GreenCheck } from './GreenCheck';
 import { HIGHLIGHT_DEFAULT_COLOR, Highlight } from './Highlight';
+import { InkSplatter } from './InkSplatter';
 import { RedX } from './RedX';
 
 export function getAnnotationSequenceFrom(
@@ -32,7 +33,7 @@ export function getAnnotationSequenceFrom(
 type DrawableAnnotation = Exclude<AnnotationKind, 'none'>;
 
 const MARK_OVERLAY: Record<
-  'red_x' | 'green_check' | 'highlight' | 'cross_hatch',
+  'red_x' | 'green_check' | 'highlight' | 'cross_hatch' | 'ink_splatter',
   CSSProperties
 > = {
   red_x: {
@@ -67,6 +68,16 @@ const MARK_OVERLAY: Record<
     height: '100%',
     overflow: 'hidden',
     zIndex: 8,
+    pointerEvents: 'none',
+  },
+  ink_splatter: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: '48%',
+    height: '48%',
+    zIndex: 9,
+    overflow: 'visible',
     pointerEvents: 'none',
   },
 };
@@ -159,6 +170,8 @@ export const AnnotationMark = ({
       return <Highlight color={color ?? HIGHLIGHT_DEFAULT_COLOR} />;
     case 'cross_hatch':
       return <CrossHatch />;
+    case 'ink_splatter':
+      return <InkSplatter />;
   }
 };
 
@@ -180,7 +193,8 @@ export const AnnotationOverlay = ({
     annotation !== 'green_check' &&
     annotation !== 'drawn_arrow' &&
     annotation !== 'highlight' &&
-    annotation !== 'cross_hatch'
+    annotation !== 'cross_hatch' &&
+    annotation !== 'ink_splatter'
   ) {
     return null;
   }

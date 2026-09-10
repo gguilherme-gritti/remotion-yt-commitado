@@ -57,7 +57,9 @@
       "startAtFrame": 172,
       "animation": "pop_in",
       "position": "bottom_right",
-      "size": "small"
+      "size": "small",
+      "annotation": "ink_splatter",
+      "annotationStartFrame": 184
     }
   ]
 }
