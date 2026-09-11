@@ -3,6 +3,7 @@ import balaoPensamento from './balao_pensamento.json';
 import equacaoVisual from './equacao_visual.json';
 import fluxoVertical from './fluxo_vertical.json';
 import freeform from './freeform.json';
+import impactoManga from './impacto_manga.json';
 import listaCondicional from './lista_condicional.json';
 import splitComparativo from './split_comparativo.json';
 import teiaRadial from './teia_radial.json';
@@ -15,4 +16,5 @@ export const VIDEO_001_LAYOUTS: Record<string, SceneSchema> = {
   teia_radial: teiaRadial as SceneSchema,
   fluxo_vertical: fluxoVertical as SceneSchema,
   split_comparativo: splitComparativo as SceneSchema,
+  impacto_manga: impactoManga as SceneSchema,
 };

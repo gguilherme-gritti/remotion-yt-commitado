@@ -1,0 +1,17 @@
+{
+  "id": "preview_impacto_manga",
+  "durationFrames": 150,
+  "layoutType": "impacto_manga",
+  "scenes_context": "MangaImpactLayout: um único elemento no centro, linhas de velocidade no fundo, pop nos primeiros 10 frames.",
+  "elements": [
+    {
+      "type": "image",
+      "src": "placa_alerta.jpeg",
+      "imageIdea": "Placa de alerta no centro do impacto.",
+      "startAtFrame": 0,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "large"
+    }
+  ]
+}

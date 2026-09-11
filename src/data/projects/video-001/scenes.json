@@ -6,6 +6,7 @@
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
+    "impacto_manga",
     "teia_radial",
     "freeform",
     "split_comparativo",
