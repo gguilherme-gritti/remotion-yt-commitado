@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { LayoutType } from '../../../types/scene';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { BalloonLayout } from './BalloonLayout';
+import { ComicGridLayout } from './ComicGridLayout';
 import { ConditionalListLayout } from './ConditionalListLayout';
 import { EquationLayout } from './EquationLayout';
 import { FreeformLayout } from './FreeformLayout';
@@ -18,10 +19,12 @@ export const LAYOUT_MAP: Record<LayoutType, FC<BoardLayoutProps>> = {
   fluxo_vertical: VerticalFlowLayout,
   split_comparativo: SplitLayout,
   impacto_manga: MangaImpactLayout,
+  comic_grid: ComicGridLayout,
 };
 
 export {
   BalloonLayout,
+  ComicGridLayout,
   ConditionalListLayout,
   EquationLayout,
   FreeformLayout,

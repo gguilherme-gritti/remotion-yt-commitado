@@ -25,6 +25,8 @@ const STANDALONE_MARK_SIZE = 360;
 export interface BoardLayoutProps {
   videoId: string;
   scene: SceneSchema;
+  /** Painel em foco no ComicGridLayout. Se omitido, o layout calcula pelo tempo da cena. */
+  activePanelIndex?: number;
 }
 
 export interface SceneElementViewProps {

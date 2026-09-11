@@ -1,5 +1,6 @@
 import type { CameraMove, SceneSchema } from '../../../types/scene';
 import { getBalloonLayoutCameraMoves } from './balloonDefaults';
+import { getComicGridLayoutCameraMoves } from './comicGridDefaults';
 import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 import { getFlowLayoutCameraMoves } from './flowDefaults';
@@ -23,6 +24,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getSplitLayoutCameraMoves(scene);
     case 'impacto_manga':
       return getMangaImpactLayoutCameraMoves(scene);
+    case 'comic_grid':
+      return getComicGridLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }

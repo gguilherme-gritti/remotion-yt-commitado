@@ -1,5 +1,7 @@
-import { interpolate } from 'remotion';
+import { Easing, interpolate } from 'remotion';
 import type { CameraMove, CameraTarget } from '../../types/scene';
+
+const SMOOTH_EASING = Easing.bezier(0.4, 0, 0.2, 1);
 
 export const CAMERA_BLEND_FRAMES = 42;
 const CANVAS_WIDTH = 1920;
@@ -37,16 +39,21 @@ export function getDynamicCamera(moves: CameraMove[], frame: number): CameraPose
       continue;
     }
 
+    const easing = move.easing === 'smooth' ? SMOOTH_EASING : undefined;
+
     pose = {
       scale: interpolate(frame, [start, end], [pose.scale, target.scale], {
+        easing,
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
       }),
       x: interpolate(frame, [start, end], [pose.x, target.x], {
+        easing,
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
       }),
       y: interpolate(frame, [start, end], [pose.y, target.y], {
+        easing,
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
       }),
