@@ -2,5 +2,5 @@ export {
   erasePresentation,
   ERASE_PRESENTATION_FRAMES,
   ERASER_FRAMES,
-} from './erasePresentation';
+} from './erase';
 export type { ErasePresentationProps } from './erasePresentation';

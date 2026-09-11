@@ -1,14 +1,7 @@
 import type { CSSProperties, FC } from 'react';
 import { useMemo } from 'react';
-import type {
-  TransitionPresentation,
-  TransitionPresentationComponentProps,
-} from '@remotion/transitions';
+import type { TransitionPresentationComponentProps } from '@remotion/transitions';
 import { AbsoluteFill, Easing, interpolate, useVideoConfig } from 'remotion';
-
-/** Tempo suficiente para cada passada diagonal ser lida como um gesto separado. */
-export const ERASE_PRESENTATION_FRAMES = 42;
-export const ERASER_FRAMES = ERASE_PRESENTATION_FRAMES;
 
 const STROKE_COUNT = 6;
 /** Atraso relativo entre o início de cada faixa (de cima para baixo). */
@@ -153,7 +146,7 @@ const buildStrokes = (
   });
 };
 
-const ErasePresentation: FC<
+export const ErasePresentation: FC<
   TransitionPresentationComponentProps<ErasePresentationProps>
 > = ({ children, presentationDirection, presentationProgress, passedProps }) => {
   const { width, height } = useVideoConfig();
@@ -289,13 +282,4 @@ const ErasePresentation: FC<
       <AbsoluteFill style={innerStyle}>{children}</AbsoluteFill>
     </AbsoluteFill>
   );
-};
-
-export const erasePresentation = (
-  props?: ErasePresentationProps,
-): TransitionPresentation<ErasePresentationProps> => {
-  return {
-    component: ErasePresentation,
-    props: props ?? {},
-  };
 };
