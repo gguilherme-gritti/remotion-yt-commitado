@@ -56,7 +56,8 @@ export type LayoutType =
   | 'fluxo_vertical'
   | 'split_comparativo'
   | 'impacto_manga'
-  | 'comic_grid';
+  | 'comic_grid'
+  | 'nested_zoom';
 
 export type TextAnimation = 'typewriter';
 
@@ -104,6 +105,15 @@ interface SceneElementBase {
    * Sem este campo, o layout agrupa por `position` ou pela ordem de entrada.
    */
   panel?: number;
+  /**
+   * Moldura do NestedZoomLayout (monitor/TV). Se nenhum elemento marcar,
+   * o layout usa a primeira imagem.
+   */
+  isContainer?: boolean;
+  /**
+   * Conteúdo interno do NestedZoomLayout. Só entra depois do zoom na tela.
+   */
+  nested?: boolean;
 }
 
 export interface CharacterElement extends SceneElementBase {

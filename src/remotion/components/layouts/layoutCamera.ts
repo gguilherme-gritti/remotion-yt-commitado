@@ -5,6 +5,7 @@ import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 import { getFlowLayoutCameraMoves } from './flowDefaults';
 import { getMangaImpactLayoutCameraMoves } from './mangaImpactDefaults';
+import { getNestedZoomLayoutCameraMoves } from './nestedZoomDefaults';
 import { getRadialLayoutCameraMoves } from './radialDefaults';
 import { getSplitLayoutCameraMoves } from './splitDefaults';
 
@@ -26,6 +27,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getMangaImpactLayoutCameraMoves(scene);
     case 'comic_grid':
       return getComicGridLayoutCameraMoves(scene);
+    case 'nested_zoom':
+      return getNestedZoomLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }

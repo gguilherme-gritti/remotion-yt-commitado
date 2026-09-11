@@ -16,7 +16,8 @@ export const Scene: FC<SceneProps> = ({ videoId, scene }) => {
   const LayoutComponent =
     (scene.layoutType && LAYOUT_MAP[scene.layoutType]) || FreeformLayout;
   const annotations = scene.elements.filter(
-    (element): element is AnnotationElement => element.type === 'annotation',
+    (element): element is AnnotationElement =>
+      element.type === 'annotation' && !element.nested,
   );
 
   return (

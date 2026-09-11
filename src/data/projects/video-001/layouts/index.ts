@@ -6,6 +6,7 @@ import fluxoVertical from './fluxo_vertical.json';
 import freeform from './freeform.json';
 import impactoManga from './impacto_manga.json';
 import listaCondicional from './lista_condicional.json';
+import nestedZoom from './nested_zoom.json';
 import splitComparativo from './split_comparativo.json';
 import teiaRadial from './teia_radial.json';
 
@@ -19,4 +20,5 @@ export const VIDEO_001_LAYOUTS: Record<string, SceneSchema> = {
   split_comparativo: splitComparativo as SceneSchema,
   impacto_manga: impactoManga as SceneSchema,
   comic_grid: comicGrid as SceneSchema,
+  nested_zoom: nestedZoom as SceneSchema,
 };
