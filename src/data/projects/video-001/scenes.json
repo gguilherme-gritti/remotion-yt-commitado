@@ -8,11 +8,11 @@
   "scenes": [
     "impacto_manga",
     "teia_radial",
-    "freeform",
     "split_comparativo",
     "fluxo_vertical",
     "equacao_visual",
     "lista_condicional",
-    "balao_pensamento"
+    "balao_pensamento",
+    "freeform"
   ]
 }

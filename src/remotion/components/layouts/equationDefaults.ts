@@ -8,7 +8,7 @@ import type {
   TextElement,
 } from '../../../types/scene';
 import { CAMERA_BLEND_FRAMES } from '../dynamicCamera';
-import { ERASER_FRAMES } from '../EraserWipe';
+import { ERASER_FRAMES } from '../transitions';
 import { TYPEWRITER_CHARS_PER_SECOND } from '../TextEmphasis';
 
 export const EQUATION_CHARACTER_POSE = 'curioso';
