@@ -3,6 +3,7 @@ import { getBalloonLayoutCameraMoves } from './balloonDefaults';
 import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 import { getFlowLayoutCameraMoves } from './flowDefaults';
+import { getMangaImpactLayoutCameraMoves } from './mangaImpactDefaults';
 import { getRadialLayoutCameraMoves } from './radialDefaults';
 import { getSplitLayoutCameraMoves } from './splitDefaults';
 
@@ -20,6 +21,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getFlowLayoutCameraMoves(scene);
     case 'split_comparativo':
       return getSplitLayoutCameraMoves(scene);
+    case 'impacto_manga':
+      return getMangaImpactLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }

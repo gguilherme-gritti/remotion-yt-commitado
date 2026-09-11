@@ -52,7 +52,8 @@ export type LayoutType =
   | 'equacao_visual'
   | 'teia_radial'
   | 'fluxo_vertical'
-  | 'split_comparativo';
+  | 'split_comparativo'
+  | 'impacto_manga';
 
 export type TextAnimation = 'typewriter';
 
