@@ -7,7 +7,7 @@ import type {
   SceneSchema,
 } from '../../../types/scene';
 import { CAMERA_BLEND_FRAMES } from '../dynamicCamera';
-import { ERASER_FRAMES } from '../EraserWipe';
+import { ERASER_FRAMES } from '../transitions';
 
 export const BALLOON_CHARACTER_POSE = 'pensativo';
 export const BALLOON_CHARACTER_SHIFT_PX = 280;

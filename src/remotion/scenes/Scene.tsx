@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import type { AnnotationElement, SceneSchema } from '../../types/scene';
 import { getDynamicCamera } from '../components/dynamicCamera';
-import { EraserWipe } from '../components/EraserWipe';
 import { FreeformLayout, LAYOUT_MAP, resolveLayoutCameraMoves } from '../components/layouts';
 import { TimedElement } from '../components/SceneElementView';
 
@@ -22,25 +21,23 @@ export const Scene: FC<SceneProps> = ({ videoId, scene }) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#ffffff', overflow: 'hidden' }}>
-      <EraserWipe durationFrames={scene.durationFrames}>
-        <AbsoluteFill
-          style={{
-            transform: `scale(${scale}) translate(${x}px, ${y}px)`,
-            transformOrigin: 'center center',
-          }}
-        >
-          <LayoutComponent videoId={videoId} scene={scene} />
-          {annotations.map((element, index) => (
-            <TimedElement
-              key={`${scene.id}-annotation-${index}`}
-              sceneId={scene.id}
-              index={900 + index}
-              videoId={videoId}
-              element={element}
-            />
-          ))}
-        </AbsoluteFill>
-      </EraserWipe>
+      <AbsoluteFill
+        style={{
+          transform: `scale(${scale}) translate(${x}px, ${y}px)`,
+          transformOrigin: 'center center',
+        }}
+      >
+        <LayoutComponent videoId={videoId} scene={scene} />
+        {annotations.map((element, index) => (
+          <TimedElement
+            key={`${scene.id}-annotation-${index}`}
+            sceneId={scene.id}
+            index={900 + index}
+            videoId={videoId}
+            element={element}
+          />
+        ))}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
