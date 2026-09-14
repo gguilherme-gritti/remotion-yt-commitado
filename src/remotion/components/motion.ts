@@ -1,5 +1,7 @@
+import { PACING_PRESETS } from './pacing';
+
 /** Entrada pausada e grounded das imagens/personagens. */
-export const ENTRY_DURATION_FRAMES = 20;
+export const ENTRY_DURATION_FRAMES = PACING_PRESETS.medium.entryFrames;
 
 export const POP_SPRING = {
   mass: 0.8,

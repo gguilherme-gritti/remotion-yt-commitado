@@ -8,6 +8,12 @@ import type {
   SceneSchema,
   TextElement,
 } from '../../../types/scene';
+import {
+  createClock,
+  playCamera,
+  playElements,
+  sortByOriginalStart,
+} from '../pacing';
 
 export const COMIC_INK_COLOR = '#111111';
 export const COMIC_STROKE_WIDTH = 6;
@@ -16,16 +22,8 @@ export const COMIC_CANVAS_HEIGHT = 1080;
 export const COMIC_FONT_SIZE = 36;
 export const COMIC_IMAGE_SIZE = 'medium' as const;
 export const COMIC_IMAGE_SCALE = 0.82;
-
-/** Painel 0 (hero) até este frame; daqui a câmera desliza para o Painel 1. */
-export const COMIC_FOCUS_PANEL_1_AT = 90;
-/** Painel 1 até este frame; daqui a câmera desliza para o Painel 2. */
-export const COMIC_FOCUS_PANEL_2_AT = 190;
-/** Painel 2 até este frame; daqui a câmera recua para a página inteira. */
-export const COMIC_ZOOM_OUT_AT = 250;
-/** Recuo final: `scale` 1 e `translate(0, 0)` em 50 frames. */
-export const COMIC_ZOOM_OUT_FRAMES = 50;
 export const COMIC_CAMERA_BLEND = 40;
+export const COMIC_ZOOM_OUT_FRAMES = 50;
 
 const MARGIN_X = 28 / COMIC_CANVAS_WIDTH;
 const MARGIN_Y = 28 / COMIC_CANVAS_HEIGHT;
@@ -105,11 +103,6 @@ export function getComicPanelFillZoom(rect: ComicPanelRect): number {
   return Math.max(1 / rect.width, 1 / rect.height) / COVER_INSET;
 }
 
-export function getComicZoomOutAt(durationFrames: number): number {
-  const latestStart = Math.max(0, durationFrames - COMIC_ZOOM_OUT_FRAMES);
-  return Math.min(COMIC_ZOOM_OUT_AT, latestStart);
-}
-
 export function splitComicPanelContent(elements: SceneElement[]): {
   characters: CharacterElement[];
   board: SceneElement[];
@@ -126,29 +119,6 @@ export function splitComicPanelContent(elements: SceneElement[]): {
 
 export function getComicPanelImageSize(panelIndex: number): ImageSize {
   return panelIndex === 0 ? COMIC_IMAGE_SIZE : 'small';
-}
-
-/**
- * 0–90: Painel 0. 90–190: Painel 1. 190 até o recuo: Painel 2.
- * Durante o zoom out, retorna `null` (página inteira).
- */
-export function getActivePanelIndex(
-  frame: number,
-  durationFrames: number,
-): number | null {
-  if (frame >= getComicZoomOutAt(durationFrames)) {
-    return null;
-  }
-
-  if (frame >= COMIC_FOCUS_PANEL_2_AT) {
-    return 2;
-  }
-
-  if (frame >= COMIC_FOCUS_PANEL_1_AT) {
-    return 1;
-  }
-
-  return 0;
 }
 
 function cameraToPanel(
@@ -169,25 +139,113 @@ function cameraToPanel(
   };
 }
 
-export function getComicGridLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
-  const [hero, bottomLeft, bottomRight] = getComicPanelRects();
-  const zoomOutAt = getComicZoomOutAt(scene.durationFrames);
+function groupComicPanels(scene: SceneSchema): SceneElement[][] {
+  const board = scene.elements.filter((element) => element.type !== 'annotation');
+  const tagged = board.filter((element) => element.panel != null);
+  const panels: SceneElement[][] = [[], [], []];
 
-  return [
-    cameraToPanel(hero, -1, 1, 'zoom_in'),
-    cameraToPanel(bottomLeft, COMIC_FOCUS_PANEL_1_AT, COMIC_CAMERA_BLEND, 'none'),
-    cameraToPanel(bottomRight, COMIC_FOCUS_PANEL_2_AT, COMIC_CAMERA_BLEND, 'none'),
-    {
-      startAtFrame: zoomOutAt,
-      type: 'zoom_out',
-      target: 'center',
-      zoom: 1,
-      focusX: 0.5,
-      focusY: 0.5,
-      blendFrames: COMIC_ZOOM_OUT_FRAMES,
-      easing: 'smooth',
-    },
+  if (tagged.length > 0) {
+    tagged.forEach((element) => {
+      const index = Math.max(0, Math.min(2, element.panel ?? 0));
+      panels[index].push(element);
+    });
+    return panels.map(sortByOriginalStart);
+  }
+
+  const ordered = sortByOriginalStart(board);
+  const chunk = Math.max(1, Math.ceil(ordered.length / 3));
+  ordered.forEach((element, index) => {
+    panels[Math.min(2, Math.floor(index / chunk))].push(element);
+  });
+
+  return panels;
+}
+
+type ComicGridSequence = {
+  panels: SceneElement[][];
+  focusAt: [number, number, number];
+  zoomOutAt: number;
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceComicGridLayout(scene: SceneSchema): ComicGridSequence {
+  const clock = createClock(scene);
+  const rects = getComicPanelRects();
+  const sources = groupComicPanels(scene);
+  const blendFrames = clock.preset.cameraBlendFrames;
+  const zoomOutFrames = clock.preset.cameraBlendFrames;
+  const focusAt: [number, number, number] = [0, 0, 0];
+  const cameraMoves: CameraMove[] = [
+    cameraToPanel(rects[0], 0, 1, 'zoom_in'),
   ];
+
+  const panels = sources.map((panelSources, panelIndex) => {
+    if (panelIndex > 0) {
+      const move = playCamera(clock, cameraToPanel(rects[panelIndex], 0, blendFrames, 'none'));
+      cameraMoves.push(move);
+      focusAt[panelIndex] = move.startAtFrame;
+    }
+
+    return playElements(clock, panelSources);
+  });
+
+  const zoomOutMove = playCamera(clock, {
+    type: 'zoom_out',
+    target: 'center',
+    zoom: 1,
+    focusX: 0.5,
+    focusY: 0.5,
+    blendFrames: zoomOutFrames,
+    easing: 'smooth',
+  });
+  cameraMoves.push(zoomOutMove);
+
+  return {
+    panels,
+    focusAt,
+    zoomOutAt: zoomOutMove.startAtFrame,
+    cameraMoves,
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
+export function getComicGridLayoutParts(scene: SceneSchema): {
+  panels: SceneElement[][];
+  focusAt: [number, number, number];
+  zoomOutAt: number;
+} {
+  const { panels, focusAt, zoomOutAt } = sequenceComicGridLayout(scene);
+  return { panels, focusAt, zoomOutAt };
+}
+
+export function getComicZoomOutAt(scene: SceneSchema): number {
+  return sequenceComicGridLayout(scene).zoomOutAt;
+}
+
+export function getActivePanelIndex(frame: number, scene: SceneSchema): number | null {
+  const { focusAt, zoomOutAt } = sequenceComicGridLayout(scene);
+  if (frame >= zoomOutAt) {
+    return null;
+  }
+
+  if (frame >= focusAt[2] && focusAt[2] > 0) {
+    return 2;
+  }
+
+  if (frame >= focusAt[1] && focusAt[1] > 0) {
+    return 1;
+  }
+
+  return 0;
+}
+
+export function getComicGridLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
+  return sequenceComicGridLayout(scene).cameraMoves;
+}
+
+export function getComicGridLayoutDuration(scene: SceneSchema): number {
+  return sequenceComicGridLayout(scene).durationFrames;
 }
 
 export function isComicText(element: SceneElement): element is TextElement {

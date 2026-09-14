@@ -11,7 +11,6 @@ import { SOFT_SPRING } from '../motion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
-  NESTED_ENTRY_FRAMES,
   NESTED_ENTRY_FROM,
   NESTED_FONT_SIZE,
   NESTED_FRAME_WRAP_STYLE,
@@ -22,7 +21,6 @@ import {
   NESTED_SCREEN_STYLE,
   NESTED_STAGE_STYLE,
   NESTED_ZOOM,
-  NESTED_ZOOM_FRAMES,
   getNestedZoomLayoutParts,
   isNestedCharacter,
   isNestedImage,
@@ -109,18 +107,19 @@ const NestedItem: FC<{
 export const NestedZoomLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { container, nested, outer } = getNestedZoomLayoutParts(scene);
+  const { container, nested, outer, enterFrames, zoomAt, zoomFrames } =
+    getNestedZoomLayoutParts(scene);
 
   const enter = spring({
-    frame,
+    frame: Math.max(0, frame - container.startAtFrame),
     fps,
-    durationInFrames: NESTED_ENTRY_FRAMES,
+    durationInFrames: enterFrames,
     config: SOFT_SPRING,
   });
   const zoomSpring = spring({
-    frame: Math.max(0, frame - NESTED_ENTRY_FRAMES),
+    frame: Math.max(0, frame - zoomAt),
     fps,
-    durationInFrames: NESTED_ZOOM_FRAMES,
+    durationInFrames: zoomFrames,
     config: SOFT_SPRING,
   });
 

@@ -17,7 +17,8 @@ import type {
 import { AnnotatedBox } from "./annotations/AnnotationOverlay";
 import { LineBoil } from "./effects/LineBoilFilter";
 import { getSketchImagePositionStyle } from "./elementPosition";
-import { ENTRY_DURATION_FRAMES, POP_SPRING, SOFT_SPRING } from "./motion";
+import { POP_SPRING, SOFT_SPRING } from "./motion";
+import { usePacing } from "./PacingContext";
 
 interface SketchImageProps {
   videoId: string;
@@ -69,6 +70,7 @@ export const SketchImage = ({
 }: SketchImageProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const { entryFrames } = usePacing();
   const useSoftEntry =
     animation == null || animation === "none" || animation === "slide_in";
   const width = resolveImageWidth(size, sizeScale);
@@ -76,7 +78,7 @@ export const SketchImage = ({
   const pop = spring({
     frame,
     fps,
-    durationInFrames: ENTRY_DURATION_FRAMES,
+    durationInFrames: entryFrames,
     config: useSoftEntry ? SOFT_SPRING : POP_SPRING,
   });
 
@@ -86,7 +88,7 @@ export const SketchImage = ({
     extrapolateRight: "clamp",
   });
 
-  const opacity = interpolate(frame, [0, 10], [0, 1], {
+  const opacity = interpolate(frame, [0, Math.min(10, entryFrames)], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

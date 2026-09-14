@@ -7,6 +7,7 @@ import type {
   SceneSchema,
   TextElement,
 } from '../../../types/scene';
+import { createClock, playElement, setupCamera } from '../pacing';
 
 export const IMPACT_POP_FRAMES = 10;
 export const IMPACT_IMAGE_SIZE = 'large' as const;
@@ -66,45 +67,57 @@ function pickFocus(scene: SceneSchema): MangaImpactFocus {
   );
 }
 
+type MangaImpactSequence = {
+  focus: MangaImpactFocus;
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceMangaImpactLayout(scene: SceneSchema): MangaImpactSequence {
+  const clock = createClock(scene);
+  const source = pickFocus(scene);
+  const positioned =
+    source.type === 'character'
+      ? ({ ...source, position: 'center' } as CharacterElement)
+      : source.type === 'image'
+        ? ({
+            ...source,
+            position: 'center',
+            size: source.size ?? IMPACT_IMAGE_SIZE,
+          } as ImageElement)
+        : ({ ...source, position: 'center' } as TextElement);
+
+  const focus = playElement(clock, positioned) as MangaImpactFocus;
+
+  return {
+    focus,
+    cameraMoves: [
+      setupCamera({
+        type: 'none',
+        target: 'center',
+        zoom: 1,
+      }),
+    ],
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
 export function getMangaImpactLayoutParts(scene: SceneSchema): {
   focus: MangaImpactFocus;
 } {
-  const source = pickFocus(scene);
-
-  if (source.type === 'character') {
-    const focus: CharacterElement = {
-      ...source,
-      startAtFrame: 0,
-      position: 'center',
-    };
-    return { focus };
-  }
-
-  if (source.type === 'image') {
-    const focus: ImageElement = {
-      ...source,
-      startAtFrame: 0,
-      position: 'center',
-      size: source.size ?? IMPACT_IMAGE_SIZE,
-    };
-    return { focus };
-  }
-
-  const focus: TextElement = {
-    ...source,
-    startAtFrame: 0,
-    position: 'center',
-  };
-  return { focus };
+  return { focus: sequenceMangaImpactLayout(scene).focus };
 }
 
 export function getMangaImpactLayoutCameraMoves(_scene: SceneSchema): CameraMove[] {
   return [
-    {
-      startAtFrame: 0,
+    setupCamera({
       type: 'none',
       target: 'center',
       zoom: 1,
-    },
+    }),
   ];
+}
+
+export function getMangaImpactLayoutDuration(scene: SceneSchema): number {
+  return sequenceMangaImpactLayout(scene).durationFrames;
 }

@@ -13,6 +13,8 @@ import { AnnotatedBox } from './annotations/AnnotationOverlay';
 import { LineBoil } from './effects/LineBoilFilter';
 import { getElementPositionStyle } from './elementPosition';
 import { ANIME_ACE_FONT_FAMILY } from '../loadAnimeAceFont';
+import { PACING_PRESETS } from './pacing';
+import { usePacing } from './PacingContext';
 
 interface TextEmphasisProps {
   content: string;
@@ -33,7 +35,8 @@ interface TextEmphasisProps {
   lineBoil?: boolean;
 }
 
-export const TYPEWRITER_CHARS_PER_SECOND = 22;
+export const TYPEWRITER_CHARS_PER_SECOND =
+  PACING_PRESETS.medium.typewriterCharsPerSecond;
 
 export const TextEmphasis = ({
   content,
@@ -55,7 +58,8 @@ export const TextEmphasis = ({
 }: TextEmphasisProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const charsPerFrame = TYPEWRITER_CHARS_PER_SECOND / fps;
+  const { typewriterCharsPerSecond } = usePacing();
+  const charsPerFrame = typewriterCharsPerSecond / fps;
   const count =
     animation === 'typewriter'
       ? Math.min(content.length, Math.floor(Math.max(0, frame) * charsPerFrame))

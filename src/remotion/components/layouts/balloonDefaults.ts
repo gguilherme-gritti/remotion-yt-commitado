@@ -6,8 +6,14 @@ import type {
   SceneElement,
   SceneSchema,
 } from '../../../types/scene';
-import { CAMERA_BLEND_FRAMES } from '../dynamicCamera';
-import { ERASER_FRAMES } from '../transitions';
+import {
+  createClock,
+  playCamera,
+  playElement,
+  playElements,
+  setupCamera,
+  sortByOriginalStart,
+} from '../pacing';
 
 export const BALLOON_CHARACTER_POSE = 'pensativo';
 export const BALLOON_CHARACTER_SHIFT_PX = 280;
@@ -16,9 +22,6 @@ export const BALLOON_LIFT_PX = -148;
 export const BALLOON_STRETCH_X = 1.72;
 export const BALLOON_INNER_IMAGE_SCALE = 0.62;
 export const BALLOON_INNER_FONT_SIZE = 34;
-
-const BALLOON_ENTRY_SETTLE_FRAMES = 22;
-const HOLD_AFTER_INNER_FRAMES = 30;
 
 export const BALLOON_INNER_STYLE: CSSProperties = {
   position: 'absolute',
@@ -51,15 +54,20 @@ function isBalloonImage(element: ImageElement): boolean {
   return /bala[oõ]|speech|fala|bubble/.test(haystack);
 }
 
-export function getBalloonLayoutParts(scene: SceneSchema): {
+type BalloonSequence = {
   characters: CharacterElement[];
   balloon: ImageElement | undefined;
   inner: SceneElement[];
-} {
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceBalloonLayout(scene: SceneSchema): BalloonSequence {
+  const clock = createClock(scene);
   const sourceCharacters = scene.elements.filter(
     (element): element is CharacterElement => element.type === 'character',
   );
-  const characters =
+  const characterSources =
     sourceCharacters.length > 0
       ? sourceCharacters.map((element) => ({
           ...element,
@@ -71,60 +79,76 @@ export function getBalloonLayoutParts(scene: SceneSchema): {
   const images = scene.elements.filter(
     (element): element is ImageElement => element.type === 'image',
   );
-  const balloon =
+  const balloonSource =
     images.find(isBalloonImage) ??
     images.find((element) => element.size === 'hero' || element.size === 'large');
-  const inner = scene.elements.filter((element) => {
-    if (element.type === 'character' || element.type === 'annotation') {
-      return false;
-    }
+  const innerSources = sortByOriginalStart(
+    scene.elements.filter((element) => {
+      if (element.type === 'character' || element.type === 'annotation') {
+        return false;
+      }
 
-    return element !== balloon;
-  });
+      return element !== balloonSource;
+    }),
+  );
 
+  const cameraMoves: CameraMove[] = [
+    setupCamera({
+      type: 'none',
+      target: 'center',
+      zoom: 1,
+    }),
+  ];
+
+  const characters = playElements(clock, characterSources) as CharacterElement[];
+  const balloon = balloonSource
+    ? (playElement(clock, balloonSource) as ImageElement)
+    : undefined;
+
+  if (balloon || innerSources.length > 0) {
+    cameraMoves.push(
+      playCamera(clock, {
+        type: 'zoom_in',
+        target: 'speech_bubble',
+        zoom: BALLOON_ZOOM,
+      }),
+    );
+  }
+
+  const inner = playElements(clock, innerSources);
+
+  if (balloon || innerSources.length > 0) {
+    cameraMoves.push(
+      playCamera(clock, {
+        type: 'none',
+        target: 'center',
+        zoom: 1,
+      }),
+    );
+  }
+
+  return {
+    characters,
+    balloon,
+    inner,
+    cameraMoves,
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
+export function getBalloonLayoutParts(scene: SceneSchema): {
+  characters: CharacterElement[];
+  balloon: ImageElement | undefined;
+  inner: SceneElement[];
+} {
+  const { characters, balloon, inner } = sequenceBalloonLayout(scene);
   return { characters, balloon, inner };
 }
 
 export function getBalloonLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
-  const { balloon, inner } = getBalloonLayoutParts(scene);
-  const balloonStart = balloon?.startAtFrame ?? 0;
-  const lastInnerStart = inner.reduce(
-    (latest, element) => Math.max(latest, element.startAtFrame),
-    balloonStart,
-  );
+  return sequenceBalloonLayout(scene).cameraMoves;
+}
 
-  const zoomInAt = balloonStart + BALLOON_ENTRY_SETTLE_FRAMES;
-  const zoomOutLatest = Math.max(0, scene.durationFrames - ERASER_FRAMES - CAMERA_BLEND_FRAMES);
-  const zoomOutAt = Math.min(
-    Math.max(lastInnerStart + HOLD_AFTER_INNER_FRAMES, zoomInAt + CAMERA_BLEND_FRAMES + 12),
-    zoomOutLatest,
-  );
-
-  const wide: CameraMove = {
-    startAtFrame: 0,
-    type: 'none',
-    target: 'center',
-    zoom: 1,
-  };
-  const closeUp: CameraMove = {
-    startAtFrame: zoomInAt,
-    type: 'zoom_in',
-    target: 'speech_bubble',
-    zoom: BALLOON_ZOOM,
-  };
-
-  if (zoomOutAt <= zoomInAt) {
-    return [wide, closeUp];
-  }
-
-  return [
-    wide,
-    closeUp,
-    {
-      startAtFrame: zoomOutAt,
-      type: 'none',
-      target: 'center',
-      zoom: 1,
-    },
-  ];
+export function getBalloonLayoutDuration(scene: SceneSchema): number {
+  return sequenceBalloonLayout(scene).durationFrames;
 }

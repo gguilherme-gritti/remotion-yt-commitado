@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { DRAW_SPRING, ENTRY_DURATION_FRAMES } from './motion';
+import { DRAW_SPRING } from './motion';
+import { usePacing } from './PacingContext';
 
 interface DrawInMaskProps {
   children: ReactNode;
@@ -10,11 +11,12 @@ interface DrawInMaskProps {
 export const DrawInMask = ({ children, fill = false }: DrawInMaskProps) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const { entryFrames } = usePacing();
 
   const reveal = spring({
     frame,
     fps,
-    durationInFrames: ENTRY_DURATION_FRAMES,
+    durationInFrames: entryFrames,
     config: DRAW_SPRING,
   });
 

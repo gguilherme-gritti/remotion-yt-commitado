@@ -44,3 +44,7 @@ export {
 };
 
 export { resolveLayoutCameraMoves } from './layoutCamera';
+export {
+  resolveLayoutDuration,
+  withPacedDuration,
+} from './resolveSceneDuration';

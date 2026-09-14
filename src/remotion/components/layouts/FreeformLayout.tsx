@@ -2,11 +2,14 @@ import type { FC } from 'react';
 import { AbsoluteFill } from 'remotion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
+import { sequenceFreeformLayout } from './freeformDefaults';
 
 export const FreeformLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
+  const { elements } = sequenceFreeformLayout(scene);
+
   return (
     <AbsoluteFill>
-      {scene.elements.map((element, index) =>
+      {elements.map((element, index) =>
         element.type === 'annotation' ? null : (
           <TimedElement
             key={`${scene.id}-${element.type}-${index}`}

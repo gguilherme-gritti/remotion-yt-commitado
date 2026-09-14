@@ -61,6 +61,9 @@ export type LayoutType =
   | 'timeline'
   | 'spotlight';
 
+/** Cadência global da cena: respiro, typewriter, entradas e câmera. */
+export type ScenePacing = 'fast' | 'medium' | 'slow';
+
 export type TextAnimation = 'typewriter';
 
 export type AnnotationKind =
@@ -170,6 +173,23 @@ export interface SceneSchema {
   durationFrames: number;
   scenes_context: string;
   layoutType?: LayoutType;
+  /**
+   * Ritmo da cena. Define respiro, typewriter, pop/draw_in e blend da câmera.
+   * Default: `medium`.
+   */
+  pacing?: ScenePacing;
+  /** Sobrescreve o respiro do preset, em frames. */
+  breathFrames?: number;
+  /**
+   * Preenchido por `loadProject`: a cena entra depois de um erase.
+   * O quadro fica em branco durante a borracha + um respiro.
+   */
+  transitionIn?: boolean;
+  /**
+   * Preenchido por `loadProject`: a cena sai com erase para a próxima.
+   * Reserva a janela da borracha no fim, depois do hold.
+   */
+  transitionOut?: boolean;
   elements: SceneElement[];
   cameraMoves?: CameraMove[];
 }

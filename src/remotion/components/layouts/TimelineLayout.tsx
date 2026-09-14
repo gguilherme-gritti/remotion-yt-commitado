@@ -7,7 +7,6 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
-import type { SceneElement } from '../../../types/scene';
 import { POP_SPRING } from '../motion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';

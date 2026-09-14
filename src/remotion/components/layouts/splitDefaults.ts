@@ -6,6 +6,7 @@ import type {
   SceneElement,
   SceneSchema,
 } from '../../../types/scene';
+import { createClock, playElement, sortByOriginalStart } from '../pacing';
 
 export const SPLIT_CHARACTER_POSE = 'surpreso';
 export const SPLIT_LABEL_FONT_SIZE = 42;
@@ -51,7 +52,7 @@ export const SPLIT_IMAGE_SLOT_STYLE: CSSProperties = {
 const DEFAULT_CHARACTER: CharacterElement = {
   type: 'character',
   pose: SPLIT_CHARACTER_POSE,
-  startAtFrame: 110,
+  startAtFrame: 0,
   animation: 'draw_in',
   position: 'bottom_right',
 };
@@ -72,33 +73,24 @@ function isRightPosition(position: ElementPosition): boolean {
   );
 }
 
-function sortByStart(elements: SceneElement[]): SceneElement[] {
-  return elements.slice().sort((left, right) => left.startAtFrame - right.startAtFrame);
-}
-
-function lastStartAt(elements: SceneElement[]): number | undefined {
-  return elements.at(-1)?.startAtFrame;
-}
-
-export function getSplitLayoutParts(scene: SceneSchema): {
-  character: CharacterElement;
+function splitBoard(scene: SceneSchema): {
   left: SceneElement[];
   right: SceneElement[];
+  sourceCharacter: CharacterElement | undefined;
 } {
   const sourceCharacter = scene.elements.find(
     (element): element is CharacterElement => element.type === 'character',
   );
-
   const board = scene.elements.filter(
     (element) => element.type !== 'character' && element.type !== 'annotation',
   );
-  const leftByPosition = sortByStart(
+  const leftByPosition = sortByOriginalStart(
     board.filter((element) => isLeftPosition(element.position)),
   );
-  const rightByPosition = sortByStart(
+  const rightByPosition = sortByOriginalStart(
     board.filter((element) => isRightPosition(element.position)),
   );
-  const rest = sortByStart(
+  const rest = sortByOriginalStart(
     board.filter(
       (element) =>
         !isLeftPosition(element.position) && !isRightPosition(element.position),
@@ -118,20 +110,53 @@ export function getSplitLayoutParts(scene: SceneSchema): {
     right = [...right, ...rest.slice(splitAt)];
   }
 
-  const lastBoardStart =
-    lastStartAt([...left, ...right].sort((a, b) => a.startAtFrame - b.startAtFrame)) ?? 0;
+  return { left, right, sourceCharacter };
+}
 
-  const character: CharacterElement = {
+type SplitSequence = {
+  character: CharacterElement;
+  left: SceneElement[];
+  right: SceneElement[];
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceSplitLayout(scene: SceneSchema): SplitSequence {
+  const clock = createClock(scene);
+  const { left: leftSources, right: rightSources, sourceCharacter } =
+    splitBoard(scene);
+
+  const left = leftSources.map((element) => playElement(clock, element));
+  const right = rightSources.map((element) => playElement(clock, element));
+  const character = playElement(clock, {
     ...(sourceCharacter ?? DEFAULT_CHARACTER),
     pose: sourceCharacter?.pose ?? SPLIT_CHARACTER_POSE,
     position: 'bottom_right',
     animation: 'draw_in',
-    startAtFrame: sourceCharacter?.startAtFrame ?? lastBoardStart + 38,
-  };
+  }) as CharacterElement;
 
+  return {
+    character,
+    left,
+    right,
+    cameraMoves: [],
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
+export function getSplitLayoutParts(scene: SceneSchema): {
+  character: CharacterElement;
+  left: SceneElement[];
+  right: SceneElement[];
+} {
+  const { character, left, right } = sequenceSplitLayout(scene);
   return { character, left, right };
 }
 
 export function getSplitLayoutCameraMoves(_scene: SceneSchema): CameraMove[] {
   return [];
+}
+
+export function getSplitLayoutDuration(scene: SceneSchema): number {
+  return sequenceSplitLayout(scene).durationFrames;
 }

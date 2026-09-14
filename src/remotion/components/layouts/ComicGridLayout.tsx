@@ -13,7 +13,7 @@ import {
   COMIC_PANEL_INNER_STYLE,
   COMIC_STAGE_STYLE,
   COMIC_STROKE_WIDTH,
-  getActivePanelIndex,
+  getComicGridLayoutParts,
   getComicPanelFrameStyle,
   getComicPanelImageSize,
   getComicPanelRects,
@@ -159,14 +159,19 @@ export const ComicGridLayout: FC<BoardLayoutProps> = ({
   activePanelIndex: activeFromProps,
 }) => {
   const frame = useCurrentFrame();
-  const { elements, durationFrames } = scene;
+  const { panels, focusAt, zoomOutAt } = getComicGridLayoutParts(scene);
   const rects = getComicPanelRects();
   const activePanelIndex =
-    activeFromProps ?? getActivePanelIndex(frame, durationFrames);
+    activeFromProps ??
+    (frame >= zoomOutAt
+      ? null
+      : frame >= focusAt[2] && focusAt[2] > 0
+        ? 2
+        : frame >= focusAt[1] && focusAt[1] > 0
+          ? 1
+          : 0);
 
-  const panel0 = elements.filter((element) => element.panel === 0);
-  const panel1 = elements.filter((element) => element.panel === 1);
-  const panel2 = elements.filter((element) => element.panel === 2);
+  const [panel0, panel1, panel2] = panels;
 
   return (
     <AbsoluteFill>

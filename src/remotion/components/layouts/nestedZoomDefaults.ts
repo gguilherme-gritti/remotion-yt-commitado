@@ -7,6 +7,12 @@ import type {
   SceneSchema,
   TextElement,
 } from '../../../types/scene';
+import {
+  createClock,
+  playElements,
+  setupCamera,
+  sortByOriginalStart,
+} from '../pacing';
 
 export const NESTED_ENTRY_FRAMES = 40;
 export const NESTED_ZOOM_FRAMES = 40;
@@ -123,48 +129,81 @@ function pickContainer(scene: SceneSchema): ImageElement {
   return firstImage ?? DEFAULT_CONTAINER;
 }
 
-function shiftToStage(elements: SceneElement[]): SceneElement[] {
-  if (elements.length === 0) {
-    return DEFAULT_NESTED.map((element) => ({ ...element }));
-  }
-
-  const earliest = elements.reduce(
-    (min, element) => Math.min(min, element.startAtFrame),
-    Number.POSITIVE_INFINITY,
-  );
-  const shift = Math.max(0, NESTED_STAGE_AT - earliest);
-
-  return elements.map((element) => ({
-    ...element,
-    startAtFrame: element.startAtFrame + shift,
-  }));
-}
-
-export function getNestedZoomLayoutParts(scene: SceneSchema): {
+type NestedZoomSequence = {
   container: ImageElement;
   nested: SceneElement[];
   outer: SceneElement[];
-} {
+  enterFrames: number;
+  zoomAt: number;
+  zoomFrames: number;
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceNestedZoomLayout(scene: SceneSchema): NestedZoomSequence {
+  const clock = createClock(scene);
+  const enterFrames = clock.preset.entryFrames * 2;
+  const zoomFrames = clock.preset.cameraBlendFrames;
   const containerSource = pickContainer(scene);
+  const nestedSources = sortByOriginalStart(
+    scene.elements.filter(
+      (element) => element.nested === true && element !== containerSource,
+    ),
+  );
+  const used = new Set<SceneElement>([containerSource, ...nestedSources]);
+  const outerSources = sortByOriginalStart(
+    boardElements(scene).filter((element) => !used.has(element)),
+  );
+
   const container: ImageElement = {
     ...containerSource,
     isContainer: true,
     nested: false,
     position: 'center',
     size: containerSource.size ?? NESTED_FRAME_SIZE,
-    startAtFrame: 0,
+    startAtFrame: clock.now(),
     animation: containerSource.animation ?? 'none',
   };
 
-  const nestedSource = scene.elements.filter(
-    (element) => element.nested === true && element !== containerSource,
+  clock.take(enterFrames);
+  const outer = playElements(clock, outerSources);
+  const zoomAt = clock.take(zoomFrames);
+  const nested = playElements(
+    clock,
+    nestedSources.length > 0
+      ? nestedSources
+      : DEFAULT_NESTED.map((element) => ({ ...element })),
   );
-  const nested = shiftToStage(nestedSource);
 
-  const used = new Set<SceneElement>([containerSource, ...nestedSource]);
-  const outer = boardElements(scene).filter((element) => !used.has(element));
+  return {
+    container,
+    nested,
+    outer,
+    enterFrames,
+    zoomAt,
+    zoomFrames,
+    cameraMoves: [
+      setupCamera({
+        type: 'none',
+        target: 'center',
+        zoom: 1,
+      }),
+    ],
+    durationFrames: clock.sceneDuration(),
+  };
+}
 
-  return { container, nested, outer };
+export function getNestedZoomLayoutParts(scene: SceneSchema): {
+  container: ImageElement;
+  nested: SceneElement[];
+  outer: SceneElement[];
+  enterFrames: number;
+  zoomAt: number;
+  zoomFrames: number;
+} {
+  const { container, nested, outer, enterFrames, zoomAt, zoomFrames } =
+    sequenceNestedZoomLayout(scene);
+  return { container, nested, outer, enterFrames, zoomAt, zoomFrames };
 }
 
 export function isNestedText(element: SceneElement): element is TextElement {
@@ -183,11 +222,14 @@ export function isNestedCharacter(
 
 export function getNestedZoomLayoutCameraMoves(_scene: SceneSchema): CameraMove[] {
   return [
-    {
-      startAtFrame: 0,
+    setupCamera({
       type: 'none',
       target: 'center',
       zoom: 1,
-    },
+    }),
   ];
+}
+
+export function getNestedZoomLayoutDuration(scene: SceneSchema): number {
+  return sequenceNestedZoomLayout(scene).durationFrames;
 }
