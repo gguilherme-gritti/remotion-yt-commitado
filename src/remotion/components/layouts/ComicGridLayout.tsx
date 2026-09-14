@@ -6,9 +6,11 @@ import { TimedElement } from '../SceneElementView';
 import {
   COMIC_CANVAS_HEIGHT,
   COMIC_CANVAS_WIDTH,
+  COMIC_CAPTION_STYLE,
   COMIC_FONT_SIZE,
   COMIC_IMAGE_SCALE,
   COMIC_INK_COLOR,
+  COMIC_MEDIA_STYLE,
   COMIC_PANEL_CHARACTER_STYLE,
   COMIC_PANEL_INNER_STYLE,
   COMIC_STAGE_STYLE,
@@ -104,6 +106,8 @@ const ComicPanel: FC<{
 }> = ({ videoId, sceneId, panelIndex, rect, elements, active }) => {
   const { characters, board } = splitComicPanelContent(elements);
   const imageSize = getComicPanelImageSize(panelIndex);
+  const captions = board.filter(isComicText);
+  const media = board.filter((element) => !isComicText(element));
 
   return (
     <div
@@ -112,27 +116,38 @@ const ComicPanel: FC<{
         zIndex: active ? 4 : 2,
       }}
     >
-      <div
-        style={{
-          ...COMIC_PANEL_INNER_STYLE,
-          justifyContent: characters.length > 0 ? 'flex-start' : 'center',
-          paddingTop: characters.length > 0 ? 36 : 22,
-        }}
-      >
-        {board.map((element, index) => (
-          <TimedElement
-            key={`${sceneId}-panel-${panelIndex}-board-${index}`}
-            sceneId={sceneId}
-            index={panelIndex * 20 + index}
-            videoId={videoId}
-            element={element}
-            inline
-            size={isComicImage(element) ? imageSize : undefined}
-            scale={isComicImage(element) ? COMIC_IMAGE_SCALE : undefined}
-            fontSize={isComicText(element) ? COMIC_FONT_SIZE : undefined}
-            textAlign="center"
-          />
-        ))}
+      <div style={COMIC_PANEL_INNER_STYLE}>
+        {captions.length > 0 ? (
+          <div style={COMIC_CAPTION_STYLE}>
+            {captions.map((element, index) => (
+              <TimedElement
+                key={`${sceneId}-panel-${panelIndex}-caption-${index}`}
+                sceneId={sceneId}
+                index={panelIndex * 20 + index}
+                videoId={videoId}
+                element={element}
+                inline
+                fontSize={COMIC_FONT_SIZE}
+                textAlign="center"
+              />
+            ))}
+          </div>
+        ) : null}
+
+        <div style={COMIC_MEDIA_STYLE}>
+          {media.map((element, index) => (
+            <TimedElement
+              key={`${sceneId}-panel-${panelIndex}-media-${index}`}
+              sceneId={sceneId}
+              index={panelIndex * 20 + 10 + index}
+              videoId={videoId}
+              element={element}
+              inline
+              size={isComicImage(element) ? imageSize : undefined}
+              scale={isComicImage(element) ? COMIC_IMAGE_SCALE : undefined}
+            />
+          ))}
+        </div>
       </div>
 
       {characters.map((element, index) => (

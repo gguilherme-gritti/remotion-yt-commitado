@@ -51,12 +51,32 @@ export const COMIC_PANEL_INNER_STYLE: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
-  gap: 14,
+  justifyContent: 'flex-start',
+  gap: 10,
   padding: 22,
   boxSizing: 'border-box',
   overflow: 'hidden',
   zIndex: 2,
+};
+
+export const COMIC_CAPTION_STYLE: CSSProperties = {
+  flex: '0 0 auto',
+  width: '100%',
+  minHeight: COMIC_FONT_SIZE * 1.35,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  zIndex: 3,
+};
+
+export const COMIC_MEDIA_STYLE: CSSProperties = {
+  flex: 1,
+  minHeight: 0,
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 };
 
 export const COMIC_PANEL_CHARACTER_STYLE: CSSProperties = {

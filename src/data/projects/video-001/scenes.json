@@ -6,10 +6,10 @@
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
+    "comic_grid",
     "timeline",
     "spotlight",
     "nested_zoom",
-    "comic_grid",
     "impacto_manga",
     "teia_radial",
     "split_comparativo",
