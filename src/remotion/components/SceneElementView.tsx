@@ -130,6 +130,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           pose={element.pose}
           animation={element.animation}
           position={characterPosition ?? element.position ?? 'bottom_right'}
+          inline={inline}
           {...overlay}
           lineBoil={element.lineBoil}
         />

@@ -38,8 +38,9 @@ export function getSketchImagePositionStyle(position: ElementPosition): CSSPrope
       return {
         ...base,
         left: '50%',
-        top: '15%',
+        top: 56,
         transform: 'translate(-50%, 0)',
+        textAlign: 'center',
       };
     case 'top_left':
       return { ...base, top: SAFE_MARGIN_PX, left: SAFE_MARGIN_PX };

@@ -17,7 +17,7 @@ import type {
 import { AnnotatedBox } from "./annotations/AnnotationOverlay";
 import { LineBoil } from "./effects/LineBoilFilter";
 import { getSketchImagePositionStyle } from "./elementPosition";
-import { POP_SPRING, SOFT_SPRING } from "./motion";
+import { ENTRY_DURATION_FRAMES, POP_SPRING, SOFT_SPRING } from "./motion";
 
 interface SketchImageProps {
   videoId: string;
@@ -76,6 +76,7 @@ export const SketchImage = ({
   const pop = spring({
     frame,
     fps,
+    durationInFrames: ENTRY_DURATION_FRAMES,
     config: useSoftEntry ? SOFT_SPRING : POP_SPRING,
   });
 
@@ -97,7 +98,7 @@ export const SketchImage = ({
       annotationColor={annotationColor}
       annotationDirection={annotationDirection}
     >
-      <LineBoil enabled={lineBoil}>
+      <LineBoil enabled={lineBoil} mixBlendMode="multiply">
         <Img
           src={resolveProjectImage(videoId, src)}
           style={{
@@ -107,8 +108,9 @@ export const SketchImage = ({
             maxHeight: width,
             height: "auto",
             objectFit: "contain",
+            objectPosition: "center center",
             backgroundColor: "transparent",
-            mixBlendMode: "multiply",
+            mixBlendMode: lineBoil ? undefined : "multiply",
             opacity,
             transform: `scale(${enterScale})`,
             transformOrigin: "center center",
@@ -119,14 +121,18 @@ export const SketchImage = ({
   );
 
   if (inline) {
-    return image;
+    return (
+      <div style={{ display: "inline-block", mixBlendMode: "multiply" }}>
+        {image}
+      </div>
+    );
   }
 
   return (
     <AbsoluteFill
       style={{
         pointerEvents: "none",
-        zIndex: annotation && annotation !== "none" ? 55 : 10,
+        zIndex: annotation && annotation !== "none" ? 55 : 4,
         overflow: "visible",
       }}
     >

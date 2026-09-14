@@ -58,7 +58,8 @@ export type LayoutType =
   | 'impacto_manga'
   | 'comic_grid'
   | 'nested_zoom'
-  | 'timeline';
+  | 'timeline'
+  | 'spotlight';
 
 export type TextAnimation = 'typewriter';
 
@@ -119,6 +120,11 @@ interface SceneElementBase {
    * Etapa do TimelineLayout (0–3). Sem este campo, o layout agrupa pela ordem.
    */
   step?: 0 | 1 | 2 | 3;
+  /**
+   * Alvo do SpotlightLayout. `isTarget` e `target` são equivalentes.
+   */
+  isTarget?: boolean;
+  target?: boolean;
 }
 
 export interface CharacterElement extends SceneElementBase {

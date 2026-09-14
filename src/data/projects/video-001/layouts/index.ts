@@ -8,6 +8,7 @@ import impactoManga from './impacto_manga.json';
 import listaCondicional from './lista_condicional.json';
 import nestedZoom from './nested_zoom.json';
 import splitComparativo from './split_comparativo.json';
+import spotlight from './spotlight.json';
 import teiaRadial from './teia_radial.json';
 import timeline from './timeline.json';
 
@@ -23,4 +24,5 @@ export const VIDEO_001_LAYOUTS: Record<string, SceneSchema> = {
   comic_grid: comicGrid as SceneSchema,
   nested_zoom: nestedZoom as SceneSchema,
   timeline: timeline as SceneSchema,
+  spotlight: spotlight as SceneSchema,
 };

@@ -1,0 +1,50 @@
+{
+  "id": "preview_spotlight",
+  "durationFrames": 260,
+  "layoutType": "spotlight",
+  "scenes_context": "SpotlightLayout: contexto entra no plano normal; no startAtFrame do isTarget os secundários esmaecem (opacity 0.25, grayscale) e o alvo ganha scale 1.1, encircle e punch-in 1.12x.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "QUAL É O PROBLEMA?",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "character",
+      "pose": "confuso",
+      "startAtFrame": 8,
+      "animation": "draw_in",
+      "position": "bottom_left"
+    },
+    {
+      "type": "image",
+      "src": "monitor_hacker.jpg",
+      "imageIdea": "Contexto à esquerda, vai esmaecer.",
+      "startAtFrame": 16,
+      "animation": "pop_in",
+      "position": "center_left",
+      "size": "medium"
+    },
+    {
+      "type": "image",
+      "src": "computador_amigavel.jpg",
+      "imageIdea": "Contexto à direita, vai esmaecer.",
+      "startAtFrame": 28,
+      "animation": "slide_in",
+      "position": "center_right",
+      "size": "medium"
+    },
+    {
+      "type": "image",
+      "src": "placa_alerta.jpeg",
+      "imageIdea": "Alvo do spotlight no centro.",
+      "startAtFrame": 54,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "medium",
+      "isTarget": true
+    }
+  ]
+}

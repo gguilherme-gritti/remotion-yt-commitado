@@ -1,11 +1,14 @@
+/** Entrada pausada e grounded das imagens/personagens. */
+export const ENTRY_DURATION_FRAMES = 20;
+
 export const POP_SPRING = {
-  mass: 0.7,
-  damping: 14,
-  stiffness: 140,
+  mass: 0.8,
+  damping: 18,
+  stiffness: 110,
 } as const;
 
 export const SOFT_SPRING = {
-  mass: 0.9,
+  mass: 0.8,
   damping: 18,
   stiffness: 90,
 } as const;

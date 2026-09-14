@@ -10,6 +10,7 @@ import { MangaImpactLayout } from './MangaImpactLayout';
 import { NestedZoomLayout } from './NestedZoomLayout';
 import { RadialWebLayout } from './RadialWebLayout';
 import { SplitLayout } from './SplitLayout';
+import { SpotlightLayout } from './SpotlightLayout';
 import { TimelineLayout } from './TimelineLayout';
 import { VerticalFlowLayout } from './VerticalFlowLayout';
 
@@ -24,6 +25,7 @@ export const LAYOUT_MAP: Record<LayoutType, FC<BoardLayoutProps>> = {
   comic_grid: ComicGridLayout,
   nested_zoom: NestedZoomLayout,
   timeline: TimelineLayout,
+  spotlight: SpotlightLayout,
 };
 
 export {
@@ -36,6 +38,7 @@ export {
   NestedZoomLayout,
   RadialWebLayout,
   SplitLayout,
+  SpotlightLayout,
   TimelineLayout,
   VerticalFlowLayout,
 };

@@ -8,6 +8,7 @@ import { getMangaImpactLayoutCameraMoves } from './mangaImpactDefaults';
 import { getNestedZoomLayoutCameraMoves } from './nestedZoomDefaults';
 import { getRadialLayoutCameraMoves } from './radialDefaults';
 import { getSplitLayoutCameraMoves } from './splitDefaults';
+import { getSpotlightLayoutCameraMoves } from './spotlightDefaults';
 import { getTimelineLayoutCameraMoves } from './timelineDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
@@ -32,6 +33,8 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getNestedZoomLayoutCameraMoves(scene);
     case 'timeline':
       return getTimelineLayoutCameraMoves(scene);
+    case 'spotlight':
+      return getSpotlightLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }
