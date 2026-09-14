@@ -1,13 +1,5 @@
 import type { FC } from 'react';
-import {
-  AbsoluteFill,
-  Easing,
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-} from 'remotion';
-import { POP_SPRING } from '../motion';
+import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
@@ -15,7 +7,6 @@ import {
   TIMELINE_AXIS_Y,
   TIMELINE_CANVAS_HEIGHT,
   TIMELINE_CANVAS_WIDTH,
-  TIMELINE_DIM_OPACITY,
   TIMELINE_FONT_SIZE,
   TIMELINE_IMAGE_SCALE,
   TIMELINE_INK,
@@ -23,12 +14,12 @@ import {
   TIMELINE_STAGE_STYLE,
   TIMELINE_STROKE_WIDTH,
   TIMELINE_TITLE_STYLE,
-  getActiveTimelineStep,
   getTimelineLayoutParts,
-  getTimelineLineProgress,
+  getTimelineNodeFocus,
   getTimelineNodeStyle,
   getTimelinePanX,
-  getTimelinePath,
+  getTimelineSegmentDraw,
+  getTimelineSegmentPath,
   isTimelineImage,
   isTimelineText,
   type TimelineStep,
@@ -36,17 +27,37 @@ import {
 
 const ROUGHNESS_FILTER_ID = 'ink-roughness-timeline';
 const BOIL_HOLD_FRAMES = 3;
-const PATH_LENGTH = 1;
+
+function getDotOpacity(
+  frame: number,
+  step: TimelineStep,
+  nextStep: TimelineStep | undefined,
+): number {
+  const { opacity: live } = getTimelineNodeFocus(frame, step, nextStep);
+  if (step.index === 0) {
+    return live;
+  }
+
+  const arrive = interpolate(
+    getTimelineSegmentDraw(frame, step),
+    [0.5, 1],
+    [0, 1],
+    {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    },
+  );
+
+  return frame < step.startAtFrame ? arrive : live;
+}
 
 const TimelineInk: FC<{
   steps: TimelineStep[];
-  progress: number;
-  activeStep: number;
-}> = ({ steps, progress, activeStep }) => {
+}> = ({ steps }) => {
   const frame = useCurrentFrame();
   const seed = Math.floor(Math.max(0, frame) / BOIL_HOLD_FRAMES);
-  const path = getTimelinePath(steps);
   const axisY = TIMELINE_AXIS_Y * TIMELINE_CANVAS_HEIGHT;
+  const growRange = TIMELINE_ACTIVE_SCALE - 1;
 
   return (
     <svg
@@ -99,24 +110,36 @@ const TimelineInk: FC<{
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path
-          d={path}
-          pathLength={PATH_LENGTH}
-          strokeDasharray={PATH_LENGTH}
-          strokeDashoffset={PATH_LENGTH * (1 - progress)}
-        />
+        {steps.slice(1).map((step, index) => {
+          const draw = getTimelineSegmentDraw(frame, step);
+          const cap = interpolate(draw, [0, 0.06], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          });
+
+          return (
+            <path
+              key={`timeline-seg-${step.index}`}
+              d={getTimelineSegmentPath(steps[index], step)}
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={1 - draw}
+              opacity={cap}
+            />
+          );
+        })}
         {steps.map((step) => {
-          const reached = progress >= step.index / Math.max(1, steps.length - 1) - 0.02;
-          const active = step.index === activeStep;
+          const focus = getTimelineNodeFocus(frame, step, steps[step.index + 1]);
+          const grow = growRange > 0 ? (focus.scale - 1) / growRange : 0;
 
           return (
             <circle
               key={`timeline-dot-${step.index}`}
               cx={step.x * TIMELINE_CANVAS_WIDTH}
               cy={axisY}
-              r={active ? TIMELINE_NODE_RADIUS + 2 : TIMELINE_NODE_RADIUS}
+              r={TIMELINE_NODE_RADIUS + 2 * Math.max(0, grow)}
               fill={TIMELINE_INK}
-              opacity={reached ? (active ? 1 : TIMELINE_DIM_OPACITY) : 0}
+              opacity={getDotOpacity(frame, step, steps[step.index + 1])}
             />
           );
         })}
@@ -129,53 +152,10 @@ const TimelineNode: FC<{
   videoId: string;
   sceneId: string;
   step: TimelineStep;
-  active: boolean;
-  nextStartAtFrame: number;
-}> = ({ videoId, sceneId, step, active, nextStartAtFrame }) => {
+  nextStep?: TimelineStep;
+}> = ({ videoId, sceneId, step, nextStep }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const pop = spring({
-    frame: Math.max(0, frame - step.startAtFrame),
-    fps,
-    durationInFrames: 16,
-    config: POP_SPRING,
-  });
-  const scale = active
-    ? interpolate(pop, [0, 1], [1, TIMELINE_ACTIVE_SCALE], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-      })
-    : 1;
-
-  const appear = interpolate(
-    frame,
-    [step.startAtFrame, step.startAtFrame + 8],
-    [TIMELINE_DIM_OPACITY, 1],
-    {
-      easing: Easing.bezier(0.4, 0, 0.2, 1),
-      extrapolateLeft: 'clamp',
-      extrapolateRight: 'clamp',
-    },
-  );
-  const fadePast = Number.isFinite(nextStartAtFrame)
-    ? interpolate(
-        frame,
-        [nextStartAtFrame, nextStartAtFrame + 10],
-        [1, TIMELINE_DIM_OPACITY],
-        {
-          easing: Easing.bezier(0.4, 0, 0.2, 1),
-          extrapolateLeft: 'clamp',
-          extrapolateRight: 'clamp',
-        },
-      )
-    : 1;
-  const opacity =
-    frame < step.startAtFrame
-      ? TIMELINE_DIM_OPACITY
-      : Number.isFinite(nextStartAtFrame) && frame >= nextStartAtFrame
-        ? fadePast
-        : appear;
-
+  const { opacity, scale } = getTimelineNodeFocus(frame, step, nextStep);
   const images = step.elements.filter(isTimelineImage);
   const texts = step.elements.filter(isTimelineText);
 
@@ -244,16 +224,10 @@ const TimelineNode: FC<{
   );
 };
 
-export const TimelineLayout: FC<BoardLayoutProps> = ({
-  videoId,
-  scene,
-  activeStep: activeFromProps,
-}) => {
+export const TimelineLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();
   const { title, character, steps } = getTimelineLayoutParts(scene);
-  const activeStep = activeFromProps ?? getActiveTimelineStep(frame, steps);
   const panX = getTimelinePanX(frame, steps);
-  const lineProgress = getTimelineLineProgress(frame, steps);
 
   return (
     <AbsoluteFill>
@@ -285,21 +259,14 @@ export const TimelineLayout: FC<BoardLayoutProps> = ({
           transform: `translateX(${panX}px)`,
         }}
       >
-        <TimelineInk
-          steps={steps}
-          progress={lineProgress}
-          activeStep={activeStep}
-        />
+        <TimelineInk steps={steps} />
         {steps.map((step, index) => (
           <TimelineNode
             key={`${scene.id}-node-${step.index}`}
             videoId={videoId}
             sceneId={scene.id}
             step={step}
-            active={step.index === activeStep}
-            nextStartAtFrame={
-              steps[index + 1]?.startAtFrame ?? Number.POSITIVE_INFINITY
-            }
+            nextStep={steps[index + 1]}
           />
         ))}
       </div>

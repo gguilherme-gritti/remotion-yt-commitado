@@ -23,11 +23,13 @@ export const TIMELINE_AXIS_Y = 0.52;
 export const TIMELINE_FONT_SIZE = 34;
 export const TIMELINE_IMAGE_SCALE = 1.12;
 export const TIMELINE_CHARACTER_POSE = 'curioso';
-export const TIMELINE_ACTIVE_SCALE = 1.1;
-export const TIMELINE_DIM_OPACITY = 0.35;
+export const TIMELINE_ACTIVE_SCALE = 1.08;
+export const TIMELINE_DIM_OPACITY = 0.52;
 export const TIMELINE_PAN_PX = 160;
 export const TIMELINE_PAN_BLEND = 28;
 export const TIMELINE_LINE_BLEND = 22;
+export const TIMELINE_APPEAR_FRAMES = 20;
+export const TIMELINE_DIM_FRAMES = 36;
 export const TIMELINE_NODE_RADIUS = 11;
 export const TIMELINE_MIN_STEPS = 3;
 export const TIMELINE_MAX_STEPS = 4;
@@ -203,7 +205,7 @@ type TimelineSequence = {
 export function sequenceTimelineLayout(scene: SceneSchema): TimelineSequence {
   const clock = createClock(scene);
   const panFrames = clock.preset.cameraBlendFrames;
-  const lineFrames = Math.max(12, Math.round(clock.preset.entryFrames * 1.1));
+  const lineFrames = Math.max(TIMELINE_LINE_BLEND, clock.preset.cameraBlendFrames);
   const titleSource = scene.elements.find(
     (element): element is TextElement =>
       element.type === 'text' &&
@@ -319,31 +321,58 @@ export function getTimelinePanX(frame: number, steps: TimelineStep[]): number {
   return pan;
 }
 
+/** 0–1: quanto do risco que chega neste nó já foi traçado. */
+export function getTimelineSegmentDraw(frame: number, step: TimelineStep): number {
+  if (step.index <= 0) {
+    return 0;
+  }
+
+  return interpolate(frame, [step.lineAt, step.lineAt + step.lineFrames], [0, 1], {
+    easing: SMOOTH,
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+}
+
+export function getTimelineSegmentPath(from: TimelineStep, to: TimelineStep): string {
+  const y = TIMELINE_AXIS_Y * TIMELINE_CANVAS_HEIGHT;
+  const prev = from.x * TIMELINE_CANVAS_WIDTH;
+  const curr = to.x * TIMELINE_CANVAS_WIDTH;
+  const mid = (prev + curr) / 2;
+  const wobble = to.index % 2 === 0 ? 12 : -12;
+  return `M ${prev} ${y} C ${mid} ${y + wobble}, ${mid} ${y + wobble}, ${curr} ${y}`;
+}
+
 export function getTimelineLineProgress(frame: number, steps: TimelineStep[]): number {
   if (steps.length <= 1) {
     return 1;
   }
 
-  let progress = 0;
+  const last = steps.length - 1;
+  if (frame < steps[1].lineAt) {
+    return 0;
+  }
 
-  for (let index = 1; index < steps.length; index += 1) {
-    const from = (index - 1) / (steps.length - 1);
-    const to = index / (steps.length - 1);
+  for (let index = 1; index <= last; index += 1) {
     const start = steps[index].lineAt;
     const end = start + steps[index].lineFrames;
+    const from = (index - 1) / last;
+    const to = index / last;
 
     if (frame < start) {
       return from;
     }
 
-    progress = interpolate(frame, [start, end], [from, to], {
-      easing: SMOOTH,
-      extrapolateLeft: 'clamp',
-      extrapolateRight: 'clamp',
-    });
+    if (frame <= end || index === last) {
+      return interpolate(frame, [start, end], [from, to], {
+        easing: SMOOTH,
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+      });
+    }
   }
 
-  return progress;
+  return 1;
 }
 
 export function getTimelinePath(steps: TimelineStep[]): string {
@@ -364,6 +393,54 @@ export function getTimelinePath(steps: TimelineStep[]): string {
   }
 
   return d;
+}
+
+export function getTimelineNodeFocus(
+  frame: number,
+  step: TimelineStep,
+  nextStep?: TimelineStep,
+): { opacity: number; scale: number } {
+  if (frame < step.startAtFrame) {
+    return { opacity: 0, scale: 1 };
+  }
+
+  const appear = interpolate(
+    frame,
+    [step.startAtFrame, step.startAtFrame + TIMELINE_APPEAR_FRAMES],
+    [0, 1],
+    {
+      easing: SMOOTH,
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    },
+  );
+
+  const dimStart = nextStep?.panAt ?? Number.POSITIVE_INFINITY;
+  const dimFrames = nextStep
+    ? Math.max(TIMELINE_DIM_FRAMES, nextStep.panFrames + nextStep.lineFrames)
+    : TIMELINE_DIM_FRAMES;
+  const live = Number.isFinite(dimStart)
+    ? interpolate(frame, [dimStart, dimStart + dimFrames], [1, TIMELINE_DIM_OPACITY], {
+        easing: SMOOTH,
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+      })
+    : 1;
+  const focus = Number.isFinite(dimStart)
+    ? interpolate(frame, [dimStart, dimStart + dimFrames], [1, 0], {
+        easing: SMOOTH,
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+      })
+    : 1;
+
+  return {
+    opacity: appear * live,
+    scale: interpolate(appear * focus, [0, 1], [1, TIMELINE_ACTIVE_SCALE], {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    }),
+  };
 }
 
 export function isTimelineText(element: SceneElement): element is TextElement {

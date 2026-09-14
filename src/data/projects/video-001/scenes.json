@@ -6,8 +6,8 @@
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
-    "spotlight",
     "timeline",
+    "spotlight",
     "nested_zoom",
     "comic_grid",
     "impacto_manga",
