@@ -6,7 +6,12 @@ import type {
   SceneSchema,
   TextElement,
 } from "../../../types/scene";
-import { CAMERA_BLEND_FRAMES } from "../dynamicCamera";
+import {
+  createClock,
+  playCamera,
+  playElement,
+  setupCamera,
+} from "../pacing";
 
 export const LIST_CHARACTER_POSE = "joia.jpg";
 export const LIST_CHARACTER_SCALE = 1.22;
@@ -51,21 +56,18 @@ export type ListLayoutItem = {
   image?: ImageElement;
 };
 
-export function getListLayoutParts(scene: SceneSchema): {
+type ListSequence = {
   character: CharacterElement;
   items: ListLayoutItem[];
-} {
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceListLayout(scene: SceneSchema): ListSequence {
+  const clock = createClock(scene);
   const sourceCharacter = scene.elements.find(
     (element): element is CharacterElement => element.type === "character",
   );
-  const character: CharacterElement = {
-    ...(sourceCharacter ?? DEFAULT_CHARACTER),
-    pose: LIST_CHARACTER_POSE,
-    position: "center",
-    startAtFrame: 0,
-    animation: "draw_in",
-  };
-
   const texts = scene.elements.filter(
     (element): element is TextElement => element.type === "text",
   );
@@ -73,46 +75,61 @@ export function getListLayoutParts(scene: SceneSchema): {
     (element): element is ImageElement => element.type === "image",
   );
   const count = Math.max(texts.length, images.length);
-  const items: ListLayoutItem[] = Array.from({ length: count }, (_, index) => ({
-    text: texts[index],
-    image: images[index],
-  }));
 
+  const cameraMoves: CameraMove[] = [
+    setupCamera({
+      type: "zoom_in",
+      target: "center",
+      zoom: LIST_OPENING_ZOOM,
+    }),
+  ];
+
+  const character = playElement(clock, {
+    ...(sourceCharacter ?? DEFAULT_CHARACTER),
+    pose: LIST_CHARACTER_POSE,
+    position: "center",
+    animation: "draw_in",
+  }) as CharacterElement;
+
+  cameraMoves.push(
+    playCamera(clock, {
+      type: "none",
+      target: "center",
+      zoom: 1,
+    }),
+  );
+
+  const items: ListLayoutItem[] = Array.from({ length: count }, (_, index) => {
+    const text = texts[index]
+      ? (playElement(clock, texts[index]) as TextElement)
+      : undefined;
+    const image = images[index]
+      ? (playElement(clock, images[index]) as ImageElement)
+      : undefined;
+
+    return { text, image };
+  });
+
+  return {
+    character,
+    items,
+    cameraMoves,
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
+export function getListLayoutParts(scene: SceneSchema): {
+  character: CharacterElement;
+  items: ListLayoutItem[];
+} {
+  const { character, items } = sequenceListLayout(scene);
   return { character, items };
 }
 
 export function getListLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
-  const { character, items } = getListLayoutParts(scene);
-  const firstItemAt = items.reduce((earliest, item) => {
-    const candidates = [
-      item.text?.startAtFrame,
-      item.image?.startAtFrame,
-    ].filter((frame): frame is number => frame != null);
+  return sequenceListLayout(scene).cameraMoves;
+}
 
-    if (candidates.length === 0) {
-      return earliest;
-    }
-
-    return Math.min(earliest, ...candidates);
-  }, Number.POSITIVE_INFINITY);
-
-  const pullBackAt =
-    Number.isFinite(firstItemAt) && firstItemAt > character.startAtFrame
-      ? Math.max(character.startAtFrame + 20, firstItemAt - 8)
-      : character.startAtFrame + CAMERA_BLEND_FRAMES;
-
-  return [
-    {
-      startAtFrame: 0,
-      type: "zoom_in",
-      target: "center",
-      zoom: LIST_OPENING_ZOOM,
-    },
-    {
-      startAtFrame: pullBackAt,
-      type: "none",
-      target: "center",
-      zoom: 1,
-    },
-  ];
+export function getListLayoutDuration(scene: SceneSchema): number {
+  return sequenceListLayout(scene).durationFrames;
 }

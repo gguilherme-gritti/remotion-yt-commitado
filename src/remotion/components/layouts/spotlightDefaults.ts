@@ -9,8 +9,12 @@ import type {
   SceneSchema,
   TextElement,
 } from '../../../types/scene';
-import { applyEntryCadence } from '../entryCadence';
-import { ENTRY_DURATION_FRAMES } from '../motion';
+import {
+  createClock,
+  playElement,
+  setupCamera,
+  sortByOriginalStart,
+} from '../pacing';
 
 export const SPOTLIGHT_PUNCH_ZOOM = 1.12;
 export const SPOTLIGHT_TARGET_SCALE = 1.1;
@@ -24,7 +28,6 @@ export const SPOTLIGHT_CANVAS_WIDTH = 1920;
 export const SPOTLIGHT_CANVAS_HEIGHT = 1080;
 export const SPOTLIGHT_PAD_X = 80;
 export const SPOTLIGHT_PAD_Y = 60;
-/** Respiro depois que o alvo termina a entrada (15–20 frames). */
 export const SPOTLIGHT_HIGHLIGHT_HOLD_FRAMES = 18;
 
 const DEFAULT_TARGET: ImageElement = {
@@ -178,40 +181,43 @@ function pickTarget(elements: SceneElement[]): SceneElement {
   return firstImage ?? DEFAULT_TARGET;
 }
 
-export function getSpotlightHighlightAt(targetStartAtFrame: number): number {
-  return (
-    targetStartAtFrame +
-    ENTRY_DURATION_FRAMES +
-    SPOTLIGHT_HIGHLIGHT_HOLD_FRAMES
-  );
-}
-
-export function getSpotlightLayoutParts(scene: SceneSchema): {
+type SpotlightSequence = {
   target: SceneElement;
   texts: TextElement[];
   characters: CharacterElement[];
   row: SceneElement[];
   highlightAt: number;
+  punchFrames: number;
   focus: { x: number; y: number };
-} {
-  const staggered = applyEntryCadence(
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceSpotlightLayout(scene: SceneSchema): SpotlightSequence {
+  const clock = createClock(scene);
+  const board = sortByOriginalStart(
     scene.elements.filter((element) => element.type !== 'annotation'),
   );
-  const source = pickTarget(staggered);
-  const highlightAt = getSpotlightHighlightAt(source.startAtFrame);
+  const targetSource = pickTarget(board);
+  const others = board.filter((element) => element !== targetSource);
+  const punchFrames = Math.max(SPOTLIGHT_PUNCH_FRAMES, clock.preset.entryFrames);
+
+  const playedOthers = others.map((element) => playElement(clock, element));
+  const playedTarget = playElement(clock, targetSource, { skipAnnotation: true });
+  const highlightAt = clock.take(punchFrames);
+
   const target: SceneElement = {
-    ...source,
+    ...playedTarget,
     isTarget: true,
     annotation: 'encircle',
     annotationStartFrame: highlightAt,
-    annotationColor: source.annotationColor ?? '#111111',
+    annotationColor: playedTarget.annotationColor ?? '#111111',
   };
 
-  const secondary = staggered.filter((element) => element !== source);
-  const texts = secondary.filter(isSpotlightText);
-  const characters = staggered.filter(isSpotlightCharacter);
+  const texts = playedOthers.filter(isSpotlightText);
+  const characters = [...playedOthers, target].filter(isSpotlightCharacter);
   const row = [
-    ...secondary.filter(
+    ...playedOthers.filter(
       (element) => !isSpotlightText(element) && !isSpotlightCharacter(element),
     ),
     ...(isSpotlightText(target) || isSpotlightCharacter(target) ? [] : [target]),
@@ -228,20 +234,50 @@ export function getSpotlightLayoutParts(scene: SceneSchema): {
     characters,
     row,
     highlightAt,
+    punchFrames,
     focus:
       targetRowIndex >= 0
         ? getSpotlightRowFocus(targetRowIndex, row.length)
         : getSpotlightFocusPoint(target.position),
+    cameraMoves: [
+      setupCamera({
+        type: 'none',
+        target: 'center',
+        zoom: 1,
+      }),
+    ],
+    durationFrames: clock.sceneDuration(),
   };
+}
+
+export function getSpotlightLayoutParts(scene: SceneSchema): {
+  target: SceneElement;
+  texts: TextElement[];
+  characters: CharacterElement[];
+  row: SceneElement[];
+  highlightAt: number;
+  punchFrames: number;
+  focus: { x: number; y: number };
+} {
+  const { target, texts, characters, row, highlightAt, punchFrames, focus } =
+    sequenceSpotlightLayout(scene);
+  return { target, texts, characters, row, highlightAt, punchFrames, focus };
 }
 
 export function getSpotlightLayoutCameraMoves(_scene: SceneSchema): CameraMove[] {
   return [
-    {
-      startAtFrame: 0,
+    setupCamera({
       type: 'none',
       target: 'center',
       zoom: 1,
-    },
+    }),
   ];
+}
+
+export function getSpotlightLayoutDuration(scene: SceneSchema): number {
+  return sequenceSpotlightLayout(scene).durationFrames;
+}
+
+export function getSpotlightHighlightAt(scene: SceneSchema): number {
+  return sequenceSpotlightLayout(scene).highlightAt;
 }

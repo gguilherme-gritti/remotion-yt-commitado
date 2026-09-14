@@ -1,6 +1,7 @@
 import type { CameraMove, SceneSchema } from '../../../types/scene';
 import { getBalloonLayoutCameraMoves } from './balloonDefaults';
 import { getComicGridLayoutCameraMoves } from './comicGridDefaults';
+import { getFreeformLayoutCameraMoves } from './freeformDefaults';
 import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 import { getFlowLayoutCameraMoves } from './flowDefaults';
@@ -36,6 +37,6 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
     case 'spotlight':
       return getSpotlightLayoutCameraMoves(scene);
     default:
-      return scene.cameraMoves ?? [];
+      return getFreeformLayoutCameraMoves(scene);
   }
 }

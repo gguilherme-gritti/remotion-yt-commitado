@@ -7,15 +7,20 @@ import type {
   SceneElement,
   SceneSchema,
 } from '../../../types/scene';
-import { CAMERA_BLEND_FRAMES } from '../dynamicCamera';
+import {
+  createClock,
+  playCamera,
+  playElement,
+  playElements,
+  setupCamera,
+  sortByOriginalStart,
+} from '../pacing';
 
 export const RADIAL_CHARACTER_POSE = 'zanka.png';
 export const RADIAL_INTRO_ZOOM = 1;
 export const RADIAL_WEB_ZOOM = 1.48;
 export const RADIAL_MASTER_SCALE = 0.88;
 export const RADIAL_SATELLITE_SCALE = 1.1;
-
-const CHARACTER_HOLD_FRAMES = 40;
 
 const SIZE_RANK: Record<ImageSize, number> = {
   small: 0,
@@ -84,52 +89,82 @@ export function pickRadialMaster(images: ImageElement[]): ImageElement | undefin
   return ranked[0];
 }
 
+type RadialSequence = {
+  character: CharacterElement;
+  master: ImageElement | undefined;
+  satellites: SceneElement[];
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceRadialLayout(scene: SceneSchema): RadialSequence {
+  const clock = createClock(scene);
+  const sourceCharacter = scene.elements.find(
+    (element): element is CharacterElement => element.type === 'character',
+  );
+  const images = scene.elements.filter(
+    (element): element is ImageElement => element.type === 'image',
+  );
+  const masterSource = pickRadialMaster(images);
+  const satelliteSources = sortByOriginalStart(
+    scene.elements.filter(
+      (element) =>
+        element !== masterSource &&
+        element.type !== 'character' &&
+        element.type !== 'annotation',
+    ),
+  );
+
+  const cameraMoves: CameraMove[] = [
+    setupCamera({
+      type: 'none',
+      target: 'center',
+      zoom: RADIAL_INTRO_ZOOM,
+    }),
+  ];
+
+  const character = playElement(clock, {
+    ...(sourceCharacter ?? DEFAULT_CHARACTER),
+    pose: RADIAL_CHARACTER_POSE,
+    position: 'bottom_center',
+    animation: 'draw_in',
+  }) as CharacterElement;
+
+  cameraMoves.push(
+    playCamera(clock, {
+      type: 'none',
+      target: 'radial_web',
+      zoom: RADIAL_WEB_ZOOM,
+    }),
+  );
+
+  const master = masterSource
+    ? (playElement(clock, masterSource) as ImageElement)
+    : undefined;
+  const satellites = playElements(clock, satelliteSources);
+
+  return {
+    character,
+    master,
+    satellites,
+    cameraMoves,
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
 export function getRadialLayoutParts(scene: SceneSchema): {
   character: CharacterElement;
   master: ImageElement | undefined;
   satellites: SceneElement[];
 } {
-  const sourceCharacter = scene.elements.find(
-    (element): element is CharacterElement => element.type === 'character',
-  );
-  const character: CharacterElement = {
-    ...(sourceCharacter ?? DEFAULT_CHARACTER),
-    pose: RADIAL_CHARACTER_POSE,
-    position: 'bottom_center',
-    startAtFrame: 0,
-    animation: 'draw_in',
-  };
-
-  const images = scene.elements.filter(
-    (element): element is ImageElement => element.type === 'image',
-  );
-  const master = pickRadialMaster(images);
-  const satellites = scene.elements.filter(
-    (element) =>
-      element !== master &&
-      element.type !== 'character' &&
-      element.type !== 'annotation',
-  );
-
+  const { character, master, satellites } = sequenceRadialLayout(scene);
   return { character, master, satellites };
 }
 
 export function getRadialLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
-  const { character } = getRadialLayoutParts(scene);
-  const panUpAt = character.startAtFrame + CHARACTER_HOLD_FRAMES;
+  return sequenceRadialLayout(scene).cameraMoves;
+}
 
-  return [
-    {
-      startAtFrame: -CAMERA_BLEND_FRAMES,
-      type: 'none',
-      target: 'center',
-      zoom: RADIAL_INTRO_ZOOM,
-    },
-    {
-      startAtFrame: panUpAt,
-      type: 'none',
-      target: 'radial_web',
-      zoom: RADIAL_WEB_ZOOM,
-    },
-  ];
+export function getRadialLayoutDuration(scene: SceneSchema): number {
+  return sequenceRadialLayout(scene).durationFrames;
 }

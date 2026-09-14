@@ -8,6 +8,12 @@ import type {
   SceneSchema,
   TextElement,
 } from '../../../types/scene';
+import {
+  createClock,
+  playElement,
+  setupCamera,
+  sortByOriginalStart,
+} from '../pacing';
 
 export const TIMELINE_INK = '#111111';
 export const TIMELINE_STROKE_WIDTH = 4;
@@ -17,11 +23,13 @@ export const TIMELINE_AXIS_Y = 0.52;
 export const TIMELINE_FONT_SIZE = 34;
 export const TIMELINE_IMAGE_SCALE = 1.12;
 export const TIMELINE_CHARACTER_POSE = 'curioso';
-export const TIMELINE_ACTIVE_SCALE = 1.1;
-export const TIMELINE_DIM_OPACITY = 0.35;
+export const TIMELINE_ACTIVE_SCALE = 1.08;
+export const TIMELINE_DIM_OPACITY = 0.52;
 export const TIMELINE_PAN_PX = 160;
 export const TIMELINE_PAN_BLEND = 28;
 export const TIMELINE_LINE_BLEND = 22;
+export const TIMELINE_APPEAR_FRAMES = 20;
+export const TIMELINE_DIM_FRAMES = 36;
 export const TIMELINE_NODE_RADIUS = 11;
 export const TIMELINE_MIN_STEPS = 3;
 export const TIMELINE_MAX_STEPS = 4;
@@ -62,6 +70,10 @@ const DEFAULT_STEPS: { text: string; src: string; idea: string }[] = [
 export type TimelineStep = {
   index: number;
   startAtFrame: number;
+  panAt: number;
+  panFrames: number;
+  lineAt: number;
+  lineFrames: number;
   x: number;
   elements: SceneElement[];
   image?: ImageElement;
@@ -111,17 +123,6 @@ function boardElements(scene: SceneSchema): SceneElement[] {
   );
 }
 
-function firstStartAt(elements: SceneElement[]): number {
-  if (elements.length === 0) {
-    return 0;
-  }
-
-  return elements.reduce(
-    (earliest, element) => Math.min(earliest, element.startAtFrame),
-    Number.POSITIVE_INFINITY,
-  );
-}
-
 function defaultStep(index: number, startAtFrame: number): SceneElement[] {
   const source = DEFAULT_STEPS[Math.min(index, DEFAULT_STEPS.length - 1)];
   const step = index as 0 | 1 | 2 | 3;
@@ -165,9 +166,7 @@ function groupByStep(scene: SceneSchema): SceneElement[][] {
       buckets[index].push(element);
     });
   } else {
-    const ordered = board
-      .slice()
-      .sort((left, right) => left.startAtFrame - right.startAtFrame);
+    const ordered = sortByOriginalStart(board);
     const count = Math.min(
       TIMELINE_MAX_STEPS,
       Math.max(TIMELINE_MIN_STEPS, Math.ceil(ordered.length / 2) || TIMELINE_MIN_STEPS),
@@ -188,19 +187,26 @@ function groupByStep(scene: SceneSchema): SceneElement[][] {
 
   return Array.from({ length: count }, (_, index) => {
     if (filled[index] && filled[index].length > 0) {
-      return filled[index];
+      return sortByOriginalStart(filled[index]);
     }
 
     return defaultStep(index, index * 70);
   });
 }
 
-export function getTimelineLayoutParts(scene: SceneSchema): {
+type TimelineSequence = {
   title: TextElement | undefined;
   character: CharacterElement;
   steps: TimelineStep[];
-} {
-  const title = scene.elements.find(
+  cameraMoves: CameraMove[];
+  durationFrames: number;
+};
+
+export function sequenceTimelineLayout(scene: SceneSchema): TimelineSequence {
+  const clock = createClock(scene);
+  const panFrames = clock.preset.cameraBlendFrames;
+  const lineFrames = Math.max(TIMELINE_LINE_BLEND, clock.preset.cameraBlendFrames);
+  const titleSource = scene.elements.find(
     (element): element is TextElement =>
       element.type === 'text' &&
       element.position === 'top_center' &&
@@ -210,15 +216,29 @@ export function getTimelineLayoutParts(scene: SceneSchema): {
     (element): element is CharacterElement =>
       element.type === 'character' && element.step == null,
   );
-  const character: CharacterElement = {
+  const groups = groupByStep(scene);
+
+  const character = playElement(clock, {
     ...(sourceCharacter ?? DEFAULT_CHARACTER),
     pose: TIMELINE_CHARACTER_POSE,
     position: 'bottom_left',
     animation: 'draw_in',
-  };
+  }) as CharacterElement;
 
-  const groups = groupByStep(scene);
-  const steps: TimelineStep[] = groups.map((elements, index) => {
+  const title = titleSource
+    ? (playElement(clock, titleSource) as TextElement)
+    : undefined;
+
+  const steps: TimelineStep[] = groups.map((groupSources, index) => {
+    let panAt = clock.now();
+    let lineAt = clock.now();
+
+    if (index > 0) {
+      panAt = clock.take(panFrames);
+      lineAt = clock.take(lineFrames);
+    }
+
+    const elements = groupSources.map((element) => playElement(clock, element));
     const image = elements.find(
       (element): element is ImageElement => element.type === 'image',
     );
@@ -228,7 +248,11 @@ export function getTimelineLayoutParts(scene: SceneSchema): {
 
     return {
       index,
-      startAtFrame: firstStartAt(elements),
+      startAtFrame: elements[0]?.startAtFrame ?? clock.now(),
+      panAt,
+      panFrames: index > 0 ? panFrames : 1,
+      lineAt,
+      lineFrames: index > 0 ? lineFrames : 1,
       x: getTimelineNodeX(index, groups.length),
       elements,
       image,
@@ -236,6 +260,27 @@ export function getTimelineLayoutParts(scene: SceneSchema): {
     };
   });
 
+  return {
+    title,
+    character,
+    steps,
+    cameraMoves: [
+      setupCamera({
+        type: 'none',
+        target: 'center',
+        zoom: 1,
+      }),
+    ],
+    durationFrames: clock.sceneDuration(),
+  };
+}
+
+export function getTimelineLayoutParts(scene: SceneSchema): {
+  title: TextElement | undefined;
+  character: CharacterElement;
+  steps: TimelineStep[];
+} {
+  const { title, character, steps } = sequenceTimelineLayout(scene);
   return { title, character, steps };
 }
 
@@ -259,14 +304,14 @@ export function getTimelinePanX(frame: number, steps: TimelineStep[]): number {
   let pan = (0.5 - steps[0].x) * TIMELINE_PAN_PX;
 
   for (let index = 1; index < steps.length; index += 1) {
-    const start = steps[index].startAtFrame;
+    const start = steps[index].panAt;
     if (frame < start) {
       break;
     }
 
     const from = (0.5 - steps[index - 1].x) * TIMELINE_PAN_PX;
     const to = (0.5 - steps[index].x) * TIMELINE_PAN_PX;
-    pan = interpolate(frame, [start, start + TIMELINE_PAN_BLEND], [from, to], {
+    pan = interpolate(frame, [start, start + steps[index].panFrames], [from, to], {
       easing: SMOOTH,
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
@@ -276,28 +321,58 @@ export function getTimelinePanX(frame: number, steps: TimelineStep[]): number {
   return pan;
 }
 
+/** 0–1: quanto do risco que chega neste nó já foi traçado. */
+export function getTimelineSegmentDraw(frame: number, step: TimelineStep): number {
+  if (step.index <= 0) {
+    return 0;
+  }
+
+  return interpolate(frame, [step.lineAt, step.lineAt + step.lineFrames], [0, 1], {
+    easing: SMOOTH,
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+}
+
+export function getTimelineSegmentPath(from: TimelineStep, to: TimelineStep): string {
+  const y = TIMELINE_AXIS_Y * TIMELINE_CANVAS_HEIGHT;
+  const prev = from.x * TIMELINE_CANVAS_WIDTH;
+  const curr = to.x * TIMELINE_CANVAS_WIDTH;
+  const mid = (prev + curr) / 2;
+  const wobble = to.index % 2 === 0 ? 12 : -12;
+  return `M ${prev} ${y} C ${mid} ${y + wobble}, ${mid} ${y + wobble}, ${curr} ${y}`;
+}
+
 export function getTimelineLineProgress(frame: number, steps: TimelineStep[]): number {
   if (steps.length <= 1) {
     return 1;
   }
 
-  const active = getActiveTimelineStep(frame, steps);
-  const from = active / (steps.length - 1);
-
-  if (active >= steps.length - 1) {
-    return 1;
+  const last = steps.length - 1;
+  if (frame < steps[1].lineAt) {
+    return 0;
   }
 
-  const start = steps[active].startAtFrame;
-  const next = steps[active + 1].startAtFrame;
-  const drawStart = Math.max(start, next - TIMELINE_LINE_BLEND);
-  const to = (active + 1) / (steps.length - 1);
+  for (let index = 1; index <= last; index += 1) {
+    const start = steps[index].lineAt;
+    const end = start + steps[index].lineFrames;
+    const from = (index - 1) / last;
+    const to = index / last;
 
-  return interpolate(frame, [drawStart, next], [from, to], {
-    easing: SMOOTH,
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+    if (frame < start) {
+      return from;
+    }
+
+    if (frame <= end || index === last) {
+      return interpolate(frame, [start, end], [from, to], {
+        easing: SMOOTH,
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+      });
+    }
+  }
+
+  return 1;
 }
 
 export function getTimelinePath(steps: TimelineStep[]): string {
@@ -320,6 +395,54 @@ export function getTimelinePath(steps: TimelineStep[]): string {
   return d;
 }
 
+export function getTimelineNodeFocus(
+  frame: number,
+  step: TimelineStep,
+  nextStep?: TimelineStep,
+): { opacity: number; scale: number } {
+  if (frame < step.startAtFrame) {
+    return { opacity: 0, scale: 1 };
+  }
+
+  const appear = interpolate(
+    frame,
+    [step.startAtFrame, step.startAtFrame + TIMELINE_APPEAR_FRAMES],
+    [0, 1],
+    {
+      easing: SMOOTH,
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    },
+  );
+
+  const dimStart = nextStep?.panAt ?? Number.POSITIVE_INFINITY;
+  const dimFrames = nextStep
+    ? Math.max(TIMELINE_DIM_FRAMES, nextStep.panFrames + nextStep.lineFrames)
+    : TIMELINE_DIM_FRAMES;
+  const live = Number.isFinite(dimStart)
+    ? interpolate(frame, [dimStart, dimStart + dimFrames], [1, TIMELINE_DIM_OPACITY], {
+        easing: SMOOTH,
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+      })
+    : 1;
+  const focus = Number.isFinite(dimStart)
+    ? interpolate(frame, [dimStart, dimStart + dimFrames], [1, 0], {
+        easing: SMOOTH,
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+      })
+    : 1;
+
+  return {
+    opacity: appear * live,
+    scale: interpolate(appear * focus, [0, 1], [1, TIMELINE_ACTIVE_SCALE], {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    }),
+  };
+}
+
 export function isTimelineText(element: SceneElement): element is TextElement {
   return element.type === 'text';
 }
@@ -330,11 +453,14 @@ export function isTimelineImage(element: SceneElement): element is ImageElement 
 
 export function getTimelineLayoutCameraMoves(_scene: SceneSchema): CameraMove[] {
   return [
-    {
-      startAtFrame: 0,
+    setupCamera({
       type: 'none',
       target: 'center',
       zoom: 1,
-    },
+    }),
   ];
+}
+
+export function getTimelineLayoutDuration(scene: SceneSchema): number {
+  return sequenceTimelineLayout(scene).durationFrames;
 }

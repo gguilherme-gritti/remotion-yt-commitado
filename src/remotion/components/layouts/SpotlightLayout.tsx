@@ -15,7 +15,6 @@ import {
   SPOTLIGHT_DIM_GRAYSCALE,
   SPOTLIGHT_DIM_OPACITY,
   SPOTLIGHT_DIM_SCALE,
-  SPOTLIGHT_PUNCH_FRAMES,
   SPOTLIGHT_PUNCH_ZOOM,
   SPOTLIGHT_ROW_SLOT_STYLE,
   SPOTLIGHT_ROW_STYLE,
@@ -123,13 +122,13 @@ const SpotlightRowItem: FC<{
 export const SpotlightLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { target, texts, characters, row, highlightAt, focus } =
+  const { target, texts, characters, row, highlightAt, punchFrames, focus } =
     getSpotlightLayoutParts(scene);
 
   const dim = spring({
     frame: Math.max(0, frame - highlightAt),
     fps,
-    durationInFrames: SPOTLIGHT_PUNCH_FRAMES,
+    durationInFrames: punchFrames,
     config: SOFT_SPRING,
   });
   const punch = interpolate(dim, [0, 1], [1, SPOTLIGHT_PUNCH_ZOOM], {

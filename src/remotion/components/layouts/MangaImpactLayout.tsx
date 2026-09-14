@@ -8,13 +8,13 @@ import {
 } from 'remotion';
 import { MangaSpeedLines } from '../effects/MangaSpeedLines';
 import { POP_SPRING } from '../motion';
+import { usePacing } from '../PacingContext';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
   IMPACT_FOCUS_STYLE,
   IMPACT_FONT_SIZE,
   IMPACT_IMAGE_SIZE,
-  IMPACT_POP_FRAMES,
   IMPACT_STAGE_STYLE,
   getMangaImpactLayoutParts,
 } from './mangaImpactDefaults';
@@ -22,12 +22,13 @@ import {
 export const MangaImpactLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const { entryFrames } = usePacing();
   const { focus } = getMangaImpactLayoutParts(scene);
 
   const pop = spring({
-    frame,
+    frame: Math.max(0, frame - focus.startAtFrame),
     fps,
-    durationInFrames: IMPACT_POP_FRAMES,
+    durationInFrames: entryFrames,
     config: POP_SPRING,
   });
   const scale = interpolate(pop, [0, 1], [0.5, 1], {
@@ -41,7 +42,7 @@ export const MangaImpactLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
 
   return (
     <AbsoluteFill>
-      <MangaSpeedLines />
+      {frame >= focus.startAtFrame ? <MangaSpeedLines /> : null}
       <AbsoluteFill
         style={{
           ...IMPACT_STAGE_STYLE,

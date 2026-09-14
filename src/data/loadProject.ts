@@ -1,4 +1,5 @@
 import type { ProjectManifestSchema, ProjectSchema, SceneSchema } from '../types/scene';
+import { withPacedDuration } from '../remotion/components/layouts/resolveSceneDuration';
 import activeProject from './projects/active-project.json';
 import { VIDEO_001_LAYOUTS } from './projects/video-001/layouts';
 import video001Manifest from './projects/video-001/scenes.json';
@@ -9,14 +10,18 @@ function assembleProject(
   manifest: ProjectManifestSchema,
   layouts: Record<string, SceneSchema>,
 ): ProjectSchema {
-  const scenes = manifest.scenes.map((layoutId) => {
+  const scenes = manifest.scenes.map((layoutId, index) => {
     const scene = layouts[layoutId];
 
     if (!scene) {
       throw new Error(`Layout não encontrado: ${layoutId}`);
     }
 
-    return scene;
+    return withPacedDuration({
+      ...scene,
+      transitionIn: index > 0,
+      transitionOut: index < manifest.scenes.length - 1,
+    });
   });
 
   return {

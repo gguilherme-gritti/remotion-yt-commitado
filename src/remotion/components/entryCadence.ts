@@ -1,13 +1,15 @@
 import type { SceneElement } from '../../types/scene';
+import { PACING_PRESETS } from './pacing';
 
-/** Gaps menores que isto disparam o respiro automático. */
-export const ENTRY_CADENCE_TRIGGER_FRAMES = 20;
-/** Espaçamento forçado (25–30) quando as entradas estão coladas. */
-export const ENTRY_CADENCE_GAP_FRAMES = 28;
+/** @deprecated Use `BeatClock` / `playElement` em `pacing.ts`. */
+export const ENTRY_CADENCE_TRIGGER_FRAMES = PACING_PRESETS.medium.breathFrames;
+/** @deprecated Use `BeatClock` / `playElement` em `pacing.ts`. */
+export const ENTRY_CADENCE_GAP_FRAMES = PACING_PRESETS.medium.breathFrames +
+  PACING_PRESETS.medium.entryFrames;
 
 /**
- * Se dois elementos consecutivos entram com menos de 20 frames de intervalo,
- * empurra o seguinte para um respiro de 28 frames a partir do anterior já ajustado.
+ * @deprecated Layouts usam `BeatClock` para cadência sequencial.
+ * Mantido para espaçar entradas coladas em listas avulsas.
  */
 export function applyEntryCadence<T extends SceneElement>(
   elements: T[],
