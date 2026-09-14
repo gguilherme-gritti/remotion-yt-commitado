@@ -2,10 +2,11 @@
   "meta": {
     "title": "Preview — Layouts Modulares",
     "fps": 30,
-    "totalFrames": 2520,
+    "totalFrames": 2820,
     "audioFile": "audio/video-001.mp3"
   },
   "scenes": [
+    "timeline",
     "nested_zoom",
     "comic_grid",
     "impacto_manga",

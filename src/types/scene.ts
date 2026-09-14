@@ -57,7 +57,8 @@ export type LayoutType =
   | 'split_comparativo'
   | 'impacto_manga'
   | 'comic_grid'
-  | 'nested_zoom';
+  | 'nested_zoom'
+  | 'timeline';
 
 export type TextAnimation = 'typewriter';
 
@@ -114,6 +115,10 @@ interface SceneElementBase {
    * Conteúdo interno do NestedZoomLayout. Só entra depois do zoom na tela.
    */
   nested?: boolean;
+  /**
+   * Etapa do TimelineLayout (0–3). Sem este campo, o layout agrupa pela ordem.
+   */
+  step?: 0 | 1 | 2 | 3;
 }
 
 export interface CharacterElement extends SceneElementBase {

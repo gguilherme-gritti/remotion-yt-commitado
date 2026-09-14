@@ -27,6 +27,8 @@ export interface BoardLayoutProps {
   scene: SceneSchema;
   /** Painel em foco no ComicGridLayout. Se omitido, o layout calcula pelo tempo da cena. */
   activePanelIndex?: number;
+  /** Etapa em foco no TimelineLayout. Se omitido, o layout calcula pelo tempo da cena. */
+  activeStep?: number;
 }
 
 export interface SceneElementViewProps {
