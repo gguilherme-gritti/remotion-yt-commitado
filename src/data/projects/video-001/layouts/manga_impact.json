@@ -1,7 +1,7 @@
 {
-  "id": "preview_impacto_manga",
+  "id": "preview_manga_impact",
   "durationFrames": 150,
-  "layoutType": "impacto_manga",
+  "layoutType": "manga_impact",
   "scenes_context": "MangaImpactLayout: um único elemento no centro, linhas de velocidade no fundo, pop nos primeiros 10 frames.",
   "elements": [
     {

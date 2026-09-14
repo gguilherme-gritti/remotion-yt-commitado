@@ -15,13 +15,13 @@ import { TimelineLayout } from './TimelineLayout';
 import { VerticalFlowLayout } from './VerticalFlowLayout';
 
 export const LAYOUT_MAP: Record<LayoutType, FC<BoardLayoutProps>> = {
-  balao_pensamento: BalloonLayout,
-  lista_condicional: ConditionalListLayout,
-  equacao_visual: EquationLayout,
-  teia_radial: RadialWebLayout,
-  fluxo_vertical: VerticalFlowLayout,
-  split_comparativo: SplitLayout,
-  impacto_manga: MangaImpactLayout,
+  balloon: BalloonLayout,
+  conditional_list: ConditionalListLayout,
+  equation: EquationLayout,
+  radial_web: RadialWebLayout,
+  vertical_flow: VerticalFlowLayout,
+  split: SplitLayout,
+  manga_impact: MangaImpactLayout,
   comic_grid: ComicGridLayout,
   nested_zoom: NestedZoomLayout,
   timeline: TimelineLayout,

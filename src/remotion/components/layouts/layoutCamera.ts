@@ -14,19 +14,19 @@ import { getTimelineLayoutCameraMoves } from './timelineDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
   switch (scene.layoutType) {
-    case 'balao_pensamento':
+    case 'balloon':
       return getBalloonLayoutCameraMoves(scene);
-    case 'lista_condicional':
+    case 'conditional_list':
       return getListLayoutCameraMoves(scene);
-    case 'equacao_visual':
+    case 'equation':
       return getEquationLayoutCameraMoves(scene);
-    case 'teia_radial':
+    case 'radial_web':
       return getRadialLayoutCameraMoves(scene);
-    case 'fluxo_vertical':
+    case 'vertical_flow':
       return getFlowLayoutCameraMoves(scene);
-    case 'split_comparativo':
+    case 'split':
       return getSplitLayoutCameraMoves(scene);
-    case 'impacto_manga':
+    case 'manga_impact':
       return getMangaImpactLayoutCameraMoves(scene);
     case 'comic_grid':
       return getComicGridLayoutCameraMoves(scene);

@@ -1,26 +1,26 @@
 import type { SceneSchema } from '../../../../types/scene';
-import balaoPensamento from './balao_pensamento.json';
+import balloon from './balloon.json';
 import comicGrid from './comic_grid.json';
-import equacaoVisual from './equacao_visual.json';
-import fluxoVertical from './fluxo_vertical.json';
+import conditionalList from './conditional_list.json';
+import equation from './equation.json';
 import freeform from './freeform.json';
-import impactoManga from './impacto_manga.json';
-import listaCondicional from './lista_condicional.json';
+import mangaImpact from './manga_impact.json';
 import nestedZoom from './nested_zoom.json';
-import splitComparativo from './split_comparativo.json';
+import radialWeb from './radial_web.json';
+import split from './split.json';
 import spotlight from './spotlight.json';
-import teiaRadial from './teia_radial.json';
 import timeline from './timeline.json';
+import verticalFlow from './vertical_flow.json';
 
 export const VIDEO_001_LAYOUTS: Record<string, SceneSchema> = {
   freeform: freeform as SceneSchema,
-  balao_pensamento: balaoPensamento as SceneSchema,
-  lista_condicional: listaCondicional as SceneSchema,
-  equacao_visual: equacaoVisual as SceneSchema,
-  teia_radial: teiaRadial as SceneSchema,
-  fluxo_vertical: fluxoVertical as SceneSchema,
-  split_comparativo: splitComparativo as SceneSchema,
-  impacto_manga: impactoManga as SceneSchema,
+  balloon: balloon as SceneSchema,
+  conditional_list: conditionalList as SceneSchema,
+  equation: equation as SceneSchema,
+  radial_web: radialWeb as SceneSchema,
+  vertical_flow: verticalFlow as SceneSchema,
+  split: split as SceneSchema,
+  manga_impact: mangaImpact as SceneSchema,
   comic_grid: comicGrid as SceneSchema,
   nested_zoom: nestedZoom as SceneSchema,
   timeline: timeline as SceneSchema,

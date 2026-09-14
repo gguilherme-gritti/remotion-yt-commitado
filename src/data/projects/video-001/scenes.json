@@ -10,13 +10,13 @@
     "timeline",
     "spotlight",
     "nested_zoom",
-    "impacto_manga",
-    "teia_radial",
-    "split_comparativo",
-    "fluxo_vertical",
-    "equacao_visual",
-    "lista_condicional",
-    "balao_pensamento",
+    "manga_impact",
+    "radial_web",
+    "split",
+    "vertical_flow",
+    "equation",
+    "conditional_list",
+    "balloon",
     "freeform"
   ]
 }

@@ -49,13 +49,13 @@ export type ImageAnimation = 'pop_in' | 'slide_in' | 'none';
 export type ImageSize = 'small' | 'medium' | 'large' | 'hero';
 
 export type LayoutType =
-  | 'balao_pensamento'
-  | 'lista_condicional'
-  | 'equacao_visual'
-  | 'teia_radial'
-  | 'fluxo_vertical'
-  | 'split_comparativo'
-  | 'impacto_manga'
+  | 'balloon'
+  | 'conditional_list'
+  | 'equation'
+  | 'radial_web'
+  | 'vertical_flow'
+  | 'split'
+  | 'manga_impact'
   | 'comic_grid'
   | 'nested_zoom'
   | 'timeline'

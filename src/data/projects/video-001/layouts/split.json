@@ -1,7 +1,7 @@
 {
-  "id": "preview_split_comparativo",
+  "id": "preview_split",
   "durationFrames": 210,
-  "layoutType": "split_comparativo",
+  "layoutType": "split",
   "scenes_context": "SplitLayout: coluna esquerda vs direita (texto + imagem), câmera parada. Personagem default surpreso em bottom_right.",
   "elements": [
     {

@@ -14,19 +14,19 @@ import { getTimelineLayoutDuration } from './timelineDefaults';
 
 export function resolveLayoutDuration(scene: SceneSchema): number {
   switch (scene.layoutType) {
-    case 'balao_pensamento':
+    case 'balloon':
       return getBalloonLayoutDuration(scene);
-    case 'lista_condicional':
+    case 'conditional_list':
       return getListLayoutDuration(scene);
-    case 'equacao_visual':
+    case 'equation':
       return getEquationLayoutDuration(scene);
-    case 'teia_radial':
+    case 'radial_web':
       return getRadialLayoutDuration(scene);
-    case 'fluxo_vertical':
+    case 'vertical_flow':
       return getFlowLayoutDuration(scene);
-    case 'split_comparativo':
+    case 'split':
       return getSplitLayoutDuration(scene);
-    case 'impacto_manga':
+    case 'manga_impact':
       return getMangaImpactLayoutDuration(scene);
     case 'comic_grid':
       return getComicGridLayoutDuration(scene);
