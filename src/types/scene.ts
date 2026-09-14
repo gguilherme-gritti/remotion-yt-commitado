@@ -38,6 +38,8 @@ export interface CameraMove {
   focusY?: number;
   /** Duração da interpolação. Default: 42. */
   blendFrames?: number;
+  /** Curva da interpolação. `smooth` = cubic-bezier(0.4, 0, 0.2, 1). Default linear. */
+  easing?: 'linear' | 'smooth';
 }
 
 export type CharacterAnimation = 'draw_in';
@@ -53,7 +55,11 @@ export type LayoutType =
   | 'teia_radial'
   | 'fluxo_vertical'
   | 'split_comparativo'
-  | 'impacto_manga';
+  | 'impacto_manga'
+  | 'comic_grid'
+  | 'nested_zoom'
+  | 'timeline'
+  | 'spotlight';
 
 export type TextAnimation = 'typewriter';
 
@@ -96,6 +102,29 @@ interface SceneElementBase {
    * `false` em textos.
    */
   lineBoil?: boolean;
+  /**
+   * Índice do painel no ComicGridLayout (0–2).
+   * Sem este campo, o layout agrupa por `position` ou pela ordem de entrada.
+   */
+  panel?: number;
+  /**
+   * Moldura do NestedZoomLayout (monitor/TV). Se nenhum elemento marcar,
+   * o layout usa a primeira imagem.
+   */
+  isContainer?: boolean;
+  /**
+   * Conteúdo interno do NestedZoomLayout. Só entra depois do zoom na tela.
+   */
+  nested?: boolean;
+  /**
+   * Etapa do TimelineLayout (0–3). Sem este campo, o layout agrupa pela ordem.
+   */
+  step?: 0 | 1 | 2 | 3;
+  /**
+   * Alvo do SpotlightLayout. `isTarget` e `target` são equivalentes.
+   */
+  isTarget?: boolean;
+  target?: boolean;
 }
 
 export interface CharacterElement extends SceneElementBase {

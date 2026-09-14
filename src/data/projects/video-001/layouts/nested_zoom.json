@@ -1,0 +1,44 @@
+{
+  "id": "preview_nested_zoom",
+  "durationFrames": 240,
+  "layoutType": "nested_zoom",
+  "scenes_context": "NestedZoomLayout: moldura isContainer no centro (0–40), zoom spring 1→2.8x no visor (40–80), elementos nested:true nascem dentro da tela a partir do frame 80.",
+  "elements": [
+    {
+      "type": "image",
+      "src": "monitor_hacker.jpg",
+      "imageIdea": "Moldura: o monitor no centro da lousa.",
+      "startAtFrame": 0,
+      "animation": "none",
+      "position": "center",
+      "size": "hero",
+      "isContainer": true
+    },
+    {
+      "type": "text",
+      "content": "POR DENTRO",
+      "startAtFrame": 80,
+      "animation": "typewriter",
+      "position": "center",
+      "nested": true
+    },
+    {
+      "type": "image",
+      "src": "codigo_binario.jpg",
+      "imageIdea": "Código binário nascendo na tela.",
+      "startAtFrame": 110,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small",
+      "nested": true
+    },
+    {
+      "type": "character",
+      "pose": "curioso",
+      "startAtFrame": 140,
+      "animation": "draw_in",
+      "position": "center",
+      "nested": true
+    }
+  ]
+}

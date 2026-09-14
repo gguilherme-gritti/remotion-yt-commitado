@@ -46,12 +46,15 @@ export const LineBoilFilter = () => {
 interface LineBoilProps {
   enabled?: boolean;
   fill?: boolean;
+  /** Precisa viver no mesmo nó do `filter` para o multiply vencer o isolamento. */
+  mixBlendMode?: 'multiply' | 'normal';
   children: ReactNode;
 }
 
 export const LineBoil = ({
   enabled = true,
   fill = false,
+  mixBlendMode,
   children,
 }: LineBoilProps) => {
   if (!enabled) {
@@ -65,6 +68,7 @@ export const LineBoil = ({
         width: fill ? '100%' : undefined,
         height: fill ? '100%' : undefined,
         filter: LINE_BOIL_FILTER_URL,
+        mixBlendMode,
         overflow: 'visible',
       }}
     >

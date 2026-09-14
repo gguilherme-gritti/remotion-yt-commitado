@@ -1,0 +1,60 @@
+{
+  "id": "preview_comic_grid",
+  "durationFrames": 360,
+  "layoutType": "comic_grid",
+  "scenes_context": "ComicGridLayout: JSON flat com panel 0/1/2. Câmera no hero (0–90), pan para o inferior esquerdo (90–190), pan para o inferior direito (190–250), zoom out (250–300) revelando a página inteira.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "O SETUP",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center",
+      "panel": 0
+    },
+    {
+      "type": "image",
+      "src": "monitor_hacker.jpg",
+      "imageIdea": "Painel 1: o monitor no close da página.",
+      "startAtFrame": 8,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "medium",
+      "panel": 0
+    },
+    {
+      "type": "text",
+      "content": "O MITO",
+      "startAtFrame": 100,
+      "animation": "typewriter",
+      "position": "bottom_left",
+      "panel": 1
+    },
+    {
+      "type": "image",
+      "src": "placa_alerta.jpeg",
+      "imageIdea": "Painel 2: o alerta do conflito.",
+      "startAtFrame": 108,
+      "animation": "pop_in",
+      "position": "bottom_left",
+      "size": "small",
+      "panel": 1
+    },
+    {
+      "type": "text",
+      "content": "A VIRADA",
+      "startAtFrame": 200,
+      "animation": "typewriter",
+      "position": "bottom_right",
+      "panel": 2
+    },
+    {
+      "type": "character",
+      "pose": "apontando_frente",
+      "startAtFrame": 214,
+      "animation": "draw_in",
+      "position": "center",
+      "panel": 2
+    }
+  ]
+}

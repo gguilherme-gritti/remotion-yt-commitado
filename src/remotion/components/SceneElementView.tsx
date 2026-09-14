@@ -25,6 +25,10 @@ const STANDALONE_MARK_SIZE = 360;
 export interface BoardLayoutProps {
   videoId: string;
   scene: SceneSchema;
+  /** Painel em foco no ComicGridLayout. Se omitido, o layout calcula pelo tempo da cena. */
+  activePanelIndex?: number;
+  /** Etapa em foco no TimelineLayout. Se omitido, o layout calcula pelo tempo da cena. */
+  activeStep?: number;
 }
 
 export interface SceneElementViewProps {
@@ -126,6 +130,7 @@ export const SceneElementView: FC<SceneElementViewProps> = ({
           pose={element.pose}
           animation={element.animation}
           position={characterPosition ?? element.position ?? 'bottom_right'}
+          inline={inline}
           {...overlay}
           lineBoil={element.lineBoil}
         />

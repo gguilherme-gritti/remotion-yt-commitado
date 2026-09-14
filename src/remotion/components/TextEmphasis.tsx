@@ -61,7 +61,8 @@ export const TextEmphasis = ({
       ? Math.min(content.length, Math.floor(Math.max(0, frame) * charsPerFrame))
       : content.length;
 
-  const isCenter = position === 'center';
+  const isCenteredTitle =
+    position === 'center' || position === 'top_center' || inline;
 
   const text = (
     <AnnotatedBox
@@ -86,7 +87,7 @@ export const TextEmphasis = ({
             fontWeight: 700,
             letterSpacing: letterSpacing != null ? `${letterSpacing}px` : '2px',
             lineHeight: 1.25,
-            textAlign: textAlign ?? (isCenter || inline ? 'center' : 'left'),
+            textAlign: textAlign ?? (isCenteredTitle ? 'center' : 'left'),
             whiteSpace: nowrap ? 'nowrap' : 'pre-wrap',
             overflowWrap: nowrap ? 'normal' : 'anywhere',
           }}
@@ -105,12 +106,12 @@ export const TextEmphasis = ({
     <AbsoluteFill
       style={{
         pointerEvents: 'none',
-        zIndex: annotation && annotation !== 'none' ? 55 : 30,
+        zIndex: annotation && annotation !== 'none' ? 55 : 10,
       }}
     >
       <div
         style={
-          isCenter
+          position === 'center'
             ? {
                 position: 'absolute',
                 top: '50%',
@@ -120,10 +121,19 @@ export const TextEmphasis = ({
                 width: '100%',
                 maxWidth: '80%',
               }
-            : {
-                ...getElementPositionStyle(position),
-                maxWidth: '70%',
-              }
+            : position === 'top_center'
+              ? {
+                  ...getElementPositionStyle(position),
+                  width: '80%',
+                  maxWidth: '80%',
+                  textAlign: 'center',
+                  marginBottom: 30,
+                  zIndex: 10,
+                }
+              : {
+                  ...getElementPositionStyle(position),
+                  maxWidth: '70%',
+                }
         }
       >
         {text}

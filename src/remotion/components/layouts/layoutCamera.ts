@@ -1,11 +1,15 @@
 import type { CameraMove, SceneSchema } from '../../../types/scene';
 import { getBalloonLayoutCameraMoves } from './balloonDefaults';
+import { getComicGridLayoutCameraMoves } from './comicGridDefaults';
 import { getEquationLayoutCameraMoves } from './equationDefaults';
 import { getListLayoutCameraMoves } from './listDefaults';
 import { getFlowLayoutCameraMoves } from './flowDefaults';
 import { getMangaImpactLayoutCameraMoves } from './mangaImpactDefaults';
+import { getNestedZoomLayoutCameraMoves } from './nestedZoomDefaults';
 import { getRadialLayoutCameraMoves } from './radialDefaults';
 import { getSplitLayoutCameraMoves } from './splitDefaults';
+import { getSpotlightLayoutCameraMoves } from './spotlightDefaults';
+import { getTimelineLayoutCameraMoves } from './timelineDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
   switch (scene.layoutType) {
@@ -23,6 +27,14 @@ export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
       return getSplitLayoutCameraMoves(scene);
     case 'impacto_manga':
       return getMangaImpactLayoutCameraMoves(scene);
+    case 'comic_grid':
+      return getComicGridLayoutCameraMoves(scene);
+    case 'nested_zoom':
+      return getNestedZoomLayoutCameraMoves(scene);
+    case 'timeline':
+      return getTimelineLayoutCameraMoves(scene);
+    case 'spotlight':
+      return getSpotlightLayoutCameraMoves(scene);
     default:
       return scene.cameraMoves ?? [];
   }

@@ -1,0 +1,94 @@
+{
+  "id": "preview_timeline",
+  "durationFrames": 300,
+  "layoutType": "timeline",
+  "scenes_context": "TimelineLayout: 4 nós no eixo, agrupados por step 0–3. Linha de nanquim se desenha no tempo. Nó ativo em scale 1.1; os outros ficam em opacity 0.35. Pan sutil no ativo.",
+  "elements": [
+    {
+      "type": "character",
+      "pose": "curioso",
+      "startAtFrame": 0,
+      "animation": "draw_in",
+      "position": "bottom_left"
+    },
+    {
+      "type": "text",
+      "content": "O FLUXO",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "text",
+      "content": "IDEIA",
+      "startAtFrame": 8,
+      "animation": "typewriter",
+      "position": "center",
+      "step": 0
+    },
+    {
+      "type": "image",
+      "src": "brain_math.jpeg",
+      "imageIdea": "Primeiro nó: a ideia.",
+      "startAtFrame": 16,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small",
+      "step": 0
+    },
+    {
+      "type": "text",
+      "content": "PLANO",
+      "startAtFrame": 80,
+      "animation": "typewriter",
+      "position": "center",
+      "step": 1
+    },
+    {
+      "type": "image",
+      "src": "prancheta_checklist.jpg",
+      "imageIdea": "Segundo nó: o plano.",
+      "startAtFrame": 88,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small",
+      "step": 1
+    },
+    {
+      "type": "text",
+      "content": "CÓDIGO",
+      "startAtFrame": 150,
+      "animation": "typewriter",
+      "position": "center",
+      "step": 2
+    },
+    {
+      "type": "image",
+      "src": "codigo_binario.jpg",
+      "imageIdea": "Terceiro nó: o código.",
+      "startAtFrame": 158,
+      "animation": "slide_in",
+      "position": "center",
+      "size": "small",
+      "step": 2
+    },
+    {
+      "type": "text",
+      "content": "SHIP",
+      "startAtFrame": 220,
+      "animation": "typewriter",
+      "position": "center",
+      "step": 3
+    },
+    {
+      "type": "image",
+      "src": "computador_amigavel.jpg",
+      "imageIdea": "Quarto nó: o resultado.",
+      "startAtFrame": 228,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small",
+      "step": 3
+    }
+  ]
+}
