@@ -1,0 +1,72 @@
+{
+  "id": "lista_instrucoes",
+  "durationFrames": 240,
+  "layoutType": "vertical_flow",
+  "transitionType": "erase",
+  "pacing": "medium",
+  "scenes_context": "No fundo, um programa só é uma lista: o que fazer, quando fazer e o que fazer se der errado.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "NO FUNDO",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "image",
+      "src": "cartao_ima_faca.jpg",
+      "imageIdea": "Um cartão de recado amarelo preso por um ímã de geladeira, com um único verbo grosso: FAÇA.",
+      "startAtFrame": 10,
+      "animation": "pop_in",
+      "position": "top_center",
+      "size": "small"
+    },
+    {
+      "type": "image",
+      "src": "ampulheta_areia_gargalo.jpg",
+      "imageIdea": "Uma ampulheta de cozinha inclinada, a areia travada bem no gargalo.",
+      "startAtFrame": 20,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small"
+    },
+    {
+      "type": "image",
+      "src": "envelope_lacre_plano_b.jpg",
+      "imageIdea": "Um envelope pardo lacrado com cera, a palavra PLANO B carimbada na frente e a aba ainda fechada.",
+      "startAtFrame": 30,
+      "animation": "pop_in",
+      "position": "bottom_center",
+      "size": "small"
+    },
+    {
+      "type": "character",
+      "pose": "sorrindo",
+      "startAtFrame": 40,
+      "animation": "draw_in",
+      "position": "bottom_right"
+    },
+    {
+      "type": "text",
+      "content": "O QUE",
+      "startAtFrame": 50,
+      "animation": "typewriter",
+      "position": "center_left"
+    },
+    {
+      "type": "text",
+      "content": "QUANDO",
+      "startAtFrame": 60,
+      "animation": "typewriter",
+      "position": "center_left"
+    },
+    {
+      "type": "text",
+      "content": "SE ERRAR",
+      "startAtFrame": 70,
+      "animation": "typewriter",
+      "position": "center_left"
+    }
+  ]
+}

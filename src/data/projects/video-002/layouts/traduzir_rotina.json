@@ -1,0 +1,51 @@
+{
+  "id": "traduzir_rotina",
+  "durationFrames": 240,
+  "layoutType": "equation",
+  "transitionType": "erase",
+  "pacing": "medium",
+  "scenes_context": "A diferença não é talento: é traduzir o que você já faz de olhos fechados para o idioma da máquina.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "A ÚNICA DIFERENÇA",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center"
+    },
+    {
+      "type": "image",
+      "src": "padeiro_olhos_vendados.jpg",
+      "imageIdea": "Um padeiro de olhos vendados trançando uma trança de pão só pelo tato, farinha nos pulsos.",
+      "startAtFrame": 10,
+      "animation": "pop_in",
+      "position": "center_left",
+      "size": "medium"
+    },
+    {
+      "type": "image",
+      "src": "seta_traducao_idioma.jpg",
+      "imageIdea": "Uma seta de nanquim feita de verbetes de dicionário costurados, apontando da esquerda para a direita.",
+      "startAtFrame": 20,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small"
+    },
+    {
+      "type": "image",
+      "src": "dicionario_capa_circuito.jpg",
+      "imageIdea": "Um dicionário grosso com capa de circuito impresso, uma aba dizendo português e a outra dizendo máquina.",
+      "startAtFrame": 30,
+      "animation": "pop_in",
+      "position": "center_right",
+      "size": "medium"
+    },
+    {
+      "type": "character",
+      "pose": "curioso",
+      "startAtFrame": 40,
+      "animation": "draw_in",
+      "position": "bottom_center"
+    }
+  ]
+}

@@ -4,6 +4,8 @@ import { resolveTransitionType } from '../remotion/components/transitions';
 import activeProject from './projects/active-project.json';
 import { VIDEO_001_LAYOUTS } from './projects/video-001/layouts';
 import video001Manifest from './projects/video-001/scenes.json';
+import { VIDEO_002_LAYOUTS } from './projects/video-002/layouts';
+import video002Manifest from './projects/video-002/scenes.json';
 
 export const DEFAULT_VIDEO_ID: string = activeProject.videoId;
 
@@ -39,6 +41,7 @@ function assembleProject(
 
 const PROJECTS: Record<string, ProjectSchema> = {
   'video-001': assembleProject(video001Manifest, VIDEO_001_LAYOUTS),
+  'video-002': assembleProject(video002Manifest, VIDEO_002_LAYOUTS),
 };
 
 export function loadProject(videoId: string): ProjectSchema {

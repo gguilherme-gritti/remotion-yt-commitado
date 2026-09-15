@@ -1,0 +1,62 @@
+{
+  "id": "mito_letrinhas",
+  "durationFrames": 300,
+  "layoutType": "comic_grid",
+  "transitionType": "slide",
+  "pacing": "medium",
+  "scenes_context": "O mito: programar seria coisa de gênio da matemática grudado numa tela preta de letrinhas.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "GÊNIO DA MATEMÁTICA",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "top_center",
+      "panel": 0
+    },
+    {
+      "type": "image",
+      "src": "genio_abaco_cabelo_em_pe.jpg",
+      "imageIdea": "Um professor de jaleco com o cabelo em pé, equilibrando um ábaco gigante no ombro como se fosse um troféu.",
+      "startAtFrame": 10,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "medium",
+      "panel": 0
+    },
+    {
+      "type": "text",
+      "content": "LETRINHAS COLORIDAS",
+      "startAtFrame": 20,
+      "animation": "typewriter",
+      "position": "bottom_left",
+      "panel": 1
+    },
+    {
+      "type": "image",
+      "src": "crt_vomitando_glifos.jpg",
+      "imageIdea": "Um monitor CRT preto vomitando fileiras de glifos que escorrem como fios até o teclado.",
+      "startAtFrame": 30,
+      "animation": "pop_in",
+      "position": "bottom_left",
+      "size": "small",
+      "panel": 1
+    },
+    {
+      "type": "text",
+      "content": "TENHO UMA NOTÍCIA",
+      "startAtFrame": 40,
+      "animation": "typewriter",
+      "position": "bottom_right",
+      "panel": 2
+    },
+    {
+      "type": "character",
+      "pose": "apontando_frente",
+      "startAtFrame": 50,
+      "animation": "draw_in",
+      "position": "center",
+      "panel": 2
+    }
+  ]
+}

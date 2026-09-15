@@ -1,0 +1,42 @@
+{
+  "id": "o_que_e_programa",
+  "durationFrames": 210,
+  "layoutType": "balloon",
+  "transitionType": "slide",
+  "pacing": "medium",
+  "scenes_context": "O personagem para e pergunta o que, no fundo, é um programa de computador.",
+  "elements": [
+    {
+      "type": "character",
+      "pose": "pensativo",
+      "startAtFrame": 0,
+      "animation": "draw_in",
+      "position": "bottom_left"
+    },
+    {
+      "type": "image",
+      "src": "balao_fala_esticado.jpg",
+      "imageIdea": "Um balão de fala de quadrinho oval e esticado, com a pontinha virada para o canto inferior esquerdo.",
+      "startAtFrame": 10,
+      "animation": "pop_in",
+      "position": "top_center",
+      "size": "hero"
+    },
+    {
+      "type": "text",
+      "content": "O QUE É UM PROGRAMA?",
+      "startAtFrame": 20,
+      "animation": "typewriter",
+      "position": "center"
+    },
+    {
+      "type": "image",
+      "src": "caixa_preta_lacrada.jpg",
+      "imageIdea": "Uma caixa preta lacrada com fita adesiva cruzada e um ponto de interrogação queimado na tampa.",
+      "startAtFrame": 30,
+      "animation": "pop_in",
+      "position": "center",
+      "size": "small"
+    }
+  ]
+}
