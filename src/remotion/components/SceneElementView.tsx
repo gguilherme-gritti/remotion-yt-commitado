@@ -8,7 +8,8 @@ import type {
   SceneElement,
   SceneSchema,
 } from '../../types/scene';
-import { AnnotationMark, getAnnotationSequenceFrom } from './annotations/AnnotationOverlay';
+import { AnnotationMark } from './annotations/AnnotationOverlay';
+import { getAnnotationSequenceFrom } from '../utils/annotationSequence';
 import {
   DRAWN_ARROW_HEIGHT,
   DRAWN_ARROW_MAX_HEIGHT,
