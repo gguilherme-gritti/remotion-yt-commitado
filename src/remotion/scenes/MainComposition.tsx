@@ -4,9 +4,10 @@ import { AbsoluteFill } from 'remotion';
 import type { SceneSchema } from '../../types/scene';
 import { LineBoilFilter } from '../components/effects/LineBoilFilter';
 import {
+  erasePresentation,
   getTransitionDurationFrames,
-  presentationFor,
   resolveTransitionType,
+  slidePresentation,
 } from '../components/transitions';
 import { Scene } from './Scene';
 
@@ -43,16 +44,27 @@ export const MainComposition: FC<MainCompositionProps> = ({
             return [sequence];
           }
 
-          return [
-            <TransitionSeries.Transition
-              key={`${outgoingType}-${scene.id}`}
-              presentation={presentationFor(outgoingType)}
-              timing={linearTiming({
-                durationInFrames: getTransitionDurationFrames(outgoingType),
-              })}
-            />,
-            sequence,
-          ];
+          const key = `${outgoingType}-${scene.id}`;
+          const timing = linearTiming({
+            durationInFrames: getTransitionDurationFrames(outgoingType),
+          });
+
+          const transition =
+            outgoingType === 'slide' ? (
+              <TransitionSeries.Transition
+                key={key}
+                presentation={slidePresentation()}
+                timing={timing}
+              />
+            ) : (
+              <TransitionSeries.Transition
+                key={key}
+                presentation={erasePresentation()}
+                timing={timing}
+              />
+            );
+
+          return [transition, sequence];
         })}
       </TransitionSeries>
     </AbsoluteFill>
