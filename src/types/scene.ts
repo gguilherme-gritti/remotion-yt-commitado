@@ -64,6 +64,9 @@ export type LayoutType =
 /** Cadência global da cena: respiro, typewriter, entradas e câmera. */
 export type ScenePacing = 'fast' | 'medium' | 'slow';
 
+/** Como a cena sai para a próxima. Default no motor: `erase`. */
+export type TransitionType = 'erase' | 'slide' | 'none';
+
 export type TextAnimation = 'typewriter';
 
 export type AnnotationKind =
@@ -181,13 +184,17 @@ export interface SceneSchema {
   /** Sobrescreve o respiro do preset, em frames. */
   breathFrames?: number;
   /**
+   * Saída desta cena para a próxima. Default: `erase`.
+   */
+  transitionType?: TransitionType;
+  /**
    * Preenchido por `loadProject`: a cena entra depois de um erase.
    * O quadro fica em branco durante a borracha + um respiro.
    */
   transitionIn?: boolean;
   /**
-   * Preenchido por `loadProject`: a cena sai com erase para a próxima.
-   * Reserva a janela da borracha no fim, depois do hold.
+   * Preenchido por `loadProject`: a cena sai com transição para a próxima.
+   * Reserva a janela da transição no fim, depois do hold.
    */
   transitionOut?: boolean;
   elements: SceneElement[];

@@ -4,8 +4,9 @@ import { AbsoluteFill } from 'remotion';
 import type { SceneSchema } from '../../types/scene';
 import { LineBoilFilter } from '../components/effects/LineBoilFilter';
 import {
-  erasePresentation,
-  ERASE_PRESENTATION_FRAMES,
+  getTransitionDurationFrames,
+  presentationFor,
+  resolveTransitionType,
 } from '../components/transitions';
 import { Scene } from './Scene';
 
@@ -19,7 +20,7 @@ export const MainComposition: FC<MainCompositionProps> = ({
   scenes,
 }) => {
   return (
-    <AbsoluteFill style={{ backgroundColor: '#ffffff' }}>
+    <AbsoluteFill style={{ backgroundColor: '#ffffff', overflow: 'hidden' }}>
       <LineBoilFilter />
       <TransitionSeries>
         {scenes.flatMap((scene, index) => {
@@ -37,11 +38,18 @@ export const MainComposition: FC<MainCompositionProps> = ({
             return [sequence];
           }
 
+          const outgoingType = resolveTransitionType(scenes[index - 1].transitionType);
+          if (outgoingType === 'none') {
+            return [sequence];
+          }
+
           return [
             <TransitionSeries.Transition
-              key={`erase-${scene.id}`}
-              presentation={erasePresentation()}
-              timing={linearTiming({ durationInFrames: ERASE_PRESENTATION_FRAMES })}
+              key={`${outgoingType}-${scene.id}`}
+              presentation={presentationFor(outgoingType)}
+              timing={linearTiming({
+                durationInFrames: getTransitionDurationFrames(outgoingType),
+              })}
             />,
             sequence,
           ];

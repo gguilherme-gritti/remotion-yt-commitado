@@ -1,5 +1,6 @@
 import type { ProjectManifestSchema, ProjectSchema, SceneSchema } from '../types/scene';
 import { withPacedDuration } from '../remotion/components/layouts/resolveSceneDuration';
+import { resolveTransitionType } from '../remotion/components/transitions';
 import activeProject from './projects/active-project.json';
 import { VIDEO_001_LAYOUTS } from './projects/video-001/layouts';
 import video001Manifest from './projects/video-001/scenes.json';
@@ -17,10 +18,16 @@ function assembleProject(
       throw new Error(`Layout não encontrado: ${layoutId}`);
     }
 
+    const previous = index > 0 ? layouts[manifest.scenes[index - 1]] : undefined;
+    const type = resolveTransitionType(scene.transitionType);
+    const previousType = previous
+      ? resolveTransitionType(previous.transitionType)
+      : undefined;
+
     return withPacedDuration({
       ...scene,
-      transitionIn: index > 0,
-      transitionOut: index < manifest.scenes.length - 1,
+      transitionIn: previousType === 'erase',
+      transitionOut: index < manifest.scenes.length - 1 && type !== 'none',
     });
   });
 

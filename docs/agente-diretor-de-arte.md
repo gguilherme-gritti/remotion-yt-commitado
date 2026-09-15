@@ -18,7 +18,7 @@ O vídeo é uma lousa. Cada cena é um quadro em branco. O `layoutType` é o dir
 
 - `layoutType` — um dos 11 layouts abaixo
 - `elements` — conteúdo, posição e props específicas do layout
-- `transitionType` — `"erase"` ou `"none"`
+- `transitionType` — `"erase"`, `"slide"` ou `"none"`
 
 **Você não declara:**
 
@@ -87,7 +87,7 @@ type LayoutType =
   | "conditional_list"
   | "balloon";
 
-type TransitionType = "erase" | "none";
+type TransitionType = "erase" | "slide" | "none";
 
 interface ScenePayload {
   id: string;
@@ -925,15 +925,22 @@ Opcionais: `annotationColor` (seta/círculo, default `#111111`), `highlightColor
 ## 5. Transições
 
 ```ts
-type TransitionType = "erase" | "none";
+type TransitionType = "erase" | "slide" | "none";
 ```
 
 | Valor   | Efeito                                                                                                    |
 | ------- | --------------------------------------------------------------------------------------------------------- |
 | `erase` | Varredura diagonal com apagador (42 frames). A próxima cena nasce em branco, respira, e só então desenha. |
-| `none`  | Sem borracha.                                                                                             |
+| `slide` | A cena atual desliza para a esquerda enquanto a próxima entra pela direita (20 frames).                    |
+| `none`  | Sem transição.                                                                                            |
 
-Use `"erase"` entre cenas do ato. Use `"none"` se o roteiro pedir corte seco, ou no último quadro do último ato. Um ato do meio **não** é o fim do vídeo — a última cena dele ainda pode sair com `"erase"`.
+`transitionType` é a saída desta cena para a próxima.
+
+- Use `"erase"` para trocar de assunto/ato.
+- Use `"slide"` quando 2 ou mais cenas fizerem parte da mesma frase/linha de raciocínio.
+- Use `"none"` se o roteiro pedir corte seco, ou no último quadro do último ato.
+
+Um ato do meio **não** é o fim do vídeo — a última cena dele ainda pode sair com `"erase"`.
 
 Não declare `transitionIn` / `transitionOut`. Não invente outro tipo.
 
