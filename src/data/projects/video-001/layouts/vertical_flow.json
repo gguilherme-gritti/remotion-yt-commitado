@@ -1,7 +1,7 @@
 {
-  "id": "preview_fluxo_vertical",
+  "id": "preview_vertical_flow",
   "durationFrames": 480,
-  "layoutType": "fluxo_vertical",
+  "layoutType": "vertical_flow",
   "scenes_context": "VerticalFlowLayout: título, close em cada item da pilha, pan para baixo, zoom out com o personagem à direita. Legendas opcionais (center_left) typewriter na faixa esquerda após o draw_in.",
   "elements": [
     {

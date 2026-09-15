@@ -10,7 +10,7 @@ import {
   SPLIT_LABEL_SLOT_STYLE,
   SPLIT_STAGE_STYLE,
   getSplitLayoutParts,
-} from './splitDefaults';
+} from '../defaults/splitDefaults';
 
 const SplitColumn: FC<{
   videoId: string;

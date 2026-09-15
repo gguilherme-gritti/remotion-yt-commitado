@@ -9,7 +9,7 @@ import type {
 import { AnnotatedBox } from './annotations/AnnotationOverlay';
 import { DrawInMask } from './DrawInMask';
 import { LineBoil } from './effects/LineBoilFilter';
-import { getCharacterLayoutStyle } from './elementPosition';
+import { getCharacterLayoutStyle } from '../utils/elementPosition';
 
 interface CharacterProps {
   pose: string;

@@ -14,7 +14,7 @@ import {
   playElement,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const SPOTLIGHT_PUNCH_ZOOM = 1.12;
 export const SPOTLIGHT_TARGET_SCALE = 1.1;

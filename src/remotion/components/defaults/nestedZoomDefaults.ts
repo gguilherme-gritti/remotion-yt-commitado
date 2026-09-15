@@ -12,7 +12,7 @@ import {
   playElements,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const NESTED_ENTRY_FRAMES = 40;
 export const NESTED_ZOOM_FRAMES = 40;

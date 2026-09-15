@@ -14,7 +14,7 @@ import {
   playElements,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const RADIAL_CHARACTER_POSE = 'zanka.png';
 export const RADIAL_INTRO_ZOOM = 1;

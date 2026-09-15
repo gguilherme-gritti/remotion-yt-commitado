@@ -13,7 +13,7 @@ import {
   playElements,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const FLOW_CHARACTER_POSE = 'desconfiado';
 export const FLOW_CHARACTER_SCALE = 2;

@@ -6,7 +6,7 @@ import type {
   ScenePacing,
   SceneSchema,
 } from '../../types/scene';
-import { ERASER_FRAMES } from './transitions';
+import { ERASER_FRAMES } from '../components/transitions';
 
 export type { ScenePacing };
 

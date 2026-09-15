@@ -1,7 +1,7 @@
 {
-  "id": "preview_equacao_visual",
+  "id": "preview_equation",
   "durationFrames": 360,
-  "layoutType": "equacao_visual",
+  "layoutType": "equation",
   "scenes_context": "EquationLayout: typewriter e respiro no título, close estático no objeto A, pan para a seta, pan para B, zoom out com o personagem curioso.",
   "elements": [
     {

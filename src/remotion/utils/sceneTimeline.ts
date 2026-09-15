@@ -1,5 +1,5 @@
-import type { SceneSchema } from '../types/scene';
-import { ERASE_PRESENTATION_FRAMES } from './components/transitions';
+import type { SceneSchema } from '../../types/scene';
+import { ERASE_PRESENTATION_FRAMES } from '../components/transitions';
 
 export function getSceneStartFrame(scenes: SceneSchema[], sceneIndex: number): number {
   let startFrame = 0;

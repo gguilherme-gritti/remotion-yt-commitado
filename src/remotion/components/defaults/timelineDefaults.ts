@@ -13,7 +13,7 @@ import {
   playElement,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const TIMELINE_INK = '#111111';
 export const TIMELINE_STROKE_WIDTH = 4;

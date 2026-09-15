@@ -11,7 +11,7 @@ import {
   playCamera,
   playElement,
   setupCamera,
-} from "../pacing";
+} from "../../utils/pacing";
 
 export const LIST_CHARACTER_POSE = "joia.jpg";
 export const LIST_CHARACTER_SCALE = 1.22;

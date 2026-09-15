@@ -13,7 +13,7 @@ import {
   getFlowItemScale,
   getFlowLayoutParts,
   getFlowSlotStyle,
-} from './flowDefaults';
+} from '../defaults/flowDefaults';
 
 export const VerticalFlowLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const { character, title, captions, items } = getFlowLayoutParts(scene);

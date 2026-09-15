@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { DRAW_SPRING } from './motion';
-import { usePacing } from './PacingContext';
+import { DRAW_SPRING } from '../utils/motion';
+import { usePacing } from '../utils/usePacing';
 
 interface DrawInMaskProps {
   children: ReactNode;

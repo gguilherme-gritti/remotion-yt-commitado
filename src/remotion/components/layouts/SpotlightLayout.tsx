@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from 'remotion';
 import type { SceneElement } from '../../../types/scene';
-import { SOFT_SPRING } from '../motion';
+import { SOFT_SPRING } from '../../utils/motion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
@@ -25,7 +25,7 @@ import {
   getSpotlightLayoutParts,
   isSpotlightTarget,
   isSpotlightText,
-} from './spotlightDefaults';
+} from '../defaults/spotlightDefaults';
 
 function spotlightDimStyle(dim: number, focused: boolean) {
   const opacity = focused

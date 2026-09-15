@@ -1,32 +1,32 @@
 import type { CameraMove, SceneSchema } from '../../../types/scene';
-import { getBalloonLayoutCameraMoves } from './balloonDefaults';
-import { getComicGridLayoutCameraMoves } from './comicGridDefaults';
-import { getFreeformLayoutCameraMoves } from './freeformDefaults';
-import { getEquationLayoutCameraMoves } from './equationDefaults';
-import { getListLayoutCameraMoves } from './listDefaults';
-import { getFlowLayoutCameraMoves } from './flowDefaults';
-import { getMangaImpactLayoutCameraMoves } from './mangaImpactDefaults';
-import { getNestedZoomLayoutCameraMoves } from './nestedZoomDefaults';
-import { getRadialLayoutCameraMoves } from './radialDefaults';
-import { getSplitLayoutCameraMoves } from './splitDefaults';
-import { getSpotlightLayoutCameraMoves } from './spotlightDefaults';
-import { getTimelineLayoutCameraMoves } from './timelineDefaults';
+import { getBalloonLayoutCameraMoves } from '../defaults/balloonDefaults';
+import { getComicGridLayoutCameraMoves } from '../defaults/comicGridDefaults';
+import { getFreeformLayoutCameraMoves } from '../defaults/freeformDefaults';
+import { getEquationLayoutCameraMoves } from '../defaults/equationDefaults';
+import { getListLayoutCameraMoves } from '../defaults/listDefaults';
+import { getFlowLayoutCameraMoves } from '../defaults/flowDefaults';
+import { getMangaImpactLayoutCameraMoves } from '../defaults/mangaImpactDefaults';
+import { getNestedZoomLayoutCameraMoves } from '../defaults/nestedZoomDefaults';
+import { getRadialLayoutCameraMoves } from '../defaults/radialDefaults';
+import { getSplitLayoutCameraMoves } from '../defaults/splitDefaults';
+import { getSpotlightLayoutCameraMoves } from '../defaults/spotlightDefaults';
+import { getTimelineLayoutCameraMoves } from '../defaults/timelineDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
   switch (scene.layoutType) {
-    case 'balao_pensamento':
+    case 'balloon':
       return getBalloonLayoutCameraMoves(scene);
-    case 'lista_condicional':
+    case 'conditional_list':
       return getListLayoutCameraMoves(scene);
-    case 'equacao_visual':
+    case 'equation':
       return getEquationLayoutCameraMoves(scene);
-    case 'teia_radial':
+    case 'radial_web':
       return getRadialLayoutCameraMoves(scene);
-    case 'fluxo_vertical':
+    case 'vertical_flow':
       return getFlowLayoutCameraMoves(scene);
-    case 'split_comparativo':
+    case 'split':
       return getSplitLayoutCameraMoves(scene);
-    case 'impacto_manga':
+    case 'manga_impact':
       return getMangaImpactLayoutCameraMoves(scene);
     case 'comic_grid':
       return getComicGridLayoutCameraMoves(scene);

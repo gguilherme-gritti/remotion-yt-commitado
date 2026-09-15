@@ -59,14 +59,14 @@ Com um `layoutType`, o template pode **reinterpretar** pose, posição e até o 
 
 ## Templates
 
-### Balão de pensamento (`balao_pensamento`)
+### Balão de pensamento (`balloon`)
 
 O personagem pensa. Um balão enorme ocupa o topo; o conteúdo (textos e sketches) nasce **dentro** dele. A câmera chega perto do interior do balão e depois volta ao quadro inteiro.
 
 ```json
 {
   "id": "ideia",
-  "layoutType": "balao_pensamento",
+  "layoutType": "balloon",
   "elements": [
     {
       "type": "character",
@@ -104,14 +104,14 @@ O personagem pensa. Um balão enorme ocupa o topo; o conteúdo (textos e sketche
 }
 ```
 
-### Lista condicional (`lista_condicional`)
+### Lista condicional (`conditional_list`)
 
 Um “se isto, então aquilo”. O personagem fica no centro. Cada item vira um **par**: texto à esquerda, imagem à direita. A câmera abre no personagem e recua antes da lista aparecer.
 
 ```json
 {
   "id": "condicoes",
-  "layoutType": "lista_condicional",
+  "layoutType": "conditional_list",
   "elements": [
     {
       "type": "character",
@@ -156,14 +156,14 @@ Um “se isto, então aquilo”. O personagem fica no centro. Cada item vira um 
 }
 ```
 
-### Equação visual (`equacao_visual`)
+### Equação visual (`equation`)
 
 Isto vira aquilo. Título no topo. A câmera visita o objeto A, a seta, o objeto B — e só então abre o plano, revelando a equação inteira e o personagem curioso na base.
 
 ```json
 {
   "id": "equacao",
-  "layoutType": "equacao_visual",
+  "layoutType": "equation",
   "elements": [
     {
       "type": "text",
@@ -203,14 +203,14 @@ Isto vira aquilo. Título no topo. A câmera visita o objeto A, a seta, o objeto
 }
 ```
 
-### Teia radial (`teia_radial`)
+### Teia radial (`radial_web`)
 
 Um núcleo e satélites ao redor. O personagem aparece na base; a câmera sobe para a teia e o tira do quadro. A imagem maior (ou a do centro) vira o mestre; o resto orbita.
 
 ```json
 {
   "id": "teia",
-  "layoutType": "teia_radial",
+  "layoutType": "radial_web",
   "elements": [
     {
       "type": "character",
@@ -250,7 +250,7 @@ Um núcleo e satélites ao redor. O personagem aparece na base; a câmera sobe p
 }
 ```
 
-### Fluxo vertical (`fluxo_vertical`)
+### Fluxo vertical (`vertical_flow`)
 
 Um passo depois do outro, empilhados no centro. A câmera desce a pilha, item a item. No fim, abre o plano: personagem à direita e, se houver, legendas na faixa esquerda.
 
@@ -259,7 +259,7 @@ Textos no topo são título. Textos à esquerda são legendas (entram depois do 
 ```json
 {
   "id": "passos",
-  "layoutType": "fluxo_vertical",
+  "layoutType": "vertical_flow",
   "elements": [
     {
       "type": "text",
@@ -306,14 +306,14 @@ Textos no topo são título. Textos à esquerda são legendas (entram depois do 
 }
 ```
 
-### Split comparativo (`split_comparativo`)
+### Split comparativo (`split`)
 
 Dois lados da mesma ideia. Esquerda contra direita, cada coluna com texto e imagem. A câmera não se mexe. O personagem entra no canto no fim.
 
 ```json
 {
   "id": "comparacao",
-  "layoutType": "split_comparativo",
+  "layoutType": "split",
   "elements": [
     {
       "type": "text",

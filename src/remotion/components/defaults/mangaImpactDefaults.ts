@@ -7,7 +7,7 @@ import type {
   SceneSchema,
   TextElement,
 } from '../../../types/scene';
-import { createClock, playElement, setupCamera } from '../pacing';
+import { createClock, playElement, setupCamera } from '../../utils/pacing';
 
 export const IMPACT_POP_FRAMES = 10;
 export const IMPACT_IMAGE_SIZE = 'large' as const;

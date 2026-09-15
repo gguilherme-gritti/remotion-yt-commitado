@@ -1,7 +1,7 @@
 {
-  "id": "preview_teia_radial",
+  "id": "preview_radial_web",
   "durationFrames": 240,
-  "layoutType": "teia_radial",
+  "layoutType": "radial_web",
   "scenes_context": "RadialWebLayout: zanka parado embaixo; a câmera sobe e tira o personagem; a teia nasce na safezone superior.",
   "elements": [
     {

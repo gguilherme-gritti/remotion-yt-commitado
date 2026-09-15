@@ -1,7 +1,7 @@
 {
-  "id": "preview_lista_condicional",
+  "id": "preview_conditional_list",
   "durationFrames": 210,
-  "layoutType": "lista_condicional",
+  "layoutType": "conditional_list",
   "scenes_context": "ConditionalListLayout aplica pose joia no centro; cada item é um texto à esquerda e uma imagem à direita, em pares.",
   "elements": [
     {

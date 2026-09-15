@@ -10,7 +10,7 @@ import {
   LIST_SPACER_STYLE,
   LIST_STAGE_STYLE,
   getListLayoutParts,
-} from './listDefaults';
+} from '../defaults/listDefaults';
 
 export const ConditionalListLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const { character, items } = getListLayoutParts(scene);

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { AbsoluteFill } from 'remotion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
-import { sequenceFreeformLayout } from './freeformDefaults';
+import { sequenceFreeformLayout } from '../defaults/freeformDefaults';
 
 export const FreeformLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const { elements } = sequenceFreeformLayout(scene);

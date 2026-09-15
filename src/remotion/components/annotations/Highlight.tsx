@@ -1,5 +1,5 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { MARKER_SPRING } from '../motion';
+import { MARKER_SPRING } from '../../utils/motion';
 
 export const HIGHLIGHT_DEFAULT_COLOR = '#FFD000';
 const DRAW_FRAMES = 12;

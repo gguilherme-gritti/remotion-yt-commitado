@@ -7,8 +7,8 @@ import {
   useVideoConfig,
 } from 'remotion';
 import { MangaSpeedLines } from '../effects/MangaSpeedLines';
-import { POP_SPRING } from '../motion';
-import { usePacing } from '../PacingContext';
+import { POP_SPRING } from '../../utils/motion';
+import { usePacing } from '../../utils/usePacing';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
@@ -17,7 +17,7 @@ import {
   IMPACT_IMAGE_SIZE,
   IMPACT_STAGE_STYLE,
   getMangaImpactLayoutParts,
-} from './mangaImpactDefaults';
+} from '../defaults/mangaImpactDefaults';
 
 export const MangaImpactLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();

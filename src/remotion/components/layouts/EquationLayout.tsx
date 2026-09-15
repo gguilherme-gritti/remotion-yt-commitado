@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import { getDynamicCamera } from '../dynamicCamera';
+import { getDynamicCamera } from '../../utils/dynamicCamera';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import { resolveLayoutCameraMoves } from './layoutCamera';
@@ -11,7 +11,7 @@ import {
   EQUATION_TITLE_FONT_SIZE,
   getEquationLayoutParts,
   getEquationSlotLeft,
-} from './equationDefaults';
+} from '../defaults/equationDefaults';
 
 export const EquationLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const frame = useCurrentFrame();

@@ -1,6 +1,6 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import type { AnnotationDirection } from '../../../types/scene';
-import { MARKER_SPRING } from '../motion';
+import { MARKER_SPRING } from '../../utils/motion';
 
 export const DRAWN_ARROW_MAX_WIDTH = 180;
 export const DRAWN_ARROW_MAX_HEIGHT = 100;
