@@ -2,7 +2,7 @@
 
 ## Stack e Arquitetura
 
-- React 18+, TypeScript, Remotion, Vite.
+- React 19, TypeScript, Remotion, Vite.
 - O projeto adota uma **Arquitetura Multi-Projeto Escalável**.
 - Os dados e ativos de cada vídeo são isolados em pastas por ID dentro de `src/data/projects/{videoId}/`.
 - A estética do canal é um **Sketchboard / Quadro Branco Cumulativo**: nanquim preto sobre fundo branco, com elementos que entram no tempo e convivem no mesmo quadro.
@@ -10,16 +10,22 @@
 ## Arquitetura de Dados Escalável
 
 - **Estrutura de Projetos:**
-  - `src/data/projects/{videoId}/scenes.json`: Metadados e a ordem das cenas.
-  - `src/data/projects/{videoId}/layouts/`: Um JSON por cena/layout, juntado por `loadProject`.
+  - `src/data/projects/{videoId}/scenes.json`: Metadados e a ordem das cenas (ids dos JSON em `layouts/`).
+  - `src/data/projects/{videoId}/layouts/`: Um JSON por cena. O nome do arquivo é o `layoutType` em inglês (`balloon.json`, `radial_web.json`). Sem `layoutType`, o arquivo é `freeform.json`.
   - `src/data/projects/{videoId}/assets/`: Imagens e sketches exclusivos do vídeo.
   - `public/characters/`: Poses do personagem base compartilhadas entre todos os vídeos.
+- **Estrutura do Remotion:**
+  - `src/remotion/components/`: só o que renderiza (layouts, anotações, efeitos, transições, SketchImage, Character, TextEmphasis).
+  - `src/remotion/components/layouts/`: componentes de layout, `layoutCamera.ts` (`resolveLayoutCameraMoves`) e `resolveSceneDuration.ts`.
+  - `src/remotion/components/defaults/`: timing, câmera e sequência de cada layout (`balloonDefaults.ts`, `radialDefaults.ts`, etc.).
+  - `src/remotion/utils/`: helpers sem UI (câmera, posição, pacing, springs, fonte, timeline). Hook `usePacing` em arquivo próprio, separado do `PacingProvider`.
+  - `src/remotion/scenes/`: `Scene` e `MainComposition`.
 - **Leitura Dinâmica:** Componentes e Composições DEVEM receber o `videoId` e a lista de `scenes` via `defaultProps` ou `getInputProps()` do Remotion, garantindo que o mesmo código React sirva para qualquer vídeo.
 - **Cena = Quadro em Branco:** Cada `Scene` limpa a tela. O início absoluto da cena é a soma das `durationFrames` anteriores. Elementos entram via `<Sequence from={element.startAtFrame}>` e permanecem até o fim da cena.
-- **Câmera dinâmica:** `scene.cameraMoves` interpola `scale` e `translate` no container do quadro (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake. Layouts com padrão próprio (`balloon`, `conditional_list`, `equation`, `radial_web`, `vertical_flow`, `split`, `manga_impact`, `comic_grid`, `nested_zoom`, `timeline`, `spotlight`) ignoram o JSON e usam `resolveLayoutCameraMoves`.
+- **Câmera dinâmica:** `getDynamicCamera` em `src/remotion/utils/dynamicCamera.ts` interpola `scale` e `translate` (`zoom_in`, `zoom_out`, `pan_left`, `pan_right`). Sem screen shake. Layouts com padrão próprio (`balloon`, `conditional_list`, `equation`, `radial_web`, `vertical_flow`, `split`, `manga_impact`, `comic_grid`, `nested_zoom`, `timeline`, `spotlight`) ignoram o JSON e usam `resolveLayoutCameraMoves`.
 - **Cadência sequencial:** nada acontece ao mesmo tempo (texto, imagem, personagem, anotação, câmera, borracha). Cada ação termina, há um respiro, e só então a próxima começa. Presets em `scene.pacing`: `fast` | `medium` (default) | `slow`. `scene.breathFrames` sobrescreve o respiro. O `startAtFrame` do JSON é ordem, não timing absoluto; `durationFrames` cresce automaticamente via `withPacedDuration`.
 - **Transição de borracha:** depois do último beat, o quadro segura (`tail` + respiro) e só então a borracha entra (42 frames). A próxima cena fica em branco durante o wipe, respira, e só depois começa a desenhar.
-- **Layouts modulares:** `scene.layoutType` escolhe o arquétipo da lousa (`balloon`, `conditional_list`, `equation`, `radial_web`, `vertical_flow`, `split`, `manga_impact`, `comic_grid`, `nested_zoom`, `timeline`, `spotlight`). Sem `layoutType`, usa `FreeformLayout`.
+- **Layouts modulares:** `scene.layoutType` é snake_case em inglês, alinhado ao componente (`BalloonLayout` → `balloon`, `RadialWebLayout` → `radial_web`). Valores: `balloon`, `conditional_list`, `equation`, `radial_web`, `vertical_flow`, `split`, `manga_impact`, `comic_grid`, `nested_zoom`, `timeline`, `spotlight`. Sem `layoutType`, usa `FreeformLayout`.
 - **Padrão do BalloonLayout:** personagem sempre `pensativo` em `bottom_left`; balão encostado no topo, esticado em X (~1.72) para um contorno mais 16:9; conteúdo interno numa safe zone inseta, imagens ~0.62× small e texto 34px. Sequência: avatar → balão → zoom ~2.25x no interior (`speech_bubble`) → itens internos um a um → volta ao plano aberto.
 - **Padrão do ConditionalListLayout:** personagem sempre `joia.jpg` no centro (x e y); abre em close leve, desenha o avatar, abre o plano, e só então os itens. Cada item é um par texto (esquerda) + imagem (direita), nessa ordem, com respiro. O JSON lista os pares em ordem; o layout zipa textos e imagens pelo índice.
 - **Padrão do EquationLayout:** título sempre `top_center`; personagem sempre `curioso` em `bottom_center` (encostado na base). Sequência: título → close no slot vazio de A → desenha A → pan para o slot da seta → desenha a seta → pan para B → desenha B → zoom out → avatar.
@@ -51,20 +57,20 @@
 ### 2. Imagens de Sketch (<SketchImage />)
 
 - Imagens devem ter fundo transparente ou `mix-blend-mode: multiply` para o nanquim assentar no branco.
-- Posição absoluta via `element.position` (`center_left`, `center_right`, `top_center`, etc.).
+- Posição absoluta via `element.position` (`center_left`, `center_right`, `top_center`, etc.), resolvida por `src/remotion/utils/elementPosition.ts`.
 - Tamanho opcional via `size` (`small` 220px, `medium` 480px, `large` 700px, `hero` 950px) ou `scale` numérico sobre a largura base.
 - Entrada padrão: `pop_in` com `spring` de escala. Se `animation` vier vazia ou `'none'`, usar spring suave (0.85 → 1) e fade de 10 frames. Nenhuma imagem surge seca.
 - Evite _fades_ suaves e lentos (dissolve).
 
 ### 3. Tipografia e Textos de Ênfase (<TextEmphasis />)
 
-- **Fontes:** `Anime Ace` (`public/fonts/animeace`), de traço de quadrinhos.
+- **Fontes:** `Anime Ace` (`public/fonts/animeace`), carregada por `src/remotion/utils/loadAnimeAceFont.ts`.
 - **Borda/Contorno:** Textos DEVEM ter contorno preto grosso via `WebkitTextStroke` (de 4px a 6px).
-- **Animações de Texto:** `typewriter` revela caracteres com `useCurrentFrame()`. `pop_in` usa spring de escala.
+- **Animações de Texto:** `typewriter` revela caracteres com `useCurrentFrame()`, no ritmo de `usePacing()`.
 
 ### 4. Personagens e Sobreposições (<Character />)
 
-- Pose vem de `element.pose` e resolve para `public/characters/{pose}.svg`. O BalloonLayout força `pensativo`.
+- Pose vem de `element.pose` e resolve via `resolveCharacterSrc`: se a pose já tiver extensão (`.png`, `.jpg`), usa o arquivo; senão, `public/characters/{pose}.svg`. O BalloonLayout força `pensativo`.
 - Posição via `element.position`: `bottom_right` (padrão), `bottom_left`, `bottom_center` (centro, `bottom: 0`), `left_giant` (`left: 0`, `width: 25%`, centro vertical) ou `center`.
 - Altura base do avatar ~350px (`bottom_left` / `bottom_right`).
 - Animação padrão `draw_in`: máscara wipe-up (`clip-path` + `spring`) simulando o avatar sendo desenhado de baixo para cima.
@@ -73,4 +79,6 @@
 ## Padrão de Código
 
 - Tipagem estrita no TypeScript para todos os contratos JSON (`SceneSchema`, `SceneElement` e `ProjectMetaSchema`).
-- Escreva código modular e limpo. NUNCA crie arquivos gigantes; isole efeitos visuais (máscaras, springs) em `src/remotion/components/` e helpers (câmera, posição, pacing, fontes, timeline) em `src/remotion/utils/`.
+- `LayoutType` e nomes de JSON de cena são sempre inglês (snake_case do componente, sem o sufixo `Layout`).
+- Escreva código modular e limpo. NUNCA crie arquivos gigantes. Visual em `src/remotion/components/`; sequência/câmera de cada layout em `src/remotion/components/defaults/`; helpers em `src/remotion/utils/`.
+- Fast Refresh: arquivo que exporta componente React NÃO pode exportar constantes, hooks ou helpers. Coloque isso em `utils/` (ex.: `usePacing.ts` separado de `PacingContext.tsx`).
