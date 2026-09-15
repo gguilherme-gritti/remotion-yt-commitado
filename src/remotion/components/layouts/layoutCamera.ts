@@ -1,16 +1,16 @@
 import type { CameraMove, SceneSchema } from '../../../types/scene';
-import { getBalloonLayoutCameraMoves } from './balloonDefaults';
-import { getComicGridLayoutCameraMoves } from './comicGridDefaults';
-import { getFreeformLayoutCameraMoves } from './freeformDefaults';
-import { getEquationLayoutCameraMoves } from './equationDefaults';
-import { getListLayoutCameraMoves } from './listDefaults';
-import { getFlowLayoutCameraMoves } from './flowDefaults';
-import { getMangaImpactLayoutCameraMoves } from './mangaImpactDefaults';
-import { getNestedZoomLayoutCameraMoves } from './nestedZoomDefaults';
-import { getRadialLayoutCameraMoves } from './radialDefaults';
-import { getSplitLayoutCameraMoves } from './splitDefaults';
-import { getSpotlightLayoutCameraMoves } from './spotlightDefaults';
-import { getTimelineLayoutCameraMoves } from './timelineDefaults';
+import { getBalloonLayoutCameraMoves } from '../defaults/balloonDefaults';
+import { getComicGridLayoutCameraMoves } from '../defaults/comicGridDefaults';
+import { getFreeformLayoutCameraMoves } from '../defaults/freeformDefaults';
+import { getEquationLayoutCameraMoves } from '../defaults/equationDefaults';
+import { getListLayoutCameraMoves } from '../defaults/listDefaults';
+import { getFlowLayoutCameraMoves } from '../defaults/flowDefaults';
+import { getMangaImpactLayoutCameraMoves } from '../defaults/mangaImpactDefaults';
+import { getNestedZoomLayoutCameraMoves } from '../defaults/nestedZoomDefaults';
+import { getRadialLayoutCameraMoves } from '../defaults/radialDefaults';
+import { getSplitLayoutCameraMoves } from '../defaults/splitDefaults';
+import { getSpotlightLayoutCameraMoves } from '../defaults/spotlightDefaults';
+import { getTimelineLayoutCameraMoves } from '../defaults/timelineDefaults';
 
 export function resolveLayoutCameraMoves(scene: SceneSchema): CameraMove[] {
   switch (scene.layoutType) {

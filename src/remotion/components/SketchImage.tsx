@@ -16,9 +16,9 @@ import type {
 } from "../../types/scene";
 import { AnnotatedBox } from "./annotations/AnnotationOverlay";
 import { LineBoil } from "./effects/LineBoilFilter";
-import { getSketchImagePositionStyle } from "./elementPosition";
-import { POP_SPRING, SOFT_SPRING } from "./motion";
-import { usePacing } from "./PacingContext";
+import { getSketchImagePositionStyle } from "../utils/elementPosition";
+import { POP_SPRING, SOFT_SPRING } from "../utils/motion";
+import { usePacing } from "../utils/usePacing";
 
 interface SketchImageProps {
   videoId: string;

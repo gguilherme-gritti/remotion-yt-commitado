@@ -12,7 +12,7 @@ import {
   playCamera,
   playElement,
   setupCamera,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const EQUATION_CHARACTER_POSE = 'curioso';
 export const EQUATION_CHARACTER_SCALE = 1.4;

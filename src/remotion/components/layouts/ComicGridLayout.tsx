@@ -23,7 +23,7 @@ import {
   isComicText,
   splitComicPanelContent,
   type ComicPanelRect,
-} from './comicGridDefaults';
+} from '../defaults/comicGridDefaults';
 
 const ROUGHNESS_FILTER_ID = 'ink-roughness-comic-grid';
 const BOIL_HOLD_FRAMES = 3;

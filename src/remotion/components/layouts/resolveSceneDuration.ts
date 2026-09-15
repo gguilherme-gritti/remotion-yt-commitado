@@ -1,16 +1,16 @@
 import type { SceneSchema } from '../../../types/scene';
-import { getBalloonLayoutDuration } from './balloonDefaults';
-import { getComicGridLayoutDuration } from './comicGridDefaults';
-import { getEquationLayoutDuration } from './equationDefaults';
-import { getFlowLayoutDuration } from './flowDefaults';
-import { getFreeformLayoutDuration } from './freeformDefaults';
-import { getListLayoutDuration } from './listDefaults';
-import { getMangaImpactLayoutDuration } from './mangaImpactDefaults';
-import { getNestedZoomLayoutDuration } from './nestedZoomDefaults';
-import { getRadialLayoutDuration } from './radialDefaults';
-import { getSplitLayoutDuration } from './splitDefaults';
-import { getSpotlightLayoutDuration } from './spotlightDefaults';
-import { getTimelineLayoutDuration } from './timelineDefaults';
+import { getBalloonLayoutDuration } from '../defaults/balloonDefaults';
+import { getComicGridLayoutDuration } from '../defaults/comicGridDefaults';
+import { getEquationLayoutDuration } from '../defaults/equationDefaults';
+import { getFlowLayoutDuration } from '../defaults/flowDefaults';
+import { getFreeformLayoutDuration } from '../defaults/freeformDefaults';
+import { getListLayoutDuration } from '../defaults/listDefaults';
+import { getMangaImpactLayoutDuration } from '../defaults/mangaImpactDefaults';
+import { getNestedZoomLayoutDuration } from '../defaults/nestedZoomDefaults';
+import { getRadialLayoutDuration } from '../defaults/radialDefaults';
+import { getSplitLayoutDuration } from '../defaults/splitDefaults';
+import { getSpotlightLayoutDuration } from '../defaults/spotlightDefaults';
+import { getTimelineLayoutDuration } from '../defaults/timelineDefaults';
 
 export function resolveLayoutDuration(scene: SceneSchema): number {
   switch (scene.layoutType) {

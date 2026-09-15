@@ -1,5 +1,5 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { MARKER_SPRING } from '../motion';
+import { MARKER_SPRING } from '../../utils/motion';
 
 const INK_GREEN = '#2D6A4F';
 const INK_OPACITY = 0.88;

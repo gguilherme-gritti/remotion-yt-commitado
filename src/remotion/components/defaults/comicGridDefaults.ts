@@ -13,7 +13,7 @@ import {
   playCamera,
   playElements,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const COMIC_INK_COLOR = '#111111';
 export const COMIC_STROKE_WIDTH = 6;

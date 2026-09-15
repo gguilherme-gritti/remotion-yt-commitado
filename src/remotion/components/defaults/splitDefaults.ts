@@ -6,7 +6,7 @@ import type {
   SceneElement,
   SceneSchema,
 } from '../../../types/scene';
-import { createClock, playElement, sortByOriginalStart } from '../pacing';
+import { createClock, playElement, sortByOriginalStart } from '../../utils/pacing';
 
 export const SPLIT_CHARACTER_POSE = 'surpreso';
 export const SPLIT_LABEL_FONT_SIZE = 42;

@@ -10,7 +10,7 @@ import {
   BALLOON_LIFT_PX,
   BALLOON_STRETCH_X,
   getBalloonLayoutParts,
-} from './balloonDefaults';
+} from '../defaults/balloonDefaults';
 
 export const BalloonLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const { characters, balloon, inner } = getBalloonLayoutParts(scene);

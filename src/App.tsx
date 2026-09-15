@@ -1,7 +1,7 @@
 import { Player } from '@remotion/player';
 import { DEFAULT_VIDEO_ID, loadProject } from './data/loadProject';
 import { MainComposition } from './remotion/scenes/MainComposition';
-import { getScenesDuration } from './remotion/sceneTimeline';
+import { getScenesDuration } from './remotion/utils/sceneTimeline';
 
 const project = loadProject(DEFAULT_VIDEO_ID);
 

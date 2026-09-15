@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { AbsoluteFill, useCurrentFrame } from 'remotion';
 import type { AnnotationElement, SceneSchema } from '../../types/scene';
-import { getDynamicCamera } from '../components/dynamicCamera';
+import { sequenceFreeformLayout } from '../components/defaults/freeformDefaults';
 import { FreeformLayout, LAYOUT_MAP, resolveLayoutCameraMoves } from '../components/layouts';
-import { sequenceFreeformLayout } from '../components/layouts/freeformDefaults';
-import { PacingProvider } from '../components/PacingContext';
-import { getIncomingEraseCover } from '../components/pacing';
 import { TimedElement } from '../components/SceneElementView';
+import { getDynamicCamera } from '../utils/dynamicCamera';
+import { PacingProvider } from '../utils/PacingContext';
+import { getIncomingEraseCover } from '../utils/pacing';
 
 interface SceneProps {
   videoId: string;

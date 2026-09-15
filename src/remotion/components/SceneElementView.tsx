@@ -16,7 +16,7 @@ import {
   DRAWN_ARROW_WIDTH,
 } from './annotations/DrawnArrow';
 import { Character } from './Character';
-import { getElementPositionStyle } from './elementPosition';
+import { getElementPositionStyle } from '../utils/elementPosition';
 import { SketchImage } from './SketchImage';
 import { TextEmphasis } from './TextEmphasis';
 

@@ -1,7 +1,7 @@
 import type { CalculateMetadataFunction } from 'remotion';
 import { Composition, getInputProps } from 'remotion';
 import { DEFAULT_VIDEO_ID, loadProject } from '../data/loadProject';
-import { getScenesDuration } from './sceneTimeline';
+import { getScenesDuration } from './utils/sceneTimeline';
 import type { MainCompositionProps } from './scenes/MainComposition';
 import { MainComposition } from './scenes/MainComposition';
 

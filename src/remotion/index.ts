@@ -1,5 +1,5 @@
 import { continueRender, delayRender, registerRoot } from 'remotion';
-import { loadAnimeAceFont } from './loadAnimeAceFont';
+import { loadAnimeAceFont } from './utils/loadAnimeAceFont';
 import { RemotionRoot } from './Root';
 
 const waitForFont = delayRender('Carregando fonte Anime Ace');

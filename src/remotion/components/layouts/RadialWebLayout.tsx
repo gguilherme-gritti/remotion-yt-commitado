@@ -9,7 +9,7 @@ import {
   RADIAL_SATELLITE_SCALE,
   RADIAL_SATELLITE_SLOT_STYLES,
   getRadialLayoutParts,
-} from './radialDefaults';
+} from '../defaults/radialDefaults';
 
 export const RadialWebLayout: FC<BoardLayoutProps> = ({ videoId, scene }) => {
   const { character, master, satellites } = getRadialLayoutParts(scene);

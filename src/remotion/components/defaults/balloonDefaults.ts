@@ -13,7 +13,7 @@ import {
   playElements,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 export const BALLOON_CHARACTER_POSE = 'pensativo';
 export const BALLOON_CHARACTER_SHIFT_PX = 280;

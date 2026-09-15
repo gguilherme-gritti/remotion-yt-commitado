@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from 'remotion';
 import type { SceneElement } from '../../../types/scene';
-import { SOFT_SPRING } from '../motion';
+import { SOFT_SPRING } from '../../utils/motion';
 import type { BoardLayoutProps } from '../SceneElementView';
 import { TimedElement } from '../SceneElementView';
 import {
@@ -25,7 +25,7 @@ import {
   isNestedCharacter,
   isNestedImage,
   isNestedText,
-} from './nestedZoomDefaults';
+} from '../defaults/nestedZoomDefaults';
 
 const ROUGHNESS_FILTER_ID = 'ink-roughness-nested-zoom';
 const BOIL_HOLD_FRAMES = 3;

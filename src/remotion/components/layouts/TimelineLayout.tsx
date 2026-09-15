@@ -23,7 +23,7 @@ import {
   isTimelineImage,
   isTimelineText,
   type TimelineStep,
-} from './timelineDefaults';
+} from '../defaults/timelineDefaults';
 
 const ROUGHNESS_FILTER_ID = 'ink-roughness-timeline';
 const BOIL_HOLD_FRAMES = 3;

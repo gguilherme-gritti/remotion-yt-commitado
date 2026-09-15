@@ -5,7 +5,7 @@ import {
   playElement,
   setupCamera,
   sortByOriginalStart,
-} from '../pacing';
+} from '../../utils/pacing';
 
 type FreeformEvent =
   | { kind: 'element'; order: number; startAtFrame: number; element: SceneElement }

@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
-import { MARKER_SPRING } from '../motion';
+import { MARKER_SPRING } from '../../utils/motion';
 
 const LINE_COUNT = 90;
 const OUTER_RADIUS = 1200;

@@ -73,4 +73,4 @@
 ## Padrão de Código
 
 - Tipagem estrita no TypeScript para todos os contratos JSON (`SceneSchema`, `SceneElement` e `ProjectMetaSchema`).
-- Escreva código modular e limpo. NUNCA crie arquivos gigantes; isole efeitos visuais (máscaras, posições, springs) em componentes utilitários simples em `src/remotion/components/`.
+- Escreva código modular e limpo. NUNCA crie arquivos gigantes; isole efeitos visuais (máscaras, springs) em `src/remotion/components/` e helpers (câmera, posição, pacing, fontes, timeline) em `src/remotion/utils/`.

@@ -11,10 +11,9 @@ import type {
 } from '../../types/scene';
 import { AnnotatedBox } from './annotations/AnnotationOverlay';
 import { LineBoil } from './effects/LineBoilFilter';
-import { getElementPositionStyle } from './elementPosition';
-import { ANIME_ACE_FONT_FAMILY } from '../loadAnimeAceFont';
-import { PACING_PRESETS } from './pacing';
-import { usePacing } from './PacingContext';
+import { getElementPositionStyle } from '../utils/elementPosition';
+import { ANIME_ACE_FONT_FAMILY } from '../utils/loadAnimeAceFont';
+import { usePacing } from '../utils/usePacing';
 
 interface TextEmphasisProps {
   content: string;
@@ -34,9 +33,6 @@ interface TextEmphasisProps {
   annotationDirection?: AnnotationDirection;
   lineBoil?: boolean;
 }
-
-export const TYPEWRITER_CHARS_PER_SECOND =
-  PACING_PRESETS.medium.typewriterCharsPerSecond;
 
 export const TextEmphasis = ({
   content,

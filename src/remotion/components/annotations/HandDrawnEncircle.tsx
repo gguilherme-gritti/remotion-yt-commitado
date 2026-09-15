@@ -1,5 +1,5 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { MARKER_SPRING } from '../motion';
+import { MARKER_SPRING } from '../../utils/motion';
 
 export const ENCIRCLE_DEFAULT_COLOR = '#111111';
 const INK_OPACITY = 0.9;
