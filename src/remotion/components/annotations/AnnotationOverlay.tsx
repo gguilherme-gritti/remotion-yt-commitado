@@ -23,17 +23,6 @@ import { HIGHLIGHT_DEFAULT_COLOR, Highlight } from './Highlight';
 import { InkSplatter } from './InkSplatter';
 import { RedX } from './RedX';
 
-export function getAnnotationSequenceFrom(
-  elementStartAtFrame: number,
-  annotationStartFrame?: number,
-): number {
-  if (annotationStartFrame == null) {
-    return 0;
-  }
-
-  return Math.max(0, annotationStartFrame - elementStartAtFrame);
-}
-
 type DrawableAnnotation = Exclude<AnnotationKind, 'none'>;
 
 const MARK_OVERLAY: Record<

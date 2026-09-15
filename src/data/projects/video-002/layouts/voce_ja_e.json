@@ -1,0 +1,18 @@
+{
+  "id": "voce_ja_e",
+  "durationFrames": 180,
+  "layoutType": "manga_impact",
+  "transitionType": "erase",
+  "pacing": "fast",
+  "scenes_context": "A virada: você já é um programador, e provavelmente um muito bom.",
+  "elements": [
+    {
+      "type": "text",
+      "content": "VOCÊ JÁ É UM PROGRAMADOR",
+      "startAtFrame": 0,
+      "animation": "typewriter",
+      "position": "center",
+      "annotation": "ink_splatter"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "title": "demo_01",
+    "fps": 30,
+    "totalFrames": 1800,
+    "audioFile": "audio/video-002.mp3"
+  },
+  "scenes": [
+    "mito_letrinhas",
+    "voce_ja_e",
+    "traduzir_rotina",
+    "o_que_e_programa",
+    "lista_instrucoes"
+  ]
+}

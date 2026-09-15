@@ -6,7 +6,10 @@ import type {
   ScenePacing,
   SceneSchema,
 } from '../../types/scene';
-import { ERASER_FRAMES } from '../components/transitions';
+import {
+  ERASER_FRAMES,
+  getTransitionDurationFrames,
+} from '../components/transitions';
 
 export type { ScenePacing };
 
@@ -134,16 +137,16 @@ export class BeatClock {
   cursor = 0;
   readonly preset: PacingPreset;
   readonly fps: number;
-  readonly transitionOut: boolean;
+  readonly outgoingFrames: number;
 
   constructor(
     preset: PacingPreset,
     fps = DEFAULT_FPS,
-    transitionOut = true,
+    outgoingFrames = ERASER_FRAMES,
   ) {
     this.preset = preset;
     this.fps = fps;
-    this.transitionOut = transitionOut;
+    this.outgoingFrames = outgoingFrames;
   }
 
   now(): number {
@@ -168,26 +171,33 @@ export class BeatClock {
   }
 
   /**
-   * Hold do quadro pronto + respiro + janela da borracha (se houver próxima cena).
-   * A borracha não começa em cima da última ação.
+   * Hold do quadro pronto + respiro + janela da transição (se houver próxima cena).
+   * A transição não começa em cima da última ação.
    */
   sceneDuration(): number {
     return (
       this.cursor +
       this.preset.tailFrames +
       this.preset.breathFrames +
-      (this.transitionOut ? ERASER_FRAMES : 0)
+      this.outgoingFrames
     );
   }
 }
 
 export function createClock(
-  scene: Pick<SceneSchema, 'pacing' | 'breathFrames' | 'transitionIn' | 'transitionOut'>,
+  scene: Pick<
+    SceneSchema,
+    'pacing' | 'breathFrames' | 'transitionType' | 'transitionIn' | 'transitionOut'
+  >,
 ): BeatClock {
+  const outgoingFrames =
+    scene.transitionOut === false
+      ? 0
+      : getTransitionDurationFrames(scene.transitionType);
   const clock = new BeatClock(
     getPacingPreset(scene),
     DEFAULT_FPS,
-    scene.transitionOut !== false,
+    outgoingFrames,
   );
 
   if (scene.transitionIn) {
